@@ -1,0 +1,136 @@
+Okay, hello, Cloud Gurus and welcome to this lecture.
+In this lecture, we are going to look at The Exam Blueprint.
+So, let's get started by looking at the different domains,
+and you'll see we have five domains.
+So Domain 1 is on Deployment, this is worth 22%,
+Domain 2 is on Security, this is worth 26%,
+Domain 3 is on Development with AWS Services,
+this is worth 30%,
+Domain 4 is about Refactoring which is worth 10%,
+and Domain 5 is Monitoring and Troubleshooting.
+So this is The Exam Blueprint here and we will put a link
+in the resources section of the course.
+So go ahead and have a read through this in your own time.
+In terms of the required knowledge,
+they recommend that you have an application
+or you have experience of maintaining an AWS based
+application for one or more years inside AWS.
+They also recommend that you do understand
+a programming language in order to do this.
+So, in-depth knowledge of at least one programing language.
+Understanding of core AWS services,
+proficiency and developing,
+and deploying and debugging
+cloud-based applications using AWS,
+I'm not going to read all these out.
+You can go ahead and have a read of them yourself,
+but you should have some AWS experience.
+Don't worry if you don't though,
+that's what this course is designed to do,
+it's designed to give you some AWS experience so that you
+will be able to go and pass this exam on your first attempt.
+And will build out a whole bunch of different applications
+in the cloud throughout the rest of this course.
+In terms of preparation,
+you can go over to the
+aws.com/training,
+this is going to be instructor led or virtual led
+three day course, it can be quite intense.
+A lot of people do our courses just because you
+can watch them on the go,
+you don't have to come out of the office for three days
+but if you do want a break from the office for three days,
+go ahead and book the AWS training.
+Now, there are an awful lot of whitepapers
+in this particular Exam Blueprint.
+I actually personally think its overkill,
+we will color off basically all the things
+that you will need to know to pass the exam.
+I'm not going to do a lecture on every single whitepaper.
+If you want to you know to have a 100% certainty
+that you're going to pass on the first attempt,
+you can go out and read all these whitepapers,
+it's entirely all up to you.
+What I would definitely do is
+understand what Blue/Green Deployments are,
+we are going to cover that off in the
+Elastic Beanstalk section of the course,
+because that will come up quite a bit in your exam.
+You may also want to read this whitepaper
+so, Blue/Green Deployments.
+In terms of the exam content,
+it's going to be multiple choice and multiple response,
+this multiple choice is where you've got one correct answer,
+multiple response will be two or more correct answers.
+Do just make sure you read the question carefully.
+And in here, you can see that your results for
+the examination report is a score from 100 to 1000
+and you've a minimum passing score of 720.
+We've gone though the Domains,
+if you want to dive into a bit more detail with
+Domain 1 with Deployment,
+deploy code in AWS using existing CI/CD pipelines,
+so we will show you how to set that up.
+Deploy applications using Elastic Beanstalk,
+we definitely will show you how to do that.
+Prepare the application deployment package to be
+deployed to AWS and deploy serverless applications.
+We will build out our own serverless applications
+and even our very own Alexa skill in this course.
+Domain 2 is around making authenticated calls
+to AWS services,
+implement encryption using AWS services,
+implement application authentication and authorization.
+And if you scroll all the way up to the very top
+where we do talk a little bit about security,
+so you can see it in here where it says,
+ability to write code using AWS security best practices
+e.g. not using secret and access keys in the code,
+instead using IAM roles.
+Now, we will cover up for that means in IAM section
+of the course,
+but if you ever get a scenario based question
+where it's saying,
+should you use secret access keys or should you use roles,
+always use roles.
+It specifically says that in The Exam Blueprint,
+and that will come up probably three or four times in
+your exams, so just bear that in mind.
+Moving down from Development with AWS services,
+we need to write code for the serverless applications,
+we are going to build our own serverless websites
+in this course,
+translate functional requirements into application design,
+implement application design into application code
+and then write code that interacts with AWS services
+by using the APIs, SDKs and AWS CLIs.
+So again, we will be doing this,
+you don't need to know how to program,
+we're going to be using pre-defined code,
+as well as the serverless application repository.
+So we'll either supply the code to you,
+or you can use the serverless application repository
+which we will learn about in the serverless section.
+Refactoring, so optimize applications to best use
+AWS services and features,
+and migrate existing applications code to run on AWS.
+That can come up quite a bit in API Gateway,
+especially when you are asked to use XML and so,
+but then again we will come to that later on.
+And then we have Monitoring and Troubleshooting,
+so write code that can be monitored and perform
+root cause analysis on faults found
+in testing or production.
+So about the exam itself,
+it's 130 minutes in length,
+we have 65 questions,
+you will get your results immediately,
+like I said earlier the pass mark is 720,
+and the top score is 1000.
+It's going to cost you $150 US Dollars,
+it's multiple choice,
+and the qualification is valid for 2 years,
+and you're going to have a whole bunch
+of scenario-based questions.
+So, without further ado,
+let's go ahead and go ahead and get started.

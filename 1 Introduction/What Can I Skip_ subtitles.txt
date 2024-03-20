@@ -1,0 +1,49 @@
+Okay, hello Cloud Gurus
+and welcome to this very quick lecture.
+So, perhaps you've already done
+The Solutions Architect exam,
+and perhaps you've done the
+A Cloud Guru Solutions Architect course,
+and now you want to go on and do the developer one.
+There is some overlap between the two.
+Not as much as there used to be.
+It used to be that if you've done
+The Solutions Architect Course,
+you could basically just go do the DynamoDB section
+of the developer exam, of the developer course I mean,
+and then you'd be able to pass.
+That's not longer the case.
+The new developer associate exam is very, very difficult.
+It is actually pretty much the most difficult
+associate exam as it exists today
+and you do need to do quite a bit more.
+So which sections can you skip?
+Well, you can skip Chapter 2, Identity Access Management,
+because then that is just the basics
+of how to set up users, how to set up groups,
+apply policies et cetera.
+So if you know how to do that already,
+you can definitely skip it.
+You can skip Chapter 3, which is just basic EC2 stuff,
+so provisioning EC2 instances,
+provisioning RDS instances, et cetera.
+And you can skip parts of Chapter 5.
+So you can skip it if you have done it
+in the Solutions Architect course.
+So this is where we create the serverless websites,
+so you have a basic serverless website,
+we then have the serverless website using Polly,
+and then we have the Alexa skill.
+You can definitely skip that.
+But only those lectures.
+You definitely need to do the ones on X-Ray.
+You're going to need to do the ones
+on step functions et cetera.
+So that is pretty much all you can skip.
+The rest of the course, you do have to do
+if you have a chance at passing
+The Certified Developer Associate.
+So wishing you the best of luck.
+I hope you really enjoy this course, it is very hands on
+and you are going to learn an awful lot.
+So let's move on

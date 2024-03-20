@@ -1,0 +1,52 @@
+(music)
+Okay, hello Cloud Gurus.
+I'm Ryan Kroonenburg.
+And I'm Faye Ellis.
+And welcome to the Certified Developer Associate course.
+So my name's Ryan Kroonenburg.
+I'm one of the founders of A Cloud Guru.
+I'm an AWS Community Hero, as well as
+an Alexa Champion and I've been teaching
+AWS for over three years now,
+and I've taught it to 600,000 people,
+so you're in very, very good hands.
+I've worked both as a developer,
+as a solutions architect, and a system administrator,
+for companies like Rackspace, and a whole bunch
+of other managed service companies in the UK.
+I'm Faye Ellis and I'm a technical instructor
+at A Cloud Guru and I've worked in the IT industry
+for around twenty years, mainly in the financial
+services sector and I've worked as a systems administrator,
+an architect, and also a developer.
+So in this section of the course, we're going to be
+exploring the exam blueprint, and if you've already done
+your Solutions Architect course, which lectures
+you can skip over.
+But I will be honest with you.
+The Developer Associate is very different now
+to the Solutions Architect, so I would try and watch
+as much of this course as you can.
+Next section, I'll teach you what Identity Access
+Management is at a very high level.
+We'll then move on to EC2 which Ryan will cover,
+followed by S3 which I will cover.
+So you will then learn about serverless computing,
+and we're going to build a whole bunch of
+different serverless websites, including a
+serverless website that you can load your notes into,
+and it will basically turn these notes into
+MP3 files using the polyservers.
+We'll store these MP3 files in S3.
+We'll then build an Alexa Skill to go ahead
+and stream these MP3 files so it's going to be
+really, really hands-on.
+You're going to learn an awful lot.
+We'll then cover off DynamoDB, KMS, application
+services such as SQS, SNS, Kinesis, etc.
+I'll then teach you about Developer Theory,
+Continuous Integration, Continuous Deployment,
+CodeCommit, CodeDeploy, CodePipeline,
+and finally we'll move onto advanced Identity
+Access Management.
+So without further ado, let's get started.

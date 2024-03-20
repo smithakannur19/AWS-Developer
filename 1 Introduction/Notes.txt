@@ -1,0 +1,5 @@
+aws products
+https://aws.amazon.com/products/
+
+aws recertification
+https://aws.amazon.com/certification/recertification/
