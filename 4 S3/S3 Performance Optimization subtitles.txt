@@ -1,0 +1,104 @@
+Hello Cloud Gurus
+and welcome to this lecture.
+And this lecture is going to be about
+S3 Performance Optimization.
+And it's just going to be a very short theoretical lecture
+covering the different mechanisms
+for performance optimization within S3.
+Now, S3 is designed to support
+very high request rates by default,
+however, if you are routinely experiencing
+incredibly high utilization,
+so for example if your S3 buckets
+are consistently receiving over 100 PUT, LIST, DELETE
+or over 300 GET requests per second,
+then there are some best practice guidelines
+which will help you to optimize your S3 performance.
+And this guidance is based on the type of workload
+that you are running.
+So for example, for GET-Intensive Workloads,
+AWS recommend to use CloudFront content delivery service
+to get the best performance
+and as we've seen before, in the previous lecture,
+CloudFront will cache your most frequently accessed objects
+and it will significantly reduce latency
+for your GET requests.
+So how do we optimize for workloads
+that are not GET intensive?
+Well, for the Mixed Request Type Workloads,
+so for example a mix of GET, PUT, DELETE or GET Bucket,
+the key names that you actually use for your objects
+can really impact performance for this type of workload.
+And this is all to do with the way that S3 uses key names
+to determine which physical partition
+an object is going to be stored in.
+And the use of sequential key names,
+so for example names that are prefixed with a time stamp,
+or an alphabetical sequence,
+increases the likelihood of having multiple objects
+stored within the same partition.
+And for heavy workloads this can, of course,
+cause I/O issues and contention
+because you're trying to access files
+that are physically located within the same partition.
+So in this case, by using a random prefix
+to your key names, instead of a sequential one,
+you could actually force S3 to distribute your keys
+across multiple partitions,
+thus distributing the IO workload.
+Let's have a look at an example.
+And in this example, the following sequential key names
+are not optimal.
+So just imagine that you were uploading
+a large number of objects into S3.
+Well you might be tempted to use sequential numbers
+or dates as part of the key name for you objects.
+So in this example, they're using the sequential dates
+as their folder names.
+And of course the folder name in that folder structure
+becomes part of the key name of your object.
+So in this first example,
+it's highly likely that all of these objects
+are going to get stored on the same partition.
+And just imagine you had hundreds and hundreds of objects
+and they were all getting stored on the same partition,
+of course that's eventually going to cause I/O contention
+when you, if you have many many hundreds
+of GET requests happening per second.
+So for optimal performance, the best practice advice
+is to introduce randomness into the key name.
+So in the second example, we're still using
+that kind of date format for the folder name,
+however, a four character hex-hash has been added
+as a prefix to that name.
+Or, in fact, any random sequence of character could be used.
+The point is just to add that
+element of randomness within the key name.
+And this is what is going to force S3
+to store all of these different objects
+on different partitions.
+So it spreads that I/O workload across
+a number of different partitions
+and reduces the likelihood of I/O contention.
+So what are our exam tips?
+All you need to remember really
+is the two main approaches
+to performance optimization for S3
+and forget intensive workloads that is to use CloudFront,
+as were used in the lab,
+and you saw how much more quickly
+you could access a file
+using the CloudFront edge location,
+compared to accessing it directly from a very remote bucket.
+And then for the mixed workloads,
+avoid sequential key names for your S3 objects.
+Instead use a random prefix,
+like a hex-hash at the front of the key name,
+to prevent multiple objects from being stored
+on the same partition.
+So that's the end of this lecture,
+and the next lecture is going to be a summary of S3,
+of everything that we've learnt for S3.
+So if you got time,
+please join me in the next lecture.
+Thank you.

@@ -1,0 +1,40 @@
+Hello Cloud Gurus
+and welcome to this lecture.
+This lecture is just a really quick update
+all about S3 performance.
+So let's get started.
+Now, in July 2018,
+Amazon announced a massive increase in S3 performance.
+And on their website they state
+that they can support at least 3,500
+put requests per second.
+So that's uploading files.
+And 5,500 get requests per second.
+So retrieving your files.
+And this new increased performance
+negates the previous guidance
+to randomize your object keynames
+to achieve faster performance.
+This means that logical and sequential naming patterns
+can now be used without any performance implication.
+Now, as you probably know,
+The Amazon ecosystem, it changes on a daily basis.
+And as you can imagine, the certification exams
+can sometimes become a little outdated
+or out of sync with the latest updates.
+So just be aware that in practice,
+you no longer need to avoid sequential naming
+of your S3 objects.
+But you may still see questions
+in the exam related to randomizing keynames
+as mentioned in the previous lecture.
+And I'm sure they are going to update the exam eventually.
+But it just can take some weeks or months
+for the exams to reflect any new updates in the services.
+So that is the end of this lecture.
+It's just a really quick one
+to let you know about that performance update.
+If you've got any question or feedback
+please let us know.
+If not, feel free to move on to the next lecture.
+Thank you.

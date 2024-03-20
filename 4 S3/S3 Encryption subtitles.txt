@@ -1,0 +1,181 @@
+Hello cloud gurus
+and welcome to this section of the course.
+And in this section of the course
+we're going to be talking all about the different methods
+that are available for S3 encryption.
+So all the different ways that you can encrypt your data
+that you are storing in S3.
+So let's get started.
+So there are two different types of encryption.
+So firstly there is encryption in transit
+and that really means encrypting the data
+that you are sending to and from your buckets.
+So when you're uploading files from your PC
+into your bucket, and also if you're downloading files
+from the bucket into your PC,
+that's where we need to use encryption in transit.
+And that is done using SSL or TLS
+and for those who are not familiar,
+TLS or Transport Layer Security
+is really going to be replacing SSL.
+Sometimes the terms are used interchangeably
+so if you see SSL/TLS just know
+that that's encryption in transit
+and typically that means we're using HTTPS to upload
+and download our files between the PC
+or between our local system and the S3 bucket.
+So moving on to encryption at rest,
+and there are three different types of encryption at rest
+for server side encryption.
+Firstly we have SSE3 which is the S3 managed keys.
+And this means that each object is encrypted
+with its own unique key using strong multi-factor encryption
+but as an additional step, they also encrypt the key itself
+with a master key which they then regularly rotate for you.
+So Amazon take care of the keys,
+they manage the keys for you,
+don't need to worry about managing your own keys
+and it's all AES 256 bit so advanced encryption standard,
+256 bit encryption.
+And it's very easy to enable
+as we saw in the lab previously,
+you can just select your object
+and select encryption and select the encryption type
+you want to use within the properties of your object
+and you can do that while you're uploading
+and you can also do it
+on existing objects within your bucket.
+Now the second method of encryption
+they offer is called SSE-KMS,
+and this is with the SSE key management service.
+Once again, AWS manage the keys for you
+but KMS comes with some additional benefits.
+So firstly, you get a separate permission for the use
+of an additional key called an envelope key
+and that is a key which actually encrypts
+your data's encryption key.
+So it gives you that added level of protection
+against unauthorized access.
+You also get an audit trail which records
+the use of your encryption key,
+so you can see when your key has been used,
+who used it and why.
+So you get that view of any encryption or decryption
+related activities happening within your S3 bucket.
+You also get the option to use your own key
+or you can use the default key, which they provide,
+which is still unique to you.
+You also have server side encryption
+with customer provided keys,
+also known as SSE-C,
+and this is where AWS manage
+the encryption and decryption activities
+but you manage your own keys.
+So that means you're in charge of administering those keys,
+of rotating them and the lifecycle of those keys.
+So really the most important thing to remember
+is that we have encryption at transit,
+encryption at rest and the three different types
+of encryption at rest that are available.
+And then lastly, we have client side encryption,
+which is where you encrypt the files yourself
+before you upload them into S3.
+So you can choose your own encryption methodology,
+you can choose your own application
+to encrypt your files and you encrypt the files
+before uploading them into S3.
+So how can we enforce encryption
+for all the files that we upload into S3?
+Well, every time a file is uploaded
+a PUT request is initiated.
+So this is what a PUT request looks like.
+So the first line, it just states PUT,
+so we know that it's a PUT request,
+and then it states the file name.
+So in this example the file is called myFile
+and it's states the way that the file
+is going to be transmitted into S3,
+so in this case it's going to go via HTTP.
+Next, we have the name of the bucket.
+So in this case it's called myBucket.
+The date of the upload.
+The method of authorization.
+So in this case it's using an authorization string.
+Then the content type.
+So in this case it's just plain text.
+The content length, so the length of the file in bytes.
+And then the next section just shows us some metadata,
+so just some user defined metadata
+that's been included to describe the file.
+So in this case it just states the author of the file
+and the author's name.
+And then the expect 100-continue.
+So expect 100-continue just tells S3 not to send
+your request body until it receives an acknowledgement.
+So this means that S3 can actually reject your message
+based on the contents of your header.
+So if the message is rejected
+based on the contents of the header,
+that means the body of the message will not be sent.
+Now if the file is going to be encrypted at upload time
+then there's a special parameter that gets included
+within the request header
+and that parameter is called x-amz-server-side-encryption.
+And there are two options currently available.
+So there's one option available for the SSE-S3,
+so the S3 managed keys, and that option is called AES 256,
+so remember with the SSE-S3
+you've got AES 256 bit encryption.
+And then the other option caters
+for the SS3 KMS, so that is the KMS managed keys,
+so using the AWS key management service.
+And when this parameter is included
+in the header of the PUT request, it simply tells S3
+to encrypt the object at the time of upload
+and using the specified encryption method.
+So this means it's really easy
+to enforce the use of server side encryption.
+All you need to do is create a bucket policy
+which denies any S3 PUT request which does not include
+this x-amz-server-side-encryption parameter
+within the request header.
+So here we just have an example of the same request header
+but just including that server side encryption parameter.
+So we've just added it at the bottom of the header
+to let S3 know that we're meant to use SSE-S3 or AES 256
+encryption at the time when this file is uploaded.
+And then we just simply create that bucket policy
+to inspect every S3 header, every S3 PUT request,
+to make sure the x-amz-server-side-encryption parameter
+is included in every single header.
+So let's take a look
+at some of our exam tips for S3 encryption.
+So just remember there are
+two different methods of encryption.
+We have encryption in transit and also encryption at rest.
+So encryption in transit encrypts the data over the network,
+so between your PC and S3.
+And that uses SSL or TLS
+and typically uses the HTTPS protocol.
+We also have encryption at rest,
+so that is either server side encryption
+or client side encryption.
+And we have the three server side encryption options,
+which are SSE-S3, so with S3 managed keys.
+SSE-KMS, with Amazon managed keys,
+so using the key management service.
+And SSE-C, which is customer managed keys.
+And then finally we have client side encryption,
+so this is where you encrypt your files locally
+before uploading into S3.
+And just remember if you want to enforce
+the use of encryption for your files stored in S3,
+use a bucket policy to deny any PUT request
+that does not include the x-amz-server-side-encryption
+parameter within the request header.
+So that's the end of this lecture
+and as always, the best way to learn
+is to actually start using it
+and that's exactly what we're going to be doing
+in the next lecture, which is a lab.
+So if you've got time, please join me in the next lecture.

@@ -1,0 +1,488 @@
+Hello cloud gurus and welcome to this
+lecture and this is going to be a lab.
+And we are going to create our own CDN
+or content delivery network.
+And in AWS, in their terminology,
+this is called a distribution.
+So it's called a CloudFront distribution.
+And for the CloudFront origin,
+so this is the place where the original copies
+of your files or your content is located.
+We're going to use an S3 bucket.
+And you can have multiple origins per distribution.
+You can also have an EC2 instance,
+elastic load balancer.
+You can even have a physical server on premise
+in your own data center.
+But for the purpose of this lab,
+we're just going to use S3.
+And to get started, you just need to join me
+in the AWS console.
+So here I am in the AWS console,
+and the first thing that we need to do
+is we need to create the origin.
+So we're going to do that in S3.
+So we go down to S3
+and click on S3.
+And then go to create bucket.
+Now we're going to create a bucket in place
+that's the most furthest away from where we are.
+So I'm located in London.
+So I'm going to use a bucket in a region
+that is as far away as I can find,
+which is going to be somewhere in Australia.
+So we're going to pick Sydney
+and we're going to call it mysydney-cf-origin.
+Go ahead and click Next and click Next.
+We're going to configure this as a public bucket.
+So I'm going to uncheck all of the public access protection,
+just deselect all of these boxes and click Next.
+And then click Create bucket.
+So the next thing we're going to do
+is add a file into the bucket.
+So go into the bucket
+upload.
+And we're going to add an image file.
+So we go into my images directory,
+and we're going to select
+a picture of a fairly large image.
+So
+3.4 mg.
+So we'll open up that image.
+And the reason we want an image
+is so that we can actually see it loading,
+so we can see it loading from the other side of the world.
+So click on Next.
+And we're going to give public read access to this image.
+We want to be able to access it over the internet.
+So click on grant public read access to this object.
+Click Next.
+Keep all the rest of the defaults the same
+and hit upload.
+And you can see down here it started.
+It's in progress.
+So you can see the percentage progress down here.
+It's not immediate, because we're transferring it
+over the other side of the world.
+Over to Australia, so there we are.
+Okay, so that's successful.
+And we can click on that file,
+come down to the link down here
+and hit on the link
+to access the file.
+And we can see it just takes ages to load.
+It's not instant like it would normally be
+if it was stored in a bucket that was local.
+If I'd selected London as my region for the S3 bucket,
+it would be pretty much instantaneous.
+So this is where CloudFront distributions come in.
+So let's go ahead and set up our first
+CloudFront distribution.
+So if we go back to
+the Services section,
+and scroll down to networking,
+because that's where we find CloudFront
+under networking and content delivery.
+So select CloudFront
+and click Create distribution.
+So you've got two different options here.
+There's two different types of CloudFront distribution,
+we discussed earlier.
+You've got the web distribution,
+which is for HTML, CSS, PHP and graphics.
+Basically anything that could be distributed
+using HTTP or HTTPS.
+And then we also have RTMP,
+which is Adobe's Flash media server,
+real time messaging protocol.
+And this is really for streaming media.
+It's not for your basic
+websites or static content.
+It's for streaming media.
+So we're not going to use an RTMP distribution this time,
+we're going to just stick with the regular web distribution.
+So click on Get Started.
+And then straightaway,
+you see a whole load of different parameters.
+So there's loads of different settings
+for CloudFront.
+And don't worry, because you don't need to memorize
+all of these for the exam,
+you just really need to know theoretically,
+what is CloudFront?
+What is it used for?
+How does it work at a high level?
+And there's a few options that you need to know about.
+But I'm going to tell you about those as we go along.
+So the first thing we need to do is to
+tell CloudFront, what is the name of our origin.
+And if we click in here, you'll get a choice.
+So you'll see the options here.
+And we can see the S3 bucket
+that we created just a moment ago.
+And if we had load balancers, on our account,
+you'd see the elastic load balancers down here,
+you'd be able to select one of those.
+If you wanted to use an easy to instance,
+you should see that in here as well.
+And if you wanted to use an on premise server,
+so your own web server located in your own data center,
+you could just add the IP address
+or the registered domain name of that server,
+you could just add that here under the origin domain name.
+So we're just going to select the S3 bucket
+that we've just created.
+Origin path.
+So this refers to different folders within your origin.
+For example, if you had a different folder for images,
+videos, and HTML files,
+you could put the folder names under this origin path,
+but we don't have that.
+So we're just going to leave that blank.
+origin ID.
+So this is just a description.
+So we can just keep that, at the default.
+Restrict bucket access.
+So this is an option that you would use
+if you wanted to restrict access and enforce
+all access to come via CloudFront.
+So there will be no direct access
+directly into the S3 bucket
+for all users that want to access the files
+they need to come through CloudFront.
+So we're going to click on yes for that.
+And then straightaway, a few additional options appear.
+So in order to set up your restrict bucket access,
+we also need to have an origin access identity.
+And this origin access identity
+is a special CloudFront user.
+And this user is going to be given permissions
+to access your S3 bucket.
+So as we know, by default,
+no one can access the bucket apart from the bucket owner.
+So in order to allow CloudFront to access that bucket,
+we need to set up some identity access management
+to enable that.
+And that's what this is.
+So it's creating identity for CloudFront to use
+to access your S3 bucket.
+So make sure you select Create New User identity.
+So the next thing we need to do is actually
+go on the read permissions for this new user.
+And if you forget to do this, it will not work.
+So this is a really important step.
+For some reason, they leave the default to no,
+in which case, you would have to go in yourself
+and update the permissions for this user.
+So we need to remember to click Yes.
+And then that will set up all of the bucket policy
+and access control that you need for the new user.
+Then moving down to default cache behavior settings.
+We have various different options here
+around HTTP and HTTPS.
+So you've got the choice to allow both HTTP and HTTPS.
+Or you can redirect all HTTP to HTTPS.
+Or you can allow HTTPS only.
+So we're going to go for redirect.
+So any requests that comes in as HTTP,
+it's going to get converted to HTTPS automatically.
+And then the allow methods, so you've got get head,
+get head options, get head options Put post patch delete.
+So the important thing to remember here is with CloudFront,
+it's not just about reading files,
+accessing files, downloading files,
+you could also put and post,
+so you can also upload your files
+using the CloudFront edge location.
+And then AWS will manage the transfer of those files
+from the edge location into your S3 bucket
+or into your origin.
+Moving down.
+Here we have the time to live or TTL.
+And TTL is the minimum amount of time in seconds
+that you want your objects to stay in the CloudFront case.
+So it's basically how long is the object
+going to be caged for before it expires,
+and it gets wiped from the cache.
+And it's expressed in seconds.
+So the maximum is 31 million seconds,
+which equates to 365 days,
+but the default is 86,000.
+And that equates to 24 hours.
+Now the thing to be aware of here
+is that you might have files which get uploaded
+much more frequently than 24 hours.
+So for example, if you had files that were getting updated
+two, three, four times a day, or on an hourly basis,
+that time to live is not going to work for you.
+And you're going to find that your files
+that are held in the edge locations
+become out of date pretty quickly.
+So in that case, the thing you want to do
+is change this number here, reduce it down.
+Think about how frequently your data is changing.
+And you'll want to set the time to live
+to a fraction of the refresh frequency.
+So maybe one half, one third, or one quarter or less,
+depending on how important it is
+for your material to be up to date.
+And this option here called Restrict Viewer Access,
+Use Signed URLs or Signed Cookies.
+So this option allows you to choose
+whether you want CloudFront to require users
+to access your content using assigned URL
+or assigned a cookie.
+And the reason that you might want to do that
+is,
+just imagine that you have a website,
+and some of the content on your website is paid-for content.
+So what you can do is restrict the access to that content
+only to users who have a signed URL.
+The users cannot share that URL,
+because its individual to them.
+And you only release the signed URL
+to users who have actually paid to view the content.
+And that is actually technology that we use here
+at A Cloud Guru.
+Because we have some content on our site,
+which is for members only,
+and we automatically generate this signed URL
+to an enable them to access the paid-for content.
+So just remember in the exam,
+if you get asked any questions
+around accessing content that you're selling on a website,
+and restricting that only to users
+who have paid for the content,
+then the way to do that is to use signed URLs,
+or signed cookies.
+And it's not something
+that we're going to configure here right now,
+it's not part of this lab.
+But you just need to really be aware of it
+and understand what it's used for.
+Then moving down,
+we also have web application firewalls, or WAF.
+And this provides traffic filtering
+for well known attacks like sequel injection,
+or cross-site scripting.
+So this is going to protect you at the application layer.
+Unlike a normal network firewall
+that protects you at the network layer.
+This actually protects you at the application layer.
+And the web application firewall
+is tightly integrated with CloudFront.
+You can also add your own domain name.
+So if you own your own registered domain name,
+and you want to use that as the URL
+for your CloudFront distribution, you can add that in here.
+But we don't have one of those, it's fine.
+Once the CloudFront distribution has been created,
+they will provide you with your own unique domain name.
+It might not be very user friendly,
+but they're going to give you one.
+SSL certificates.
+So we selected the option to redirect all HTTP to HTTPS.
+And that means that we're going to need
+to use SSL certificates.
+So we're just going to keep it to the option
+to use the default CloudFront certificate.
+But there is also an option
+to use your own custom SSL certificate.
+And for that, you'd need to restore your certificate
+in AWS certificate manager.
+Or also, you can store it in IAM.
+But for the purposes of this lab,
+we're just going to keep it to the default.
+So moving down, you also see the different HTTP versions
+that are supported.
+So we just keep it to the default.
+And IPv6 that is enabled by default.
+So then just go ahead and create a distribution.
+And you get this message just about using CloudFront
+to serve private content,
+we can just ignore this.
+And if you go to distributions on your left,
+you'll be able to see that your distribution
+creation is in progress.
+And unfortunately, with CloudFront,
+it does take a while to get the distribution created.
+It takes around 15 to 20 minutes.
+And I think the reason for that
+is because it's provisioning to lots of different
+edge locations all around the world.
+It's replicating your distribution set up
+to all of those edge locations.
+And at the time of recording,
+they've got around 100 edge locations
+located in over 25 countries.
+So as you can imagine, that's a lot of locations
+to push the configuration to.
+So it's just one of the things in AWS
+that just takes a little bit longer, it's not instant.
+So it's going to be about another 15 minutes.
+I think until we can get started again,
+so it's a good time to take a break,
+have a cup of tea.
+I'm going to pause the video now,
+and hopefully in 15 minutes,
+we should be ready to get started again.
+So here we are, back in the AWS console.
+And the CloudFront distribution is now complete.
+So you should see a state of enabled.
+So let's go in and take a look at this distribution.
+And this is our distribution ID.
+And this view just shows the general parameters
+that we've chosen for this distribution.
+We've got our distribution ID up here,
+Amazon resource name,
+and the domain name appears down here.
+And this domain name is really important,
+because it's this domain name that we're going to use
+to access the CloudFront distribution.
+Let's have a look at some of the other tabs on this view.
+So we have the origin.
+And of course, you can have multiple origins here,
+you can create others.
+So you could add an EC2 instance
+that was hosting a website.
+You could add an elastic load balancer,
+you could add any other S3 buckets
+that you were serving content from.
+And you could also add in the details of a server
+that you have located in your own data center.
+Under behaviors,
+we've got the path pattern,
+so any different folders
+that exist underneath the S3 bucket,
+the name of your origin, so again, our s3 bucket
+and our protocol policy.
+So any requests that come in as HTTP,
+they're going to get redirected as HTTPS.
+Under error pages,
+so you can create your own custom error response.
+So it's going to display your custom error page.
+Whenever there's an error code,
+whenever the origin returns an HTTP 400, or 500 status code.
+Under restrictions,
+you can actually prevent users in selected countries
+from accessing your content.
+So you specify either a whitelist
+to which is the countries that can access your content,
+or a blacklist, which is the list of countries
+that cannot access your content.
+So here we are, we can either select whitelist or blacklist.
+And we can list out the countries that we want to whitelist.
+So for example, we can add them into here.
+We can add into here the list of countries
+that we want to whitelist
+and that we want to make the content available to.
+Or Similarly, you can set it off as a blacklist,
+and just make a list of all the countries
+that you want to blacklist.
+And by implication, any country that you do not blacklist
+will get access.
+Any country that you do not whitelist will not get access.
+But we're not going to set that up right now.
+So let's go ahead and cancel,
+and take a look at invalidations.
+So invalidations is all about removing your files
+that are cached in the CloudFront edge locations.
+So for example, if the file has changed
+and file has been updated,
+but you've still got the old copy cached in CloudFront,
+but you don't want to wait for the time to live to expire
+to automatically clear that old version out of the cache.
+If you want to remove that object from the cache,
+you need to do an invalidation
+which invalidates the object on the cache
+and effectively clears that object the cache.
+So it's a manual process,
+you're going to have to go in and do it.
+But just remember, every time you do it,
+you will be charged a fee.
+So let's go back to our file
+and see if we can access it using CloudFront.
+So let's make things easier
+just by opening another tab
+so that we have two console windows.
+And I want to go back to S3
+and take a look at my file.
+So we have our link down here,
+which is using the S3 internet URL.
+And let's just click on that.
+See our file slowly, slowly load.
+But I don't want to be accessing the file in this way.
+I want to force the users
+to access using CloudFront only.
+So I'm going to go back,
+and I'm going to change the permissions on this file.
+So we're changing the access control list on the file.
+And we're going to remove public access.
+Click on Save.
+And now when we try to access that file,
+it's still there now because it's in the browser cache,
+but we're going to reload.
+And we see that "access denied" message
+because we've removed public access.
+So how do we access it using CloudFront?
+Well, we need to go back into our distribution,
+hit the general tab, and we need to get our domain name.
+So we copy that domain name
+and we're going to use that as the prefix to our file name.
+And I'm going to change it to HTTp instead of HTTPS.
+Because if you remember, that we selected the option,
+which will redirect any HTTP requests to HTTPS.
+Let's just hit return and see if that works.
+So the very first time you access a file using CloudFront,
+it's not going to be cached in your edge location.
+So your request will go to your local edge location.
+And if the file does not exist there
+it's going to have to pull it down from the S3 bucket.
+So that means you see a similar response time
+to accessing the buckets directly.
+However, subsequent attempts to access this file
+from the same edge location
+should be much quicker
+because the file will be cached locally
+at the edge location.
+And one way you can try this
+is by trying to access the file using a different browser,
+or using a different device like a mobile phone or a tablet.
+But let's try it now using a different browser.
+So first of all, I'm just going to copy that link.
+And then I'm going to launch another browser.
+So I'm going to paste that URL into Safari
+and see how quickly we can access that file.
+Yep, so it comes up really, really quickly.
+It's cached locally in the London edge location.
+So we get access really, really quickly.
+So that is CloudFront distribution.
+And the main thing to remember is that
+it's possible to clear your cache by invalidating objects
+so that will clear them from the cache.
+If you need to remove them from the cache
+and you can't wait for the time to live to expire.
+But just remember you do get charged for it.
+And remember that you can post files into edge locations.
+It's not just for accessing files,
+so you can also upload content.
+And finally, do remember to delete all of this
+once you finish the lab,
+because you do get charged.
+So let's go back into the console and delete everything.
+So the first thing that you need to do
+is click on your distribution.
+Click on disable.
+Click Yes.
+And once again, it does take up to 15 minutes,
+because it's deleting that configuration
+from all the edge locations.
+So as soon as the 15 minutes is up
+as soon as this is complete,
+all you do is select the distribution,
+and then you'll be able to delete it.
+And that's the end of this lab.
+If you have any questions, please let me know.
+Otherwise, if you've got time,
+please join me in the next lecture.
+Thank you.

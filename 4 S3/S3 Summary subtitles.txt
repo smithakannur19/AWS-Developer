@@ -1,0 +1,301 @@
+Hello, Cloud Gurus,
+and welcome to this lecture.
+And this lecture is going to be a summary of S3.
+So, it's the end of this section.
+Congratulations on making it so far.
+This is just going to be our summary
+of everything that we've learned about S3,
+including all of our exam tips.
+So, let's get started.
+Remember that S3 is object-based,
+so it allows you to upload your files, images, documents.
+Files can be from zero bytes to five terabytes in size,
+and there is unlimited storage.
+You don't have to worry about capacity management
+or capacity planning.
+They do all of that for you,
+and Amazon just adds storage arrays
+as and when they need it, so you don't need to
+worry about capacity planning.
+And the files are stored in buckets,
+and you should know by now,
+when you see bucket, just think folder.
+S3 is a universal namespace with globally unique names.
+And here's our example below showing HTTPS
+then S3 and the region name.
+Then, after amazonaws.com it shows us the bucket name.
+So, in this example, acloudguru.
+For the consistency model we have
+read after write consistency for PUTS
+of brand new objects into S3.
+However, when we overwrite that file,
+or we change it, or we delete it,
+and you try to access the same file immediately,
+you may still see the older version for a while
+or the un-deleted version.
+So any changes or deletions are not immediate,
+instead, they use a model called Eventual Consistency
+for overwrite PUTS and DELETES.
+We have multiple different storage tiers
+or storage classes for S3, beginning with the regular S3.
+So that is durable, immediately available,
+and suitable for frequently accessed files.
+Then we have S3-IA, which again is durable
+and immediately available.
+However, it's more suitable for infrequently accessed files.
+We then have S3-One Zone IA, and this is the same as IA,
+however, data is stored only in a single availability zone.
+And this means the One Zone IA service is not as resilient,
+it doesn't have the same level of availability
+as you get for the regular S3.
+So, it's good for data where a lower level
+of availability is acceptable and you do pay 20% less
+on the regular S3 for this service.
+We then have the S3-Reduced Redundancy Storage,
+and remember, this is the data that is easily reproducible.
+For example, thumbnails where you own the original image
+and you're storing it in a different location.
+And if you were to lose the thumbnail data
+stored in Reduced Redundancy Storage,
+you would easily be able to reproduce those files.
+Now, Reduced Redundancy Storage used to be
+more cost-effective than the regular S3.
+However, that has now changed and Amazon are
+now recommending that for most work loads
+we use the regular S3.
+However, we do think it's worth knowing for the exam.
+Finally, we have Glacier which is used for archiving,
+and it's most suitable for situations where
+it's acceptable to wait between three and five hours
+before accessing your storage.
+So Glacier is most appropriate to use
+for historical files, archive data,
+files that you don't need to access very frequently,
+and when you do access them you can wait
+between three to five hours.
+Remember, the core fundamentals of an S3 object.
+So you have the key, which is the name of the file,
+the value, which is the data contained within the file,
+a version ID, metadata, which is data about data,
+and then we have subresources,
+which are used to manage the bucket-specific configuration.
+For example, bucket policies and access control lists,
+which are used to control, both of those are used
+to control access to your buckets
+and the contents of your bucket.
+Cross origin resource sharing, so remember,
+that's when we enable the contents of one bucket
+to see the contents of another bucket,
+or more widely when we allow one resource
+to access another resource within AWS.
+And there's also Transfer Acceleration.
+And Transfer Acceleration simply speeds up
+the uploads of objects into S3,
+utilizing the CloudFront network of edge locations.
+Remember, the S3 is for object storage only.
+So, it's only for files, not suitable for operating systems,
+not suitable for databases.
+And successful uploads will generate the
+HTTP 200 status code.
+In terms of security, all newly created buckets are private.
+So, by default, there is no public access
+to your buckets when you initially create them.
+You can set up access control in your buckets using
+Bucket Policies, and these are applied at a bucket level.
+So that means they apply to the bucket
+and the contents of the bucket.
+You also have Access Control Lists,
+and these are applied at an object level.
+So you can create an Access Control List
+which only applies to an individual object.
+And you can have different Access Control Lists
+applied to different objects within the same bucket.
+And, if you want to keep a record of all
+the different requests made to the S3 bucket,
+you can do that using access logs.
+And these can be configured on the bucket
+and either written to the same bucket
+or written into another bucket.
+And these will capture all of the access requests
+made into your bucket.
+S3 supports are number of different types of encryption.
+So, we have Encryption In-Transit,
+and that is via SSL or TLS.
+And this is when any request made into S3
+is encrypted in-transit or encrypted on the network.
+And we can see that when we make a request
+into a bucket using HTTPS.
+And there is also Encryption at Rest.
+And for Encryption at Rest,
+we have either server side encryption
+or client side encryption.
+And for server side encryption,
+there are three different options.
+We have the SSE-S3.
+And this is where each object is encrypted
+with a unique key using strong multi-factor encryption
+and the keys are managed within S3.
+And AWS manage this end-to-end,
+so they do all of the encryption for you and decryption.
+And SSE-S3 is also sometimes called
+Advanced Encryption Standard 256 bit.
+SSE-KMS is similar to SSE-S3 but with some added benefits.
+So, you get the separate permissions for an envelope key,
+and this envelope key protects your data's encryption key,
+giving you added protection against unauthorized access
+to your objects within S3.
+And this also gives you an audit trail
+telling you when keys were used and by whom.
+And if you're playing around with SSE-S3, SSE-KMS,
+depending on what you're doing
+you might see some charges within your account,
+so, just be aware of that and make sure that
+once you've finished setting something up,
+and once you understand how it works,
+just remember to go in and delete all those resources.
+SSE-C, so, this is the customer provided key
+where you manage your own key.
+And AWS just take care of the encryption
+and decryption process.
+So they decrypt it for you when you want to read your files.
+But ultimately, the key belongs to you
+and you have to manage the key.
+So, you have to manage its life cycle, when it expires,
+you have to manage rotating the key yourself.
+So, just remember those three different
+types of server side encryption,
+and remember the differences between them,
+and then you should be able to answer
+any question that they throw at you in the exam.
+We also have client side encryption.
+So, this is where you encrypt the file on your own platform
+before you actually upload it into S3.
+So, you can encrypt it by any mechanism that you choose.
+And the file is encrypted locally
+and S3 just treats it as an encrypted disk.
+And finally, remember that we can use a bucket policy
+to prevent any unencrypted files from
+being uploaded into S3.
+So in the lab, we created our policy
+which only allowed a request which included
+x-amz server side-encryption parameter
+within the request header.
+And then, when we try to upload a file
+which did not include the correct parameter
+within that header, we were prevented from
+uploading the objects so we saw that it failed.
+Cross Origin Resource Sharing or CORS is used to
+enable cross origin access for your AWS resources.
+For example, an S3 hosted website accessing
+JavaScript or image files which are located
+in a completely different S3 bucket.
+And you should know that, by default,
+the resources in one bucket cannot access
+the resources located in another.
+And if we want to set this up,
+we need to configure Cross Origin Resource Sharing
+on the bucket being accessed,
+and enable access for the origin
+or bucket attempting to access.
+So, remember, we did this in the lab
+with our two buckets containing the index.HTML
+and the load page.HTML,
+and we set up access on that bucket
+containing load page.HTML,
+to allow access for the origin within which
+index.HTML was located.
+And when we do that, remember that we always
+need to use the S3 website URL
+and not the regular bucket URL.
+And just to remind you, we've got the two examples here.
+So the first one, highlighted in orange,
+that is our S3 website URL.
+So, it goes http, then acloudguru, which is our bucket name.
+And then the big clue here, S3 dash website,
+and then our region, eu-west-1.amazonaws.com.
+And then, our regular bucket URL which is the https,
+and then our region name, amazonaws.com,
+and finally the bucket name.
+So, just remember, when you see the URL
+and it says S3 dash website and then your region name,
+that is our S3 website URL.
+Moving on to CloudFront.
+Remember the terminology for the different elements
+that may cut CloudFront.
+So, we have the Edge Location.
+This is the location where the content
+is going to be cached.
+And this is separate to an AWS Region or AWS AZ.
+We also have the Origin.
+And this is the location of all the files
+that the Content Delivery Network is going to distribute.
+And remember this may be an S3 bucket,
+it can also be an EC2 Instance,
+or an Elastic Load Balancer, or Route 53.
+Distribution, this is the name given to
+the Content Delivery Network,
+and this consists of a collection of Edge Locations.
+And of course, when we did the lab,
+and we created our Content Delivery Network,
+we created a Distribution.
+And when we try to access our files,
+we did so using the Distribution domain name.
+And we've got two different types of Distribution.
+We have the Web Distribution, and that's what we use
+for websites and that's the type of distribution
+that we set up in the lab.
+We also have RTMP, which is Adobe's real-time
+messaging protocol.
+And this is used for flash or media streaming.
+And remember, the edge locations are not just READ only,
+you can also WRITE to them.
+So, you can also upload objects into the edge location
+and Amazon will handle the transfer of the object
+from the edge location into your S3 bucket.
+And objects are kept in the cache for the time to live,
+or the TTL, and the default time to live is 24 hours.
+After that 24 hours, the time to live expires
+and the objects are then cleared from the cache.
+And if your files are changing more frequently
+than every 24 hours, you can clear those
+from the cache manually, it's called an invalidation.
+And remember, in the lab we could configure invalidations
+on that invalidation's tab on an object basis.
+But you will be charged if you want to do this.
+There are two main approaches for
+performance optimization within S3.
+For the GET-intensive workloads,
+you simply use CloudFront.
+For example, if you have many users
+logging onto your website or accessing files
+located in your S3 bucket,
+the easiest way to optimize that is to use CloudFront.
+However, for mixed-workloads, so when you have
+a mix of GET, PUT, list bucket, GET bucket,
+the best way to optimize performance
+is to avoid using sequential key names for your objects
+and instead, use a random prefix like a hex hash
+at the beginning of the key name,
+and this just stops S3 from storing
+all of your objects on the same physical partition.
+So just see the example below.
+For these object names, we've added the random hex hash
+as a prefix to the object name.
+And this will force S3 to store them
+on different physical partitions.
+And just avoid the possibility of IO contention
+that you can sometimes get when you have many files
+stored on the same partition and many people try to
+access at the same time.
+And our final tip for the exam
+is to make sure you read the S3 FAQ,
+as S3 was one of the first services
+that was brought out by Amazon.
+There can often be a lot of questions relating to S3
+so this is a really good one to know inside out.
+So, definitely make sure to read the FAQ
+before going in to the exam.
+So, that's the end of this lecture.
+I hope you enjoyed it, and if you've got time,
+please join us in the next lecture.
+Thank you.

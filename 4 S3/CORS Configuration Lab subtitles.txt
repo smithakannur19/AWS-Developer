@@ -1,0 +1,227 @@
+Hello Cloud Gurus, and welcome to this lecture.
+And this lecture is going to be a lab,
+and in this lab we are going to set up
+cross origin resource sharing, also known as CORS.
+And this can come up in the exams,
+so it's really important for you to know what it is.
+So, basically, its just a way of allowing
+code that is in one S3 bucket to access or reference
+code that is in another S3 bucket.
+So, really, we're just allowing one
+resource to access another resource.
+And that's why it's called, "Cross Origin Resource Sharing."
+So, if you've got time, please join me in the AWS console.
+So, here I am in the AWS console.
+And, we're just going to go down to S3,
+which is on the left hand side, under storage.
+So, we're going to create a new bucket,
+and we're going to call it,
+"myindexwebsite" and click "Next."
+And, we're going to configure this as a public bucket,
+so I'm going to uncheck all of the public access protection.
+Just deselect all of these boxes and click "Next"
+and then click, "Create bucket."
+And then we go into that bucket,
+and go to "Properties" and we hit "Static website hosting."
+So, this allows you to host a static website from within S3.
+So, we go in and select that,
+and we select, "use this bucket to host a website."
+And when we use S3 to host a website,
+they provide you with this website endpoint URL.
+And it's this website endpoint
+that we use to access the website.
+And when we configure CORS
+between one S3 website and another,
+the access request is linked to this endpoint URL.
+So, it's this endpoint URL that we configure the
+access for between the two S3 buckets.
+And you'll see that later on.
+So next, it's going to ask you the
+name of your index and error.html documents.
+So, we have to actually explicitly type this in.
+So, we type "index.html" "error.html" and hit "Save."
+So, then we go back to that S3 bucket.
+So, we have a few files that we've prepared,
+which we're going to be using in this lab.
+And we're just going to upload these files into our bucket.
+So, let's take a look at those.
+So, we've got index.html here.
+And, don't worry, these are all going to be available
+in the resources section of the course for you to download.
+So, this is just a simple webpage,
+which just says, "Welcome to the Index Page"
+and then it just runs this simple script
+which loads up the contents of another page.
+And this is the page that we're
+going to be storing in another S3 bucket.
+So, it's just using this script to get that
+html from the other S3 bucket.
+So, let's take a look at loadpage.html,
+and again, it's just a really, really
+simple piece of html code, just displaying,
+"The Page Has Successfully Loaded Cloud Gurus!."
+So, when you load your inset index.html
+what you should see on the screen
+is you should see the welcome message
+and then underneath you should see the message that says
+"This Page Has Successfully Loaded Cloud Gurus!"
+So, we're going to upload these
+three files into our S3 bucket.
+So, we just go in and select all
+three of those files, and upload.
+And we want to make this, uh, "grant public access"
+because it's going to be part of a website.
+So, we hit next, and upload.
+So, if all of ours have loaded successfully,
+we should be able to access them
+as though they were a website.
+So, let's go to "Properties"
+and into "Static website hosting."
+And, we're going to grab this static webhosting URL.
+And, that should take us straight to the index page.
+So, you can see that it's loaded the index page.
+And, it has also sourced the html from
+"loadpage.html" because it's displaying
+the second message down here as well.
+So, right now, all of these files are
+located in one single bucket,
+but we want to have our load page
+located in a different bucket,
+so that we can set up the cross origin resource sharing.
+So, we're going to go back into our original S3 bucket.
+And, we're going to delete that load page
+because we don't want it in there.
+And, we're going to create a new bucket.
+So, this one's going to be, "mycorstestbucket"
+and click "Next."
+Uncheck all of the public access protections,
+and click "Next" and then click "Create bucket."
+And then we go back into that bucket,
+hit "Properties" select "Static website hosting"
+"Use this bucket to host a website" "index.html"
+and "error.html" and hit "Save."
+So, then we want to go back into our bucket,
+and upload our "load.html" file.
+Hit "Next."
+Grant public read access, and upload.
+So, let's just check that we can access
+our loadpage.html using the website endpoint for our bucket.
+So, in order to do that, we go to
+"Properties" on the bucket, "Static web hosting"
+and we use this endpoint URL.
+And we need to specify the name of the file.
+Okay, so that's the website URL for our "loadpage.html."
+So, we just want to copy that
+because we need to update our "index.html"
+to know where to find "loadpage.html."
+So, we go back to our file, and replace that "loadpage.html"
+with the URL with the correct location.
+So, hopefully that's clear.
+We have "index.html" in one bucket,
+and it's referencing the "loadpage.html"
+which is located in another bucket,
+and it's referencing "loadpage"
+via the http endpoint address.
+So, hit "Save" and we go back to our original index bucket.
+We need to get rid of this old version,
+so I'm just going to delete it, because it's quicker,
+the quickest way to get rid of the old version.
+And, upload the new version.
+We need to grant public read access.
+Hit "Next" "Next" and upload.
+So, I expect it's only going to so is that first page.
+So, it's only going to show us the "index.html"
+and we shouldn't be allowed to access
+the contents of our second bucket
+even though that bucket is publicly accessible.
+So, let's just give this a go now.
+So, if we go to "Properties" "Static web hosting"
+and click on your static web hosting endpoint URL.
+So, it only allows us to access index.html.
+It doesn't give us access to the
+content of the second bucket,
+because we don't have CORS set up.
+And, if you're a Chrome user like me,
+you can view the browser error messages
+by just going to "view" "Developer" and
+hit "Javascript Console."
+And this is going to show us the error messages
+associated with this page, and straightaway
+we can see that our request has been
+blocked by the CORS policy.
+So, "No 'Access-Control-Allow-Origin' header is
+present in the requested resource."
+So, it's failed to load the resource.
+And, the server has responded with a status of 403.
+So, that's a really easy way to see
+the error messages in your browser.
+But, if you're not using Chrome,
+I can show you how it looks in Safari.
+So, here is the same webpage loaded into Safari.
+And, we just go into "Develop"
+and "Show Javascript Console."
+And, I'm just going to reload my page,
+and there we are, the error messages have appeared below.
+And, you just get a similar error message.
+So, it's "not allowed by Access-Control-Origin"
+"Request cannot load" our page due to access control checks,
+and it has failed to load our resource.
+And, if you're using Internet Explorer,
+then just load up the developer tools
+and find your Javascript errors.
+You should see a really similar error in there as well.
+So, it's not letting us access the "loadpage.html"
+because we don't have CORS set up.
+So, that is exactly what we're going to go and do now.
+So, in order to configure CORS,
+we need to go and find our website address
+for "index.html" because that is
+the file which is trying to access our load page.
+So, let's go into "Properties" "Static web hosting"
+and we need to copy this endpoint address.
+Then we go back into our CORS test bucket,
+go to "Permissions," and you'll see
+the CORS configuration button there, so we select that.
+And they've provided this example
+CORS configuration editor to help us get started,
+and I've also provided this sample policy
+as a resource in course as well.
+So, you can just download it and
+modify it to add your own origin.
+So, the one thing you need to add
+in here is the allowed origin.
+So, where it says, "star" delete that star,
+and add in your URL, hit "Save."
+And, if you've got anything wrong in the syntax,
+then it will tell you, but we've got
+no errors here, so that's fine.
+So, that should be everything that we need to do
+to enable the Cross Origin Resource Sharing.
+So, let's go ahead and test it.
+There we go, and it's worked.
+So, we're using the "myindexwebsite.S3.website" URL,
+so, if it isn't working for you it might be because
+you're using the wrong URL or you're using
+the address of the file in S3,
+but you actually need to use the endpoint website URL.
+So, you should see, "Welcome to the Index Page!"
+"This Page Has Successfully Loaded Cloud Gurus!!"
+So, hopefully you're seeing, you're seeing that message.
+So, Cross Origin Resource Sharing
+is a really good way to organize your website.
+So, for example, you could store image files in one bucket,
+Javascripts in another bucket,
+plain html in another bucket,
+and then use Cross Origin Resource Sharing
+to allow the resources from one bucket
+to access the resources from another bucket.
+By default one bucket or resource or bucket
+cannot access another, and, for security reasons,
+if universal access were allowed,
+that would leave your resources open to attack,
+leave you open to information theft.
+And CORS is the safe mechanism to allow controlled
+access between one resource and another.
+So, that's the end of this lab.
+I hope you enjoyed it, and if you've got time,
+please join me in the next lecture.

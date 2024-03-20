@@ -1,0 +1,82 @@
+Hello Cloud Gurus
+and welcome to this lecture.
+And, this lecture is all about S3 Security.
+So, it's going to be a really, really quick lecture.
+We're just going to cover off some of the main access
+control mechanisms that you get with S3.
+So, the different ways that we can allow access
+to S3 buckets.
+And then after this lecture,
+we're going to go straight into a lab.
+So, we're going to show you how to actually configure
+some of these access control mechanisms
+that we've been talking about.
+Now, but default, all newly created buckets within S3
+are private.
+And this means that only the owner of the bucket
+gets access to the bucket and its contents.
+So, only the owner can upload new files, read files,
+delete files, et cetera.
+And there is no public access by default.
+But, we might want to allow other accounts
+to access our objects within our S3 buckets.
+We might want to make our bucket publicly accessible
+for example.
+Or, we might have a certain user or set of users,
+or group of users,
+for which we want to enable access to put new objects
+or read the objects within our S3 bucket.
+And the way that we can do that is using Bucket Policies.
+And Bucket Policies are applied at a bucket level.
+So, this means that the permissions granted by that policy
+applied to all of the objects within the bucket.
+You can't attach a Bucket Policy to an individual object.
+But the Bucket Policies are really good for
+those situations where you have a group of files
+and they all need to be accessed by the same people.
+Now, our Bucket Policies are written in JSON
+which is the JavaScript objects notation language.
+So, it's based on JavaScript.
+But, it's pretty human readable.
+It consists of a list of key value pairs,
+and they actually provide a policy generator tool.
+So, that means that they make it really easy for you,
+you don't have to start writing JavaScript.
+You can use this policy generator tool
+to actually build out the policies that you need.
+And this is something that we're going to take a look at
+in the next lab.
+Moving on to Access Control Lists.
+So, these are applied at an object level.
+That means that we can apply different permissions
+for different objects within a bucket.
+So, we can define which accounts or groups are
+granted access.
+And also the type of access.
+So, read, write, or full control.
+So we can grant a different type of access to
+different objects within the same bucket.
+So it really gives you that fine grained access control.
+And this is really good for situations where you'd
+want to have different permissions
+for different objects
+for different users and groups.
+Then Access Control Lists is the one to use.
+And if you want to track the different access requests
+that are being made to a S3 object,
+you can configure access logs.
+And these are logs which will log all the different
+requests made to the S3 bucket every time a user makes a
+request to upload a file or read a file or delete a file.
+All of those activities will get logged into the access log.
+And this log could actually be written
+into another S3 bucket.
+So that covers off the main mechanisms for access control
+within S3.
+And don't worry if it doesn't make too much sense right now,
+the best way to learn it really is to start configuring
+some of this in the console.
+And that's exactly what we're going to do next.
+So, if you have time, please join us in the next lecture,
+and we're going to be logging into the AWS console and
+actually configuring some of this access control.

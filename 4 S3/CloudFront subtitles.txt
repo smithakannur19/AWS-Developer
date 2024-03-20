@@ -1,0 +1,230 @@
+Hello Cloud Gurus,
+and welcome to this lecture.
+And this lecture is all about CloudFront,
+which is Amazon's content delivery network.
+And this is a theoretical lecture,
+it's just to introduce the main concepts,
+so that you have a good understanding
+before we go ahead and build our own CloudFront distribution
+in the next lab.
+So, let's get started.
+So, what is a CDN?
+Well, a CDN or a content delivery network
+is a system of distributed servers or
+a network of distributed servers that deliver webpages
+and other web content to users
+based on the geographical locations of the user,
+the origin of the webpage, and a content delivery server.
+So what does that mean?
+Well, it's really a web service which speeds up
+the distribution of you static and dynamic web content
+so think, html, javascripts, image files,
+so any web content, and it's a much more efficient way
+for geographically distributed users to access your content.
+So, imagine you are running a website located in the UK,
+and you have a lot of users based all around the world,
+so you've got users in USA, South America,
+Africa, India, and Australia,
+and when a user browses to your website,
+their request is rooted through many different networks
+to reach your server.
+And the number of network hops and the distance
+the request needs to travel has a significant impact
+on the performance and the responsiveness of your website.
+And the network latency is going to be different
+for each different location.
+So, it's not going to be consistent geographically.
+So, for those users who are further away,
+they're going to experience worse performance,
+they're going to experience greater latency.
+So, for example, for users based in Australia,
+they might experience worse performance, greater latency,
+or they might think that the website seems less responsive
+that users based in, say, India for example.
+So, this is where the use of a
+content delivery network comes in.
+And we're going to use the same diagram that we used
+for Transfer Acceleration.
+So, if you remember, Transfer Acceleration
+utilizes CloudFront technology, but there is a difference
+between the two, and the main thing to remember
+is that CloudFront is focused on content delivery,
+so think allowing more efficient reads and downloads,
+whereas Transfer Acceleration is all about
+enabling faster uploads into S3.
+So, once again imagine you are running your website
+from London, and you have your users
+all geographically dispersed all around the world.
+So, instead of each user accessing the files directly
+between their geographical location and London,
+instead we introduce this concept called edge locations.
+And an edge location is simply a collection of servers
+which are in a geographically dispersed data centers.
+And these edge locations are used by CloudFront
+to keep a cache of copies of your object,
+so copies of your html files, your images,
+your content that you're serving,
+and this means that instead of requesting content
+from your server located in London,
+users can access that content from the edge location.
+So, instead of making the request to the London server,
+the user is making the request directly
+to the edge location, which is much closer geographically
+than the main server in London.
+So, once the request is made, the edge location
+forwards the request on to the server in London,
+so it downloads the files and it caches them locally,
+so that means that next time the user,
+or if another user comes along and wants to access
+the same object, they can then access that
+directly from the edge location.
+So, this provides a much faster response time.
+It means that your requests are only going
+to that local edge location,
+they're not going all the way to London.
+It dramatically reduces the number of network hops
+for each of your requests, which again improves
+the performance time, it gives you lower latency
+and higher transfer rates as well.
+So, objects are cached and they're cached
+for a period of time, and after that period of time is up,
+it's called a Time To Live, after that Time To Live is up
+the object are automatically cleared from the cache.
+Now, you can clear objects yourself,
+for example, if you had a new version of an object,
+a new version of an image, or a new version of a file,
+you can actually go in there and clear the cache yourself,
+to make sure that when your users try to access that file,
+they get the latest version.
+So, you can clear the cache yourself
+but you will be charged for doing that.
+So, let's take a look
+at some of the key CloudFront terminology.
+So, edge location, and this is the location
+where content is cached, you can cache content
+that you're trying to access from the website or from S3,
+but you can also write content into
+the edge location as well, so it's a two-way thing.
+They are separate to an AWS Region or Availability Zone,
+and actually there are a lot more edge locations
+than there are AWS Regions and Availability Zones.
+Now, origin, so this is really just the origin
+of all the files that the content delivery network
+is going to distribute.
+So, it could be an S3 Bucket, it could be an EC2 Instance
+running a website, it could be an Elastic Load Balancer,
+or it could be Route 53, but usually
+more often than not it's an S3 Bucket
+or it's an EC2 instance running a website.
+Distribution, so this is the term given to
+the name of the content distribution network.
+And that consists of a collection of edge locations,
+and there are two types of distribution.
+So firstly, we have Web Distribution,
+so that's used just for websites, so think HTTP, HTTPS,
+and we also have RTMP, which is Real-Time Messaging Protocol
+and that is used for streaming audio, video, and data
+over the Internet, so just think media streaming.
+So, CloudFront can be used to deliver you entire website
+including dynamic, static, streaming,
+and interactive content using AWS's global network
+of edge locations.
+So, that means requests for your content,
+they are automatically routed to your nearest edge location,
+and content gets delivered to you
+with the best possible performance.
+So, as we talked about, it could be used to
+optimize performance for users,
+so geographically distributed users all accessing
+the same website in London backed by S3,
+so instead of sending requests to that website in London,
+users will access their local edge location
+and hopefully the website will be cached there,
+and if it isn't, then the edge location will use
+Amazon's network to grab the files that have been requested,
+and the next time the user tries to access them
+they will be cached within the edge location.
+So, CloudFront is optimized to work
+with lots of other AWS Services,
+so S3 we've already talked about, EC2,
+so you could use EC2 to run your own website
+if you wanted to.
+It's also optimized to work with Elastic Load Balancing,
+and Route 53, and it also works seamlessly
+with any non-AWS origin server,
+so that means you could just really use your own server,
+within your own data center,
+and CloudFront will still work with that.
+For the two Cloudfront Distribution types,
+we have the Web Distribution used for websites,
+so that's HTTP, and HTTPS.
+For a Web Distribution, the origin or the place
+where your original files are stored can be either
+an S3 bucket, or an HTTP/HTTPS server.
+You cannot serve Adobe Flash multimedia content
+from a Web Distribution and for that
+you're going to need an RTMP Distribution.
+So, that allows you to stream media files
+using the Adobe Media Server,
+and the Adobe Real-Time Messaging Protocol,
+so streaming audio, video, and data, over the Internet.
+And we can also use CloudFront to accelerate
+the transfer of files into S3,
+and that is called S3 Transfer Acceleration.
+And Transfer Acceleration enables fast, easy,
+and secure transfers of your files,
+over long distances between your end users and an S3 bucket.
+So, this takes advantage of CloudFront's
+globally distributed edge locations.
+And as the data arrives at an edge location,
+it is then routed into S3 over an optimized network path.
+So, it's a much faster way
+for you to upload your files into S3.
+So, let's just have a look at an example.
+So, in this example we have our S3 bucket
+located here in London, and again,
+we've got our users geographically distributed,
+and just imagine all these users need to upload
+a load of files into this S3 bucket.
+So, instead of uploading directly to the bucket in London,
+which could take a long time for some of the users
+who are furthest away, they can upload their file
+into the CloudFront edge location.
+And then from there, the edge location
+will transfer that file into the London bucket
+using an optimized network route.
+So, using the fast networks within AWS.
+So, let's take a look at some of our exam tips.
+Firstly, remember the terminology.
+The edge location, and this is the location
+where your content is going to be cached.
+It's separate to an AWS Region or AWS Availability zone.
+It's not the same thing, and in fact,
+we have many more edge locations than we do
+regions and availability zones.
+The origin, so remember that's the location
+of all your files, the origin of all the files
+that the CDN is going to be distributing,
+and this may be an S3 Bucket, an EC2 Instance,
+a load balancer, or Route 53.
+Distribution, so this is the name given to
+the content delivery network, and that consists
+of a collection of different edge locations.
+And we have two different types of distribution,
+we have the Web Distribution, which is used for websites,
+and RTMP which is used for media streaming.
+Edge locations are not just read only, i.e.,
+you can put an object to them
+and have that transferred into S3.
+Edge locations are also used by S3 Transfer Acceleration
+to reduce latency for S3 uploads, and objects are cached,
+so they're cached for the lifetime of a Time To Live value.
+And when that Time To Live value expires,
+then the object is wiped from the cache.
+And you can clear cached objects at any time,
+but you will be charged.
+So, that's the end of the CloudFront lecture,
+and our next lecture is going to be a lab,
+and we are going to be setting up
+our own CloudFront content delivery network.
+So, if you got time, please join me in the next lecture.

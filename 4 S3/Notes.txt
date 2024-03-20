@@ -1,0 +1,21 @@
+CORS
+<CORSConfiguration>
+    <CORSRule>
+        <AllowedOrigin>*</AllowedOrigin>
+        <AllowedMethod>GET</AllowedMethod>
+        <MaxAgeSeconds>3000</MaxAgeSeconds>
+        <AllowedHeader>Authorization</AllowedHeader>
+    </CORSRule>
+</CORSConfiguration>
+
+New Public Access Settings in S3 Console
+https://acloud.guru/forums/aws-cda-2018/discussion/-LRkw1_INC28LdM-mSza/new_public_access_settings_in
+
+Using encryption for cross-account operations
+https://docs.aws.amazon.com/AmazonS3/latest/dev//bucket-encryption.html#bucket-encryption-update-bucket-policy
+
+Cross-origin resource sharing
+https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+
+Amazon S3 FAQs
+https://aws.amazon.com/s3/faqs/

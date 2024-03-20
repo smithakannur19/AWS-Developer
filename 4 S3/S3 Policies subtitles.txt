@@ -1,0 +1,388 @@
+Hello Cloud Gurus, and welcome to this lecture.
+And this lecture is going to be all about
+S3 access-control lists and policies.
+And we're going to be creating our very first S3 bucket.
+And we're going to upload a couple of files
+and we're going to have a play around
+with the access-control lists,
+which define the access control to individual files.
+And also S3 bucket policies,
+which define your access control and permissions
+on a bucket-wide basis.
+So, if you've got time, please join me
+in the AWS console now.
+So, here I am in the console
+and you will find S3, it's under storage.
+So, go ahead and click on S3.
+And the first thing that you're going to see
+is this dashboard.
+And this is the dashboard, it's a global dashboard,
+and it's going to show you all the buckets
+across all regions.
+So it will show you a global view.
+And if you don't have any S3 buckets created yet,
+you're not going to see any,
+but I already have one
+and it's located in the EU (Ireland) region.
+So I'm just going to go ahead and create a new bucket.
+And when I create a new bucket,
+of course you're going to see that in this global view
+as well.
+So, I'm just going to go ahead and click create bucket.
+And the first thing we need to do when we create a bucket,
+is give it a DNS compliant bucket name.
+So this needs to be a globally unique name.
+And of course,
+you might find that your first choice of bucket,
+is not available, so I'm going to go ahead
+and see if I can create one now.
+And I'm going to call it acloudguru-faye.
+And I'm going to create my bucket in the Frankfurt region.
+So click on next, and here on the next page
+it gives you a few different configuration options
+or properties.
+So, firstly they have versioning.
+Now, you can enable versioning on S3
+by clicking that checkbox.
+And this means that it's going to keep
+all of the different versions of an object,
+within the same bucket.
+So, this means that if you accidentally delete an object,
+the previous version will still be there in the bucket.
+I'm not going to enable that now.
+That next one is server access logging.
+And this means that you can log all of the access requests
+into your bucket.
+Say you want to keep a record of all the different access
+requests happening on your bucket,
+you want to do a security audit, for example.
+So, you can really easily enable that there.
+And you can also use tags, to track your project costs.
+So these can be completely defined by you.
+So for example, I could add the tag of projects, name.
+And the name of my project is the Phoenix Project.
+And if you're looking for something to read,
+there is actually a really good novel called
+The Phoenix Project, and it's actually a novel
+all about IT.
+And it's all about Dev Ops.
+So, it's about a really dysfunctional company,
+which is having a load of problems
+delivering a new project, and they finally see the light
+and move off to a Dev Ops approach.
+So, they start using continuous integration,
+and continuous deployment as well.
+And it's actually a really good read,
+believe it or not.
+So, moving down the screen, we can also enable
+object level logging.
+And this will actually record any object level,
+API activity, using CloudTrail.
+They do charge an additional cost for it,
+but it just means that you can log any activity
+that happens on the S3 API,
+and it's all going to be logged using CloudTrail.
+You can also enable default encryptions,
+by checking that box.
+You have a choice between the two different types
+of server-side encryption which are offered in S3.
+So you've gt AES 256.
+So that's 256 bit encryption, its server-side encryption,
+and it will use AWS S3 managed keys.
+It's also known SSE S3.
+And don't worry, because we are going to go through
+encryption in much more detail,
+later on in the course.
+And you've also got the option of using AWS KMS,
+which is again server-side encryption,
+but this time it uses the KMS manage keys instead.
+And that is known as SSE KMS.
+But we're not going to enable encryption.
+And then finally, the last option
+is around CloudWatch metrics.
+So this will allow you to monitor the requests
+in your bucket.
+Again, it is for an additional cost,
+but it will give you some performance metrics.
+Specifically for S3, if you're interested
+in seeing those metrics.
+And they will all be logged using CloudWatch.
+So, we're just going to stick to all of the defaults
+and hit next.
+And move onto the public access settings.
+So this is a fairly new feature of S3.
+So, if you've used S3 before, and you haven't seen
+the public access settings feature before.
+So these are additional settings which block public access,
+and they enforce that buckets
+do not allow public access to the data.
+And by default, it's completely private,
+there is no public access at all to your bucket.
+And if you want to actually enable public access,
+if you want to enable anonymous access to read or write
+objects into your bucket, then you will have to uncheck
+these default boxes.
+However to block all of the public access,
+that is really the recommended setting,
+and that is why they have introduced these additional steps,
+in order to actually enable public access.
+And then at the bottom of the permissions section,
+there is the option to grant the S3 log delivery group
+write accesses to the bucket.
+And that's the one that you would need to enable,
+if you actually want to enable server access logging.
+And server access logging will actually log
+all of the access requests into your bucket.
+So, none of these are enabled by default.
+So, I'm just going to keep it all to the defaults
+and hit next.
+And then this final screen that they show you,
+it just gives you an overview of all the options that
+we have selected.
+So, it just shows you your bucket name,
+and then all of the configuration options
+that we have selected.
+So if you're happy with that, then just go ahead
+and click create bucket.
+And hopefully that should successfully create your bucket.
+So let's go into our bucket.
+And you can actually create folders,
+you can create different folders within your bucket.
+And I'm going to create a new folder called images.
+And hit save.
+And another folder called notes, and hit save.
+So let's go into our images folder
+and upload our first file.
+So, just click on upload, add files,
+and I'm going to select an image from my local machine.
+Click next.
+And within this permissions section,
+this is where you can configure the access-control lists.
+So, remember access-control lists,
+they are on a per file or per object basis.
+So, of course, by default, we only have access for the owner
+of the file, which is me,
+but you can actually go in and access other accounts,
+and grant them read and write access to your objects.
+And you can also grant public read access, as well.
+But we're not going to do that, just going to go ahead
+and stick with the defaults and hit next, and next.
+And it's asking us to select which storage class we want
+to use.
+So the default is the standard S3, and that's designed
+for frequently accessed data.
+There's also these other options.
+So we have the standard IA.
+So this is the same durability as the standard S3,
+but it is designed for infrequently accessed data
+and they do charge you every time you access your data.
+There's also the one zone IA,
+and remember that's also the same as the standard IA,
+but it is only in one availability zone.
+So that means the data is not as highly available
+as your standard S3 option,
+but it is a much more cost effective option
+than the standard IA.
+It's about 20% cheaper, and it's really great for data
+which is infrequently accessed, but where you also
+do not need a high availability.
+And then finally the last option is the reduced
+redundancy.
+This is for frequently accessed data, which is non-critical
+actually lost the data, because you would be able to
+easily recreate it.
+And of course, it's not recommended any more.
+And in fact, if you do select it,
+they give you this message, saying it's not recommended,
+the standard storage class is more cost effective.
+So we're going to stick with the standard class.
+You can also choose your encryption method,
+so you can protect your data at rest,
+using server-side encryption,
+and you've got the two options,
+using the S3 master key
+or the AWS KMS managed master key as well.
+So I'm just going to keep that to the default.
+You could create meta-data, which is of course,
+data about data.
+So we can add something like
+content type, for example.
+The content type is going to be a JPEG.
+I'm going to click on save for that.
+And you can also add tags.
+So you can add department and it's going to be
+part of the development department.
+I'm going to go ahead and click next.
+Save my tag, and click next, and click upload.
+So, that is our file uploaded,
+and if we click on the file, we can try and access the file.
+And there's actually two different ways
+of accessing the file.
+First of all, we can open the file,
+and it's just a picture of me,
+looking very happy, holding one of our brand new
+Cloud Guru T-shirts, that we had delivered a few weeks ago.
+I'm going to go back to the console.
+And then the second way of accessing this file
+is actually using this HTTPS link.
+So, if I select this link and open it in a new browser tab,
+we're actually going to get access denied.
+And the reason we get access denied is because,
+by default, all S3 buckets,
+are created without public access.
+So they deliberately disable public access by default,
+on all buckets, when you first create them.
+And of course,
+when we try to access the files from the browser,
+that's really the same as an anonymous access request,
+so it's not using any AWS credentials to actually determine
+whether we can access the file or not,
+it's actually treated as an anonymous access request,
+because it's just coming through the browser.
+So, how do we make this file publicly available?
+Well, I'm going to try adding another file,
+and try and make that publicly available,
+and let's see how to do that.
+So come back to the console.
+Go back to our bucket.
+And go to upload a notes file this time.
+So, add files, select a text file, click next.
+And I'm going to select grant public read access
+to this object.
+And this is using the access-control list,
+for that object.
+So click on next, next and upload.
+Now you can see here, we've actually had an error,
+with trying to upload our public file.
+So, I'm going to click on error, click on upload,
+and see if we can get the message.
+So it just says that's bene forbidden.
+And the reason this has been forbidden
+is because we are not allowed to upload
+a publicly accessible file due to our bucket policies.
+So, lets close that down and go back into our buckets.
+Go to permissions and it's going to be under
+this public access settings,
+and I'm going to edit the public settings.
+And I'm going to de-select all of these protections
+which block new public ACLs.
+They block public access granted through public ACLs,
+and they block new public bucket policies
+and block public and cross account access
+if a bucket has bucket policies.
+So, I'm going to go ahead and save.
+And they ask you to confirm.
+And then I'm going to go back to my bucket,
+and try again to upload that file.
+Grant public access, hit next, next and upload.
+So that has successfully uploaded.
+And we're going to click on the file.
+We can open it using the open button,
+and of course, when we use that button, S3 is using
+the credentials that you logged into the console with.
+So it's using your AWS credentials
+to determine whether or not
+you are allowed access.
+And in this case, it knows I'm the owner,
+and it knows that I can access that file.
+And then the second point of accessing is using
+this HTTPS link
+and I'm just going to open that up in a new tab,
+and see if we can get access to that file.
+Yes, so we got access to the file,
+we're not getting the access denied,
+and that is because we updated our public access
+policy, for the entire S3 bucket,
+and we also selected public access for the file itself,
+which is managed underneath by an access-control list.
+So let's just go buck to our bucket.
+Go back to our images file,
+and see if we can access this file using the browser.
+And we still do have access denied.
+So the reason we have access denied,
+is even though we've updated our bucket policy,
+to allow public access to be defined
+on our files, we have only configured public access
+on a file level, using the access control list
+for our text file.
+So that means this file is still not
+publicly accessible.
+So just remember, really, the access-control list,
+they're at an individual object level,
+and they give you fine-grained access control,
+for each different object,
+within your bucket.
+But let's take a closer look at the bucket policies.
+So I'm going to come back to my bucket.
+Click on permissions and bucket policies.
+And we get this policy editor,
+where you can go in and create your own policy, using JSON.
+But they provide you this really good policy generator
+which allows you to really easily create bucket policies.
+Without writing them from scratch basically.
+So the first thing you need to do,
+with this generator is,
+you select the policy type.
+So the type is going to be S3 bucket policy.
+The effect is going to be allow.
+The principal, so this is going to be
+the entity which you are allowing, or denying access to.
+So, what is the entity
+that this policy is going to be applied to.
+So, for example,
+this could be an identity access management user.
+It could be another S3 bucket, or another S3 resource.
+So in this case, I'm just going to add another
+identity access management user.
+So I'm going to come back to my management console,
+and I'm going to open that up in another tab,
+and I'm going to go to,
+identity access management,
+go to my users, and I've actually already got
+a bunch of users already created.
+So I'm going to select one of my users.
+And I'm going to copy the ARN, of my user.
+Come back to the policy generator and I'm going to add that
+user as my principal.
+So, it's going to be this user, that we're applying this
+bucket policy to.
+Make sure the Amazon S3 service is selected.
+And then moving down, we can select an action.
+So I'm just going to select, get bucket policy.
+You can just select any action.
+And the Amazon resource name, down here,
+is going to be the resource
+that we are applying the permissions to.
+So it's going to be the name or the Amazon resource name,
+of our bucket.
+So if we come back to the S3 management console,
+they've helpfully included it up here,
+on the policy editor.
+So I'm just going to copy that,
+come back to our policy generator,
+and paste that in.
+So, once we've done that, we can just click add statement,
+and then, if we want to add additional statements,
+we can add additional statements,
+if not we can just hit generate policy.
+And that will generate the JSON code
+to create that policy for us.
+So if we now want to apply that policy to our bucket,
+we just copy the JSON code, come back to our policy editor,
+and we can paste it into the policy editor,
+hit save, and that will apply the bucket policy,
+on a bucket-wide basis.
+So that is the end of this lecture.
+So we've created our first S3 bucket.
+And remember a bucket is a container for all the files
+or objects that you upload into S3.
+All files are private by default,
+and all buckets are private by default.
+And we can use access-control lists,
+to set the permission on individual files,
+but we use bucket policies, to define permissions,
+on a bucket-wide basis.
+So that is the end of this lecture,
+if you have any questions, please let me know.
+If not, feel free to move onto the next lecture.
+Thank you.
