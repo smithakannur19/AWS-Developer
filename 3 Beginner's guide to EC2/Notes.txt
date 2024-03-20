@@ -1,0 +1,24 @@
+pricing calculator
+https://calculator.aws/#/
+
+I don’t see the same RDS Create Database screen as the course
+https://help.acloud.guru/hc/en-us/articles/360001078435
+
+Configuring the AWS CLI
+https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html
+
+Named profiles
+https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
+
+AWS CLI Command Reference
+https://docs.aws.amazon.com/cli/latest/reference/s3/index.html
+
+Script
+#!/bin/bash  
+yum install httpd php php-mysql -y  
+yum update -y  
+chkconfig httpd on  
+service httpd start  
+echo "<?php phpinfo();?>" > /var/www/html/index.php
+cd /var/www/html  
+wget https://s3.amazonaws.com/acloudguru-production/connect.php

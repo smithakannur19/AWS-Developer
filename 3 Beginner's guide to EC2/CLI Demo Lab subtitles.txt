@@ -1,0 +1,291 @@
+Okay, hello Cloud Gurus and welcome to this lecture.
+In this lecture we're going to look at the CLI
+or the command line interface.
+we're going to interact with AWS using the CLI inside
+our EC2 instance that we created earlier.
+So you're going to need to log into your EC2 Instance.
+Okay, so here I am in the AWS Console,
+I'm going to go over to services and I'm going to click
+on EC2 under compute, all I want to get
+is my public IP address because I don't remember it.
+SO I'm just going to copy this into my clipboard,
+then I'm going to open up terminal
+and connect to this EC2 Instance.
+Okay, so here I am in my terminal window,
+I'm just going to type in SSH EC2-user and then @
+I'm going to paste in my public IP address.
+And then I think it's called my new key pair.pem.
+And I'm going to go ahead and hit enter.
+And that has now logged me into my Amazon Linux AMI.
+I'm going to elevate my privileges
+to route by typing sudo SU.
+Then I'm going to go ahead and clear the screen.
+So the next thing I want to try and do
+is use the command line.
+So whenever you're using the command line,
+you always start with AWS.
+And then you start with the service that you want to use.
+So let's try AWS S3, and we're going to say LS.
+So we want to list everything in our S3 buckets.
+Now straight away, it says unable to locate credentials,
+you could configure credentials by running AWS Configure.
+So if we run AWS configure, it's going to ask us
+for an access key ID and secret access key.
+And in order to generate these,
+we need to go back to the AWS console.
+So I'm back in the AWS console, I'm going
+to go over to services, and then I'm going to go down
+to security, identity and compliance,
+and I'm going to click on identity access management.
+Inside here, what I'm going to do,
+is I'm going to go ahead and create a new user.
+So you click on user, and we can go add user
+and the username we're going to add,
+let's call it Developer1.
+So Developer1.
+And we're going to give them programmatic access here.
+So this is where we're basically generating an access key ID
+and secret access key for the AWS API, CLIs
+and SDKs and other development tools.
+Now if I don't click this button here,
+they won't be able to log into the management console,
+which is what I'm currently logged into right now.
+And I'm going to just leave it a programmatic access.
+So I'm going to go ahead and hit next to add my permissions.
+Now in here, it says set permissions for developer.
+So you can add a user to a group.
+It's probably the best thing that we want to do,
+is we want to create a group for our developers.
+So let's call this our developer group.
+So developers, and we need to then give them a policy.
+Now in here, administrator access is basically God Mode.
+So it gives you full access to AWS services and resources.
+Now, whether or not you want your developers
+to have full admin access to the AWS console
+really depends on your own corporate sort of governance.
+For the ease of this demo,
+I'm going to go ahead and give them full access,
+Of course you might not want to do that,
+because they could go in
+and start doing anything inside the AWS Console.
+So it's really down to your company policy.
+So I'm going to create this group.
+And that's created my group called developers.
+And then I'm going to add a user to this group.
+So go add a user to this group.
+The UI can be a little bit tricky.
+If you just scroll down, you'll see it
+down here it's hit next review.
+And so we're going to review, we've created our user
+developer one, we've given them AWS access type
+programmatic access with an access key,
+and we're going to add them to our developers.
+So let's go ahead and create our user.
+So we have now created our user,
+if we go over and click down here,
+sorry, over here, we can see the access key ID.
+So let's copy this into our clipboard
+and go back over to terminal.
+So I'm back in terminal
+I'm going to paste it in and hit enter.
+Going to Alt + Tab back over and grab my secret access key.
+So grab my secret access key and I'm going to paste it in
+here. Don't worry, I'm going to delete this user
+as soon as I finished recording this video, so that you
+won't be able to log in
+and start mining Bitcoin using my credentials.
+So I pasted that in here, default region,
+this is the default region in which
+this user creates resources.
+So if my default region was EU West one,
+and then I decided to make an S3 bucket,
+that bucket if I don't specify a region
+will exist within EU west 1.
+And if you just leave this blank, I believe it is
+the default region is Northern Virginia.
+So what I'm going to do is just leave it blank
+and hit enter and default output format.
+Again, I'm just going to hit enter and leave that as blank.
+So what I'm going to do now, well let's not clear the
+screen. Let's try AWS S3 Ls, and run this command again.
+And you can see now that it hasn't given us
+any error messages, is just saying
+that there's nothing in our S3 buckets.
+So why don't we go ahead and create it. So AWS
+S3 going to make a bucket, it's going to be called S3.
+And now we just need to give it a valid bucket name.
+So I'm going to call it a cloud guru
+one, two, three, four, and then my initials RK.
+Hopefully, that will, there we go make a bucket.
+So if I now type in AWS S3 Ls,
+you'll be able to see my bucket a cloud guru
+one, two, three, four minus RK.
+So there is the bucket.
+And what I could even do now if I just do echo,
+hello cloud gurus, and then I output that
+to hello.txt, that will create
+a little file called hello.txt, and inside that file
+will be hello cloud gurus.
+And then what I can do is I can just do AWS S3
+and then copy, and then I want to copy hello.txt to S3.
+And then it was called acloudguru1234-rk.
+And that should hopefully, no it didn't work
+because you can see I've misspelled a cloud guru.
+So I'm just going to go over and fix that up.
+There we go one, two, three, four.
+And there we go, it's uploaded to our S3 bucket.
+And we can actually see that by typing AWS S3, and then LS.
+And then S3 is the name of our bucket, acloudguru1234-rk.
+And that will basically list everything inside the bucket.
+Let's go over and just have a quick look
+at this text file in the AWS Console.
+So I'm back in the AWS Console,
+I've come out of that IAM screen and the one thing to note
+that when you do generate an access key ID
+and secret access key, you'll only be able to see it once.
+If we go back in to IAM, we go over to our users.
+And if we click on our user Developer1,
+we go over to security credentials, we'll see in here
+that we've got our access key ID,
+but we can't see the secret access key anymore,
+and there is no way to see it again.
+So when you do generate it, just bear in mind
+you only ever see at once, so you might want to save it
+somewhere very, very safe.
+In the next lecture will look at
+why you want to save that somewhere very, very safe.
+So one thing I am quickly going to do
+is I'm going to make this inactive.
+So that is now inactive.
+What I can now do is I can delete it
+by clicking the little X, go ahead and hit delete.
+And now that this particular user does no longer has
+access key ID or secret access key.
+You can recreate it just by clicking in here create,
+and that will generate it again.
+And again, you'll only ever see this once.
+If I quickly just go back over to my terminal window.
+Okay I'm back in my terminal window.
+If I type in AWS S3 and then LS,
+you'll see that we now have an error,
+and it says invalid access key ID,
+then that's because I have deleted it.
+So I now have to go back and run AWS configure
+and then that will allow me to enter in
+a new access key ID and secret access key.
+I'm going to leave this now.
+Let's go back over to S3.
+Okay, so I'm back in the console,
+I'm just going to click on S3.
+So you should be able to see it.
+Here it is in here acloudguru1234-rk.
+Note that the region is US East 1 so Northern Virginia.
+And if we click in here,
+we'll be able to see our little txt file.
+We haven't made this public,
+so let's just make it public now and click on it.
+You see up here it says hello cloud gurus,
+could be a little bit hard to read, but there we go.
+So if you just go over to
+docs.aws.amazon.com/CLI/latest/index.html
+or just type in AWS CLI commands
+into Google, this will come up.
+And in here, you can get all your CLI commands
+for all the different services.
+And you'll see there's an awful lot of them.
+So we were using AWS and followed by the service.
+So S3, and then you can click in here,
+and you can see all the different ones
+so we used MB, which was make bucket.
+And we also use the copy command.
+And you can go through and have a look at
+all the available commands in here
+and different examples of how to use them.
+Now, don't worry, you're not expected to understand
+the command line in any sort of
+very deep level going into your exam.
+But you should definitely know some of the basic commands
+certainly around S3, especially if you're going
+to work with AWS regularly.
+So what are my exam tips?
+Okay, so what are my exam tips?
+Well, let's start with least privilege.
+You should always give your users
+the minimum amount of access required.
+So your developers might not need admin access,
+they might just need admin access over S3,
+or admin access over EC2.
+It's entirely up to you.
+At A Cloud Guru we do give our developers
+a full administrator access to the AWS Console,
+because we do trust them.
+But it's entirely up to your organization's
+sort of risk strategy.
+The next thing is to always create groups
+and then assign your users to groups.
+So we created a group called developers
+and we put our first user in there.
+You might have a separate group for our data scientists.
+We might have a separate group
+for our human resources people,
+or people who are using AWS in other ways.
+And so always create groups,
+and then assign your users to groups.
+And your users will automatically inherit
+the permissions of the groups.
+And the group permissions
+are assigned using policy documents.
+So bear that in mind as well.
+In terms of your secret access key,
+you're only ever going to see this once.
+If you do not save it, you can delete the key pair.
+So this is the access key ID
+and secret access key and then regenerate it.
+And you'll then need to run AWS configure again,
+in order to configure the CLI.
+And do not just use one access key.
+So don't just create one access key ID and secret access key
+and then share that around with all of your developers.
+Because if someone leaves the company on bad terms,
+then you're going to need to delete the key
+and create a new one.
+And every developer would then need to update their keys.
+So instead, just create one key pair per developer.
+And something you should also bear in mind,
+is people have written scripts to scan GitHub
+for access key ID and secret access key.
+So if you do put it in any of your code,
+and you upload it to GitHub, assume straight away
+that that has been compromised.
+So do not save the secret access key ID,
+and your access key ID inside GitHub or inside your code.
+And we're going to come on to another lecture
+where we can see how to not use them at all.
+And then finally, you can use the CLI on your PC.
+So you can actually go and install this on your Mac,
+Linux or Windows PC.
+And then you can actually use S3 to store your files
+and I personally do this up in the cloud.
+It means that when I'm using my Mac or using my laptop,
+or I'm at home using my Windows PC,
+I always have access to my S3 bucket
+and all my files inside it.
+In order to find out how to do that,
+just type in installing AWS CLI
+and then there's three different installation instructions
+depending on whether or not
+you're using Mac, Linux or Windows PC.
+So bear that in mind.
+So in the next lecture, what we're going to look at
+is we're going to look at how not to use
+secret access key and access key IDs.
+We're actually going to look at how we can use roles.
+We have gone into that a little EC2 Instance,
+and we did terminate that key pair.
+So that key pair is no longer valid.
+I can no longer use the CLI.
+So in the next lecture,
+what we're going to look at is roles.
+So if you've got the time,
+please join me in the next lecture.
+Thank you.

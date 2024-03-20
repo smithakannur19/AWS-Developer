@@ -1,0 +1,382 @@
+Okay, hello Cloud Guru's
+and welcome to this lecture.
+In this lecture we're going to look at
+Back ups, Multi-AZ, and Read Replicas with RDS.
+Now it doesn't matter what exam you're doing,
+whether it's Solutions Architect Associate,
+Developers Associate, or SysOps Administrator Associate.
+Having a clear understanding of the difference
+between Multi-AZ and Read Replicas,
+will pick you up at least three or four points on your exam.
+In some exams it will pick you up more,
+it really depends on the exams.
+You need to have a clear understanding
+of what that is going into the exam.
+Before we get onto that though,
+let's just start with some backups.
+So, there's two types of backups for AWS.
+There's the automated backups
+and there's database snapshots.
+Now automated backups will allow you to recover
+your database to any point in time,
+within a retention period.
+And the retention period can be between one and 35 days.
+Automated backups will basically take a full daily snapshot
+and will also store transaction logs throughout the day.
+And then when you recover, AWS will first
+choose the most recent daily backup,
+so it will choose the snapshot that is most recent,
+and then apply those transaction logs
+that are relevant to that day,
+and that's how we do a restore with automated backups.
+And this basically allows you to do a point in time
+recovery down to a second,
+within the retention period window.
+So the retention period window is between one and 35 days.
+Now the cool things about automated backups
+is they're enabled by default.
+The backup data is stored on S3
+and you're going to get free storage space
+equal to the size of your database.
+So let's say you have an RDS instance of 10 gigs,
+you're going to get 10 gigs worth of storage,
+that's free on S3.
+And backups are taken within a defined window.
+During the backup window, storage IO may be suspended
+while your data is being backed up
+and you may experience some elevated latency.
+And you saw in the last lecture where we
+basically defined our backup window.
+We left everything as the default values,
+but when you go and create your database,
+you can define the backup window.
+You can also edit it for your existing databases.
+Moving on to snapshots.
+So, snapshots are simply what you would think they are.
+They're basically a snapshot of the database,
+so just like a Polaroid takes snapshots,
+when you do a database snapshot
+it's going to take a snapshot of the database.
+It's always done manually, so they're always user initiated,
+and they will always be stored
+even after you delete the original RDS instance.
+If you delete the original RDS instance,
+your automated backups will also be deleted
+with it as well.
+Whereas DB Snapshots are basically set as a standalone file
+and you can delete the RDS instance without having to worry
+about those snapshots being deleted as well.
+Moving on to restoring backups.
+Whenever you restore either an Automatic Backup
+or a manual Snapshot,
+the restored version of the database will be
+a new RDS instance with a new DNS endpoint.
+So when we do a restore, let's say that this is
+our DNS endpoint for the original database,
+so we've got original.eu-west-1.rds.amazonaws.com.
+When we do a restore it's going to have a new DNS endpoint,
+so they are basically completely separate databases
+with completely separate DNS endpoints.
+Now before we have a look at how we go and do this,
+I just want to talk a little bit about encryption.
+Encryption at rest is supported for MySQL, Oracle,
+SQL Server, PostgreSQL, MariaDB and Aurora.
+So everything now supports encryption at rest.
+It's done using the AWS KMS, or Key Management Service.
+We cover KMS in an awful lot of detail in
+the Certified Security Specialty Course.
+So if you do want to go on and get security certified,
+which is really valuable right now,
+definitely check out that course.
+So once your RDS instance is encrypted,
+the data stored at rest in the underlying storage
+is encrypted, as are all of its automated backups,
+read replicas, and snapshots.
+So once you encrypt a database, anything you do with
+that database in terms of making a copy
+of that data is going to be encrypted as well.
+And at the present time,
+encrypting an existing DB Instance is not supported.
+To use RDS encryption for an existing database,
+you must first create a snapshot
+and then make a copy of that snapshot
+and encrypt the copy, and we will look at how to do that
+and general backups right now.
+Okay, so here I am in the AWS console in the RDS section,
+which sits under databases,
+and what I want to do is I want to go over to that
+database instance that we launched in the very last lecture.
+So go to acloudguru, and click in here.
+In here we've got out instance actions,
+so in here I can create a read replica, aurora read replica.
+We can take a snapshot, restore to a point in time,
+migrate latest snapshot, et cetera et cetera.
+I'm going to explain what read replicas and multi-AZs are.
+You can also modify the database, if you click on modify.
+In here you'll be able to scroll all the way down
+and change the backup retention period,
+so we can go from seven days all the way down to 35 days.
+We can also go and change the backup window.
+It is in UTC time, so you can say
+I want it to start at 2am or 2:16am UTC
+and have a window for half an hour.
+So you can change that all in there.
+So let's go and actually, let's go click on snapshots.
+In here we can see our automated snapshots,
+so these are snapshots.
+This was first snap that was taken
+when I first created this database.
+If I wanted to go and do a point in time,
+I'd go back over to my instances, click in here,
+and I can go to instance actions
+and I can go to restore to a point in time.
+Essentially, what that's going to do, if I click in here
+and go to custom, I'll be able to do the date, the time,
+and that's all again in UTC
+and I can go right now to the very second. As I
+said, what it's going to do is first restore that snapshot
+and then it's going to apply all the transaction logs
+to that snapshot, and then it will bring it back
+to a point in time down to the second.
+So it is really, really cool.
+Let's have a look at one last thing before we
+move on to read replicas vs. multi-AZ.
+If I click on instances and if I click in here,
+I can go instance actions and I can take a snapshot.
+Let's go and take a manual snapshot.
+I'll call in "acloudguru-manual-snap."
+And go ahead and hit take snapshot.
+That is now creating my snapshot.
+I'm going to pause the video
+and just wait for this to come up.
+Okay, so in just going to refresh the page.
+Hopefully that is finished being created now.
+And there were we go, it is now available.
+If I click in here, what I can do is I can go to actions
+and I can go to copy snapshot.
+When I go to copy snapshot I can actually scroll down,
+you can see I can enable encryption.
+So that's how we would turn encryption on
+and basically create a copy and from that copy,
+that encrypted copy of the snapshot,
+I would then deploy a new RDS instance.
+So that's important to remember for your exam.
+Now let's learn the differences between multi-AZ
+and read replicas.
+So, what is Multi-AZ?
+Well, here we've got an Elastic Load Balancer
+with some EC2 instances behind it.
+And they're all pointing at an RDS database.
+This RDS database is in US-EAST-1A.
+So these EC2 instances, if they make any rights
+to US-EAST-1A, so any changes to that database,
+what will happen is those changes will be
+synchronously replicated to US-EAST-1B.
+And US-EAST-1B will be an exact copy of US-EAST-1A.
+Now it's important to understand that
+this is for disaster recovery only.
+So in the event that we lost US-EAST-1A,
+it will automatically fail over to US-EAST-1B.
+So how does that work?
+Well if you remember in the last lecture
+we had the connect.php file
+and we had this thing called the hostname.
+The hostname simply contained our DNS endpoints,
+so acloudguru.c1xwmse1klxt.eu-west-1.rds.amazonaws.com.
+So that is simply a DNS address.
+That DNS address is actually public and publicly available.
+And what will happen is that if you lose your
+primary database amazon will detect that
+and it will update the DNS address to point to the
+IP address of your multi-AZ copy of your database.
+So it's really important to understand that you
+never deal with IP addresses when dealing with RDS,
+you always just use this DNS endpoint
+and this DNS endpoint will fail over automatically
+to your secondary multi-AZ database.
+So multi-AZ allows you to have an exact copy
+of your production database in another Availability Zone.
+And AWS handles the replication for you,
+so when your production database is written to,
+this write will automatically be synchronized
+to the standby database.
+And so in the event of database maintenance
+or DB instance failure, or an availability zone failure,
+amazon RDS will automatically fail over to the standby,
+so that the database operations can resume quickly
+without administrative intervention.
+So it fails over automatically,
+your down time is going to be very very limited,
+probably only a minute or so.
+So it's really really critical to remember
+that multi-AZ is for disaster recovery only.
+It is not primarily used for improving performance.
+If you want performance improvement,
+you're going to need read replicas,
+and it's really critical to understand
+that for any of the associate exams.
+If you want disaster recovery, you're using multi-AZ.
+If you want performance improvement,
+you're going to use read replicas.
+Before we go on to what a read replica is,
+just remember that multi-AZ databases are available for
+SQL Server, Oracle, MySQL Server, PostgreSQL, MariaDB.
+You could argue Aurora as well.
+Aurora is actually built into the entire database design.
+I haven't put it here as a bullet point,
+but it definitely has, Aurora by default
+is spread across multiple availability zones.
+So you don't need to turn on multi-AZ for Aurora,
+but for the other RDS instances,
+you can definitely turn it on.
+So, moving on to read replicas.
+What is a read replica?
+Well let's take our Elastic Load Balancer
+with our EC2 instances,
+as we had a few slides ago.
+And they're basically doing a write to a RDS database.
+Now when you set up a read replica, these writes are going
+to be pushed out to other copies of the database.
+And you can have five read replicas
+per production database by default.
+And so why would you do this?
+Well let's say that 90% of your traffic is read traffic,
+and you've got all these EC2 instances
+and 90% of what they're doing
+is just doing reads from the database.
+This could be like a very popular WordPress blog
+or a popular Joomla site or something like that.
+To be honest, it depends on the work load,
+but a lot of applications, a lot of it is read.
+People are reading more than they're
+contributing on the internet, generally speaking.
+So, you could scale this out by instead of having those
+EC2 instances going to the production database,
+the primary database they read from the read replicas,
+or you could have it so that one reads from the production
+and the other two read from read replicas, whatever.
+This is a way of scaling out your database,
+so that you take the load off the primary database
+and you spread that load across one or more read replicas.
+You can also have read replicas of read replicas.
+You will get some replication latency if you do do that,
+but you could have a read replica in another
+availability zone or you could have a read replica
+in another availability zone, or you could have a
+read replica in a completely different region,
+it's completely up to you.
+So read replicas allow you to have a
+read-only copy of your production database.
+This is a achieved using Asynchronous replication for the
+primary RDS instance to the read replica,
+and you use read replicas primarily for very
+read-heavy database workloads.
+So use read replicas to scale out.
+Now I did say earlier that multi-AZ is synchronous
+whereas read replicas are asynchronous.
+You don't actually need to worry about that
+at any of the associate level questions.
+When you start doing the professional level questions
+they'll try to confuse you and try to test whether you know
+which is synchronous and which is asynchronous,
+but you won't have that at the associate level.
+So read replica databases are currently available for
+MySQL Server, PostgreSQL, MariaDB and Aurora.
+So it's available for four.
+They are currently not available for
+SQLServer or for Oracle.
+So read replicas,
+they used for scaling not for disaster recovery.
+If you need to scale out, use read replicas.
+If you need disaster recovery, you want multi-AZ.
+You must have automatic backups turned on
+in order to deploy a read replica.
+You can have up to five read replica copies of any database,
+and you can have read replica of read replicas,
+but watch out for latency.
+Each read replica is going to have its own DNS end point.
+You can have read replicas that have multi-AZ enabled.
+This is a very new feature that was
+released in January 2018.
+So you can have a read replica in a completely different
+availability zone or completely different region
+that has multi-AZ turned on.
+And you can create read replicas of
+multi-AZ source databases.
+So in other words, if you have multi-AZ turned on to your
+RDS instance, you can still go in and create read replicas.
+It doesn't break it at all.
+And then read replicas can be promoted
+to become their own databases.
+Now this will break the replication,
+but this can be very very useful if you
+need a copy of your database.
+Maybe you've got too many read replicas,
+you're not using enough of them
+and you want to do some other sort of work on your databases
+and you don't want to do this on your production database.
+You can promote your read replica to
+become its own database.
+This will break the replication however.
+And then finally you can have a read replica in
+another region, it doesn't have to be tied down
+to the region in which your production database is in.
+Let's go have a look at how we can enable multi-AZ
+and read replicas in the console.
+Okay, so here I am, back in the AWS console.
+If I go down to databases,
+and click on Relational Database Service,
+this will open up the RDS splash screen.
+I'm going to go and grab the instance that we were
+using previously, so acloudguru.
+I'm going to go in and click on it so it's selected,
+and then go to instance actions.
+Straight away I can click on create read replica.
+You can specify the destination here,
+so it can be completely different region.
+You can specify the subnet groups, the availability zones,
+whether or not it's publicly accessible or not.
+You can actually enable encryption on your read replicas,
+even if the primary database is not encrypted.
+You can select your instance classes here.
+You can make you read replica multi-AZ.
+And then you can just basically go and set up monitoring.
+You can have enhanced monitoring on it.
+You can have logs exported to CloudWatch logs
+from your read replicas as well.
+I'm going to go ahead and hit cancel.
+I don't really need to create a read replica.
+The other way you can turn on multi-AZ is if
+you just go over to instance actions, go to modify,
+and here you can actually just specify
+that you want multi-AZ deployment.
+And the way this would typically be done is,
+let's say this is my test and dev database
+and my site is almost ready to go live,
+but I didn't want to have multi-AZ on test and dev.
+What I can do it go into my database and make it multi-AZ
+and thus promoting it to become my production database.
+So that is read replicas and multi-AZ in a nut shell.
+You do definitely have to have a clear understanding
+of the two going into any associate exam
+and pretty much any professional exam.
+You will always get marks for knowing the
+difference between the two.
+Remember read replicas are for scaling,
+they're for performance enhancement.
+Whereas, multi-AZ is for disaster recovery.
+You can go back now and delete this RDS instance,
+we're not going to be using it anymore.
+So just go over to your instance actions
+and go ahead and hit delete. I'm not
+going to create a final snapshot, you can if you want.
+If you aren't going to create a final snapshot its says
+"I acknowledge that upon instance deletion,
+all my automated backups, including system snapshots
+and point-in-time recovery will no longer be available"
+so it will delete all the automatic backups when you
+delete your RDS instance.
+So that is it for this lecture guys.
+If you have any questions please let me know.
+If not, feel free to move onto the next lecture.
+Thank you.

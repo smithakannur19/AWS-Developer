@@ -1,0 +1,165 @@
+Hello,
+Cloud Guru and welcome to this lecture where we're going to take a closer look
+at
+EBS volumes and EBS stands for elastic block
+store and EBS volumes are storage volumes,
+which you can attach to your
+EC2 instances. So here is our EC2 instance and here is our EBS
+volume attached to our EC2 instance.
+So they are storage volumes or disks.
+So just think of the disk in your laptop or in your local computer
+and when you first launch an EC2 instance,
+it has at least one EBS volume attached,
+and this is where your operating system is going to be installed.
+So Windows or Linux,
+and then you can add more volumes depending on the needs of your application.
+So how do you use these EBS volumes? Well,
+you use them the same way you would any system disk,
+for example, you could create a file system and store some files in there,
+maybe configuration files or any files you like.
+You could use an EBS volume to run a database,
+run an operating system, store any type of data that you like,
+and you can install your applications on them as well.
+So let's take a look at some of the features of EBS and one of the great
+things about it is that it's designed for mission critical
+production workloads,
+but what makes it so great for production and mission critical workloads?
+Well,
+one of the great things about it is that it's highly available and when you
+provision an EBS volume,
+it's going to be automatically replicated within a single availability
+zone, which protects against hardware failures.
+Now you don't need to configure this yourself.
+It's something that happens under the hood.
+So it's highly available and replicated by default
+and in addition to that, EBS volumes are also highly scalable.
+So you can dynamically increase the capacity and even change the type of
+volume with zero downtime and zero performance impact for your live
+systems. And I think that's pretty cool.
+So while we're talking about capacity and volume types,
+let's run through the different options that are available and you'll need to
+understand the different types of EBS volume for the exam.
+So let's begin with general purpose SSD, and this is an SSD,
+so it's a solid state disk,
+and it's also known as GP2 and with general purpose GP2 you get
+a balance of price and performance.
+So it's a reasonable price and a reasonable performance,
+and you get three IOPs or IO operations per second,
+per gigabytes,
+up to a maximum of 16,000 IOPs per volume
+and GP2 volumes,
+which are smaller than one terabyte can burst up to 3000 IOPs
+and these are great for boot volumes or for development and test and for
+applications, which are not latency sensitive,
+but what if you need greater performance than 16,000 IOPs?
+What if your application is latency sensitive? Well,
+that's where provisioned IOPs SSDs,
+or IO1 comes in and provisioned IOPs or IO1.
+This is the highest performance option, and it's also the most expensive.
+So with IO1 that you get up to 64,000 IOPs per volume,
+and this is the one to use.
+If you need more than 16,000 IOPs for your application, you know,
+maybe you're installing an off the shelf application,
+which specifies in the system requirements that you need greater than at 16,000
+IOPs. Then this is the one to choose,
+or if you've developed your own application and in testing,
+you discovered that you need at greater than 16,000 IOPs.
+Then this is the one to go for.
+So these are designed for IO intensive applications.
+So think large databases and latency sensitive workloads.
+Now the third type of EBS volume that you'll need to know about is throughput
+optimized HDD. And this is a hard disk drive.
+It's an HDD, it's not an SSD,
+so it's not a solid state drive and these are known as st1 and these are
+great for storing huge amounts of data. So think mountains of data,
+but you want to access the data frequently and the performance of
+throughput optimized EBS volumes is measured in mgabytes per
+second, per terabyte. So with these,
+you get a baseline throughput of 40 mgs per second,
+per terabyte.
+You've also got the ability to burst to up to 250 mgs per
+second, per terabyte,
+with a maximum throughput of 500 mgs per second per volume.
+So when would we use these kind of EBS volumes? Well,
+these are great for frequently accessed throughput intensive workloads.
+So think workloads like big data, data warehouses,
+ETL. So extract, transform,
+and load operations and log processing.
+So think large amounts of data that you are accessing frequently,
+and you want high performance as well and these cannot be a boot volume.
+So AWS will not allow you to select one of these as a boot volume
+and then finally we have the lowest cost option,
+and this is cold HDD, and it's also known as sc1.
+So sc1 has a baseline at throughput of 12,
+make per second per terabyte with the ability to burst up to 80 mg per
+second,
+per terabyte with a maximum throughput of 250 mg per
+second per volume.
+So it's nowhere near as performance as the throughput optimized st1,
+but it is a really good choice for colder data.
+So data which requires fewer scans per day and it's also
+good for applications which need the lowest cost and for which performance is
+not a factor.
+So if you're running a job which could happen overnight or across a few days,
+which involves accessing lots of data and you don't necessarily need a super
+fast response, then this could be a good option.
+And also the cold HDD EC2 cannot be a boot volume.
+Now you might be wondering why are we suddenly talking about IOPs and
+throughput? And what is the difference? Well,
+IOPs stands for IO operations per second,
+and it measures the number of read and write operations per second and it's a
+really important metric for applications,
+which are performing quick transactions.
+So think low latency applications and transactional workloads.
+So think about reading and writing to a database and making multiple changes
+to the data and each of these changes can be thought of as a
+transaction.
+So this is all about the ability to action reads and writes very quickly
+and if you do have an application like that,
+and particularly if you have an application which requires greater than
+16,000 IOPs, then you should definitely choose provisioned IOPs,
+SSD IO1 as your EBS volume.
+So what about throughput? Well,
+throughput measures the number of bits read or written per second,
+and this is an important metric for large data sets,
+large IO sizes and complex queries.
+So think about complex queries and large amounts of data,
+maybe reporting applications,
+long running jobs involving large amounts of data,
+maybe a business intelligence application comparing year on year financial
+performance, using large amounts of data, that kind of thing.
+So it's all about the ability to deal with large data sets and if
+you have an application with those kinds of requirements and with a specific
+requirement around throughput and the number of bits read or written per second,
+then throughput optimized HDD or st1 that is the one to choose.
+So let's take a look at my exam tips for elastic block store.
+So just EBS volumes are highly available and scalable storage
+volumes, which you can attach it to an EC2 instance.
+And there are four different types available, starting off with GP2,
+which is the general purpose SSD and this is suitable for boot disks and general
+applications and it's capable of up to 16,000 IOPs per volume but
+if you need greater than 16,000 IOPs, then you need to go for IO1,
+which is provisioned IOPs SSD and this is suitable for online transaction
+processing and latency sensitive applications.
+You've got up to 64,000 IOPs per volume,
+and this is a high performance option and it's also the most expensive.
+Now in terms of the throughput optimized options,
+we've got st1 also known as throughput optimized HDD,
+and this is suitable for big data, data warehouses and ETL.
+The maximum throughput is measured in mgs per second,
+per volume and the max is 500 megabytes per second per volume
+and it cannot be of boot volume.
+Only the SSD options can be a boot volume. And then finally,
+we've got the lowest cost option, which is cold HDD,
+also known as SC1,
+which has a maximum throughput of 250 mgs per second per
+volume and this is suitable for less frequently access data and
+applications for which performance is not really an issue and you don't mind
+waiting a longer time for the results of your queries and once again,
+it cannot be a boot volume and it is also the lowest cost.
+So if you have an application which is cost sensitive,
+but it's not particularly sensitive to performance,
+then this could be a good option.
+So that is everything that you should need to know about the different types of
+EBS volume. If you have any questions, please let me know. Otherwise,
+feel free to move on to the next lecture. Thank you.

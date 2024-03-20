@@ -1,0 +1,83 @@
+Hello, Cloud Gurus and welcome to this lecture and in this lecture,
+we're going to have a go at creating an EBS volume.
+So if you'd like to join me in the console, we'll get started and of course,
+if you have access to the cloud playground,
+then you can do this using one of our sandbox accounts,
+or you can use your own AWS free tier account.
+So here I am in the console and I'm going to head to services,
+select EC2,
+and I'm actually going to create a new EC2 instance so that we can attach our
+volume to it after we've created it.
+So just scroll down to launch instance,
+we're going to launch an Amazon Linux2 AMI.
+So just select that one and we're going to accept all the defaults this time.
+So just go straight to review and launch and hit launch.
+I'm going to give my key pair a name and download it
+and hit launch instances.
+So there is my instance,
+and I'm just going to make a note of which availability zone this is located
+in. So it's in US East 1e
+and when we create our volume,
+we need to do it in the same availability zone so that we can attach it to
+our instance. So now I'm going to head back to the EC2 dashboard,
+hit two volumes, and create volume.
+So here on the volume type,
+this is where we can select which type of volume we want to create.
+So we've got GP2 IO1, sd1
+and st1 and they're also showing the magnetic legacy option
+as well and here you can set the size of your volume and for
+GP2, of course,
+you get a baseline of three IOPs per gig with a minimum of a
+100 IOPs and if you actually change the size of this volume,
+you'll see it will calculate the number of IOPs below.
+So that's pretty fun to have a play around with.
+So I'm just going to change that for now and set it for 10.
+Now for availability zone. I need to change this to US East 1a,
+but you change it to whichever availability zone your instance has been created
+in and this is quite interesting.
+So you can actually create a volume based on a snapshot
+and a snapshot is a point in time, copy of another EBS volume.
+So it's a bit like a backup and if you create a volume based on a
+snapshot,
+then the new volume will be an exact replica of the original
+volume that was used to create the snapshot, including any encryption.
+So if we select encryption down here,
+it will give us this message and this is a real tongue twister.
+So I'll try and say it right?
+So volumes that are created from encrypted snapshots are
+automatically encrypted and volumes that are created from
+unencrypted snapshots are automatically unencrypted
+and I challenge you to say that sentence out loud and see if you can get it
+right the first time,
+because I definitely couldn't but the point is that if you create a
+volume from an encrypted snapshot,
+then your volume is going to be the same. So it's also going to be encrypted.
+However, if no snapshot is selected,
+then you can choose whether to encrypt the volume or not.
+So if you don't select a snapshot up here,
+then the choice is yours encrypt or do not encrypt.
+So now I'm going to scroll down to the bottom and hit create volume,
+and there is our volume.
+So I'm just going to close that and here is my volume.
+You can see that the site is available and then I've got a couple of others here
+that are showing as in use,
+because they are already attached to an EC2 instance
+and you can see the EC2 instance IDs here. Now,
+if we want to attach a volume to an EC2 instance,
+just make sure you've got it selected, thank go to actions,
+select attach volume and if you click in this box next to instance,
+it will show you any instances which are running in at the same availability
+zone. So I'm going to select my instance
+and hit attach and it is as simple as that.
+So now my volume state is showing as in use and it's attached to this host.
+So that is everything I wanted to show you about creating an EBS volume and
+attaching it to a host and the main thing that I want you to remember from this
+lecture is that if you create a volume from an encrypted snapshots,
+then you are going to end up with an encrypted volume and vice versa.
+If the snapshot was unencrypted,
+then the volume that you create from it is also going to be unencrypted.
+So that is the end of this lecture. If you have any questions,
+please let me know. If you all working in your own free tier account,
+please remember to delete your EC2 instance,
+and also remember to delete any volumes you've created as well. Otherwise,
+feel free to move on to the next lecture. Thank you.

@@ -1,0 +1,172 @@
+Hello,
+Cloud Gurus and welcome to this lecture where we're going to take a look
+at all the different EC2 instance types available
+and there are loads of them,
+but don't worry for any of the associate level exams,
+you don't need to memorize them all and it's only for the
+solutions architect professional,
+where they do expect you to know the different instance types and the
+differences between them. So that being said,
+let's take a look at the different EC2 instance types available.
+So what do we mean when we talk about instance types? Well,
+this is all about the underlying hardware that is used to host your EC2
+instance. So when you launch an instance,
+the instance type determines the hardware of the underlying host computer
+used for your instance or where your instance is running.
+So ultimately our instances or virtual machines are running on a physical
+server and it's this physical server that I'm talking about.
+So the hardware characteristics of the underlying physical server
+now instance type also determines other characteristics or capabilities
+like CPU, memory, and storage.
+So each instance type offers different compute memory
+and storage capabilities and depending on these capabilities,
+they are grouped together in instance, families.
+So how do you know which one to choose? Well,
+the simple answer is to select an instance type based on your
+application requirements.
+So you select an instance type based on the requirements of the
+application that you plan to run on your instance.
+So there is a massive choice and it is growing steadily as they bring
+out more and more instance types and the reason they have so
+many is because instance types are optimized to fit different use
+cases and give you the flexibility to choose the appropriate mix of
+resources for your applications.
+But the best way to understand instance types is to take a look at the console.
+And I'm going to show you exactly what I mean.
+So here I am in the AWS console, and I'm going to select to
+scroll down to launch instance,
+select the Amazon Linux 2 AMI
+and this is where we select the instance type.
+So you'll see that there are absolutely loads of different instance types,
+and they are all grouped together in families.
+So you can filter by the different family name.
+So we've got the micro instances for the very small instance types.
+We've got general purpose, compute optimized,
+and then hardware accelerated instance types,
+which include things like field programmable, gate arrays, graphics,
+processing units, machine learning,
+and memory and storage optimized and we're going to take a look at each of
+these families in turn.
+So let's take a look at general purpose to begin with and if we hover over the
+family name, it will give us a bit of a description.
+So general purpose provides a balance of compute, memory, and network.
+It's a good choice for many applications recommended for small or medium
+databases,
+backend servers for SAP SharePoint and other enterprise
+applications.
+So that is general purpose and if we look at the next heading on the type,
+this is the instance name.
+So whenever you hear anything like T2.micro T3 or
+M5 et cetera,
+these are the instance names and every different type of instance has its own
+unique name and when you see a number after the letter that just indicates the
+generation number. So the T2.micro is the second generation.
+Then moving across the table,
+you can take a look at the specification of the instance type.
+So how many virtual CPUs, how much memory, the type of storage,
+and we'll find out about EBS or elastic block store later on in the course.
+And it also gives you an idea of network performance as well.
+So that is general purpose.
+We've also got micro instances and these are eligible for the AWS free
+usage tier. So for the first 12 months,
+you'll get 750 hours of micro instances.
+So these are really great if you're just starting out with AWS and you're using
+your own accounts,
+then these are the ones to use because they're not going to cost you anything up
+to 750 hours in your first 12 months
+and these micro instances are really a low cost option and they're most suited
+for low throughput applications like low traffic websites or very
+small applications, because I've only got one virtual CPU,
+less than a gig of memory and in terms of network performance, it's very low.
+So you wouldn't want to run your highest traffic website on one of these.
+So moving on to compute optimized,
+and I've got some grayed out here and the reason for that is the architecture of
+the selected AMI is not supported by this instance type.
+So that's pretty interesting. So this instance type,
+it basically doesn't support the operating system that I selected in the
+beginning. So if I scroll down,
+let's take a look at some of these instance types and what do they say about
+compute optimized?
+So these instances have a higher ratio of CPU to memory.
+So these are going to be great for applications which have a higher CPU
+requirement. So for example, batch processing,
+distributed analytics,
+and high performance science and engineering applications,
+and the instance names all begin with C. So that's pretty easy to remember,
+they're compute optimized and the name it begins with C and you can just select
+the instance type, which has been number of CPUs,
+which is enough for your application.
+So moving on to some of the hardware accelerated instances, we've got,
+FPGA instances and a field programmable gate array is a
+special processor or card,
+which can be programmed to run specific processing for your application.
+So this is really good for applications which need massively parallel processing
+power. So things like genomics, data analytics, video processing,
+and financial computing, and actually a long time ago,
+when I used to work in investment banking,
+we used to use field programmable gate arrays for accelerating some of the
+algorithmic trading.
+So that's real low latency trading and it's a highly competitive business.
+So any competitive advantage that you can gain by processing your
+algorithm and running your analytics a few seconds faster than your competitor
+can give you a massive advantage in the market.
+So all of these instance types begin with the letter F and at the time of
+recording, these are all showing as F1. So these are the first generation,
+but they are adding more and more all the time.
+Moving on to GPU and GPU stands for graphics processing unit.
+So these obviously a great for graphics,
+but they are also widely used for applications which need parallel processing.
+So that could be graphics. It could also be high power computing,
+image rendering and media processing applications and these
+instance names that usually begin with G but they've also got some beginning
+with P down here as well. So these,
+all the graphics processing and parallel processing instance types,
+we've also got machine learning and these instances are powered by custom built
+chips. So they use ASIC,
+which stands for application specific integrated circuit and they're
+basically custom built CPUs,
+which are built by AWS and they are optimized for running machine learning
+applications, things like image recognition, speech recognition,
+natural language processing, and personalization engines.
+And they use a chip called the inferential. So all these instance types,
+the name begins with the letters I N F for inferential and the way that I
+remember it is I just think of machine learning inference. Finally,
+we've got the memory optimized and at storage optimized,
+and these are pretty self explanatory. So here is the memory optimized,
+and you can see, you can get some systems with really high memory.
+So you can select an instance type which meets your memory requirements and
+these instance names mainly begin with R.
+We've also got X and Z as well.
+So these are memory optimized with the lowest cost per gig of RAM and they're
+good for database applications. So maybe in memory databases,
+memcacheD distributed caches and larger deployments of
+enterprise applications,
+which just need a larger memory footprint and then finally,
+we've got the storage optimized,
+and these ones basically allow you to add large amounts of storage to your
+EC2 instance.
+So you can select an instance based on the type of storage you need,
+how many disks you want and how much storage in total you need for your
+application and for these instance types,
+the names begin with D and we've also got I and H as well.
+So let's see what they say about storage optimized instances.
+So provides you with direct attached storage options for applications,
+with specific disk IO and storage capacity requirements and the I3
+instances are suitable for no SQL databases,
+which benefit from high random IO and the D2 instances are for
+running large scale data warehouse or parallel file systems.
+So that is a quick run through, on all the different instance families,
+but don't worry, as I said before, you don't need to remember them all,
+just have a general awareness.
+So moving on to my exam tips for EC2 instance types,
+just remember the instance type determines the hardware configuration and
+capabilities of the host computer,
+where your instance or virtual machine is running.
+Each instance type offers, different compute, memory,
+and storage capabilities, and they're grouped together in instance,
+families and you should select an instance type,
+which is most appropriate based on the requirements of your application.
+So that is the end of this lecture. If you have any questions,
+please let me know. Otherwise,
+feel free to join me in the next lecture where we're going to get our hands
+dirty, launching an EC2 instance.

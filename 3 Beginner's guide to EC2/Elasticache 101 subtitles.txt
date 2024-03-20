@@ -1,0 +1,160 @@
+Okay, hello Cloud Gurus,
+and welcome to this lecture.
+This lecture we're going to look at ElastiCache 101,
+or ElastiCache as some people pronounce it.
+I'm going to pronounce it the American way going forward.
+ElastiCache, so ElastiCache is a web service
+that makes it easy to deploy, operate,
+and scale an in-memory cache in the cloud.
+And basically, it's going to improve your performance
+of your web applications by allowing you
+to retrieve information from fast, managed,
+in-memory caches, instead of relying entirely
+on slower disk-based databases.
+So basically, it's a way of caching your most,
+you know, frequently used queries from your database.
+Instead of putting it in your database,
+we put it in ElastiCache, and that takes a bit, you know,
+it takes a lot of load off your production databases,
+so you're not always constantly querying
+the top ten for sale items for example,
+or you're not constantly querying, you know,
+maybe it's a new WordPress blog or something like that,
+you can actually cache a lot of that information
+using ElastiCache.
+So it can be used to significantly improve latency
+for many read-heavy application workloads.
+This could be things like social networking,
+gaming, media sharing and Q&amp;A portals in particular,
+or compute-intensive workloads such as
+a recommendation engine.
+And caching improves the application's performance
+by storing critical pieces of data
+in memory for low-latency access.
+Cached information may include the results
+of intensive, you know, database queries,
+or the results of computationally-intensive calculations.
+So, the more you cache,
+the less load you put on your database,
+the more you free your database up and you know,
+basically make your applications far more effective.
+If you've ever used Magento,
+Magento is a, it's like a online web store,
+or online software for building stores,
+and it is extremely memory-intensive,
+so we use Memcached a lot when I worked at Rackspace,
+to help Magento take a huge load off the database.
+So, we've got different types of ElastiCache,
+we've got two, we've got Memcached.
+Memcached is a widely adopted memory object caching system.
+ElastiCache is protocol compliant with Memcached,
+so if you're using popular tools that you use
+with your existing Memcached environments right now,
+it's going to work seamlessly with the
+AWS Memcached ElastiCache service.
+We then have Redis, and Redis is a popular
+open-source in-memory key-value store
+that supports data structures such as sorted sets and lists.
+And ElastiCache supports Master/Slave replication
+and Multi-AZ which can be used to achieve
+cross availability zone redundancy.
+So, if you need Multi-AZ access, you want to use Redis,
+if you're not concerned about redundancy
+then you want to use Memcached, and of course,
+these are very popular scenario questions
+as to whether or not you should use Memcached or Redis.
+So, although both Memcached and Redis appear similar
+on the surface in that they're both caches,
+they are actually quite different in practice.
+Now, because of the replication
+and persistence features of Redis,
+ElastiCache actually manages Redis
+more like a relational database,
+and Redis ElastiCache clusters are managed
+as stateful entities which include failover,
+very similar to how Amazon RDS manages database failover.
+With Memcached, it's designed as a pure caching solution
+with no persistence, so ElastiCache manages Memcached nodes
+as a pool that can grow and shrink,
+very similar to an Amazon EC2 Auto Scaling Group.
+And if you haven't come across Auto Scaling yet,
+it's obviously, you could start with two web servers,
+and then as you get to a certain load,
+it will automatically add a web server
+behind your load balancer, so increase it to three,
+increase it to four, et cetera.
+You go in and configure it.
+So, individual nodes with Memcached are expendable,
+and ElastiCache provides additional capabilities here,
+such as automatic node replacement and Auto Discovery.
+So, what are our use cases for Memcached?
+Well, is object caching your primary goal,
+for example, to offload your database?
+If so, then you use Memcached.
+If you want something as simple as possible,
+then you want to use Memcached.
+If you are planning on running large cache nodes
+with multithreaded performance
+with utilization of multiple cores, so multiple CPU cores,
+if so, then use Memcached.
+And if you want the ability
+to scale your cache horizontally, so scale out as you grow,
+then go ahead and use Memcached.
+With Redis, if you're looking for more advanced data types
+such as lists, hashes, and sets, use Redis.
+Does sorting and ranking datasets in memory help you,
+such as with leaderboards?
+If so, use Redis.
+Really remember that going into the exam,
+if you see a scenario where they're talking about using,
+creating a leaderboard, and they ask you whether
+you should be using Memcached or Redis, choose Redis.
+Is persistence of your key store information important?
+So, do you actually value your data, you want persistence,
+then, if so, use Redis.
+And you want to run in multiple AZs
+with failover, then use Redis.
+So basically, if you want something as simple as possible,
+go use Memcached, and if it's just literally
+taking a load off your database, use Memcached.
+If you got leaderboard information,
+or you want multi availability zones,
+or, you know, persistence of your entire data is really,
+really important to you, then you want to go and use Redis.
+So typically, you're going to get
+a scenario question where a particular database
+will be under a whole bunch of load or stress
+and you may be asked which service you should use
+to alleviate this.
+The answer's always going to be ElastiCache,
+particularly if your database is particularly read-heavy
+and not prone to frequent changing.
+However they could throw in a scenario
+where Redshift would be a better answer
+because if your database is feeling stress
+because management keep running
+online analytics processing transactions on it,
+then you probably want to use Redis rather, sorry,
+Redshift rather than ElastiCache.
+So if you, if you think it's a data warehousing question
+go for Redshift, if it's literally just about
+taking stress off your database because it's very,
+very read-heavy, then you want ElastiCache.
+And then, again, going into the exam
+just remember you want to use Memcached
+if object caching is your primary goal,
+you want to keep things as simple as possible,
+and you want to scale your cache horizontally,
+so you want to scale out, that's when you use Memcached.
+If you've got lists, hashes, and sets, you want Redis.
+If you're doing leaderboards you want Redis.
+If you want data persistence,
+if you want multi availability zones,
+and if you need the Pub/Sub capabilities are needed,
+then you want Redis.
+But definitely, if it talks about leaderboards,
+Redis, Redis, Redis.
+So, that is it for this lecture guys,
+if you have any questions please let me know,
+if not, feel free to move on to the next lecture.
+Thank you.

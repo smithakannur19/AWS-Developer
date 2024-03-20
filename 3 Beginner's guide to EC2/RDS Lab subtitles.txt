@@ -1,0 +1,327 @@
+Okay, hello Cloud Gurus
+and welcome to this lecture.
+This lecture, we're going to be looking
+at Amazon's relational database service and this is a lab.
+What we're going to do is we're going to provision
+a very simple little RDS instance.
+And then what we will do is we will go in and provision
+a web server, we're going to use a bootstrap script.
+So we're automatically going to install things like Apache,
+PHP and MySQL using that bootstrap script.
+And then what we're going to do is we are going to go in
+and basically configure a connection string.
+A connection string is just a username, a password
+and the address to connect to our RDS instance.
+And if all goes well,
+we should be able to connect to our RDS instance.
+So this is a lab
+and you will need to log into the AWS Console.
+Okay, so here I am in the AWS Console, I'm going
+to go ahead and click on RDS which is under Database.
+And then what we're going to do is we're going to go in
+and create a database.
+So this is a new UI,
+and you can go back to the original one if you want.
+I wouldn't recommend,
+that you might as well get used to the new UI.
+In here we can see how different options.
+So we've got Aurora, MySQL, MariaDB, PostgreSQL, Oracle,
+Microsoft SQL Server.
+And Amazon obviously make the default option Aurora
+because they're trying to you know, push their own product,
+but it is an amazing product and I don't blame them.
+We're going to to do MySQL.
+And we can scroll down here.
+In here, we've got our different templates,
+you can choose your different versions in here,
+and there are different templates.
+So this is for production use, which is going to basically
+put it across multiple availability zones,
+dev test, and then free tier.
+Now if you do click on Free tier
+notice that you can't have Aurora on free tier,
+is not available just yet.
+So that could be an exam question.
+So free tier we're going to use free tier with MySQL.
+And scroll down in here we've got our database
+DB instance identifier.
+So this is the name of our RDS instance inside AWS.
+And I'm going to be a bit lazy,
+I'm just going to type in acloudguru,
+and I'm going to copy that into my clipboard,
+and I'm going to use that consistently across the different,
+you know, credentials.
+So my Master username I'm going to say acloudguru,
+my Master password, acloudguru, Master password acloudguru.
+You can actually auto generate a password if you want,
+as well, you can actually use the command line
+using AWS secrets manager
+to generate really strong passwords as well.
+That's just something that I use every day.
+And then down here we've got our DB instance size.
+So we've got db.t2.micro.
+So I'm going to do basically the cheapest one,
+so t2.micro is fine for me.
+Scrolling down storage, we've got auto scaling,
+you can enable it or disable it.
+I'm just going to start off with 20 gigs of storage.
+Where I only going to have a really simple database on here.
+Down here we've got availability and durability
+because we are using free tier.
+This is all grayed out right now,
+if you wanted to click Production,
+then this would be our options
+that you could go ahead and select.
+Down here we've got Additional connectivity configuration.
+So we've got our different Subnet groups in here,
+it's using the default one.
+You can also say whether or not,
+you want this publicly accessible, I'm going to say no.
+VPC security groups.
+Let's create a new security group
+and we'll just call this RDS-SG, something like that.
+And then we're going to scroll down
+and we've got our availability zones in here,
+we've got no preference.
+Additional configuration, just click in here
+and give the initial database name acloudguru.
+So we're going to change the database name to be acloudguru,
+and scroll all the way down,
+we're just going to leave everything else as default.
+We've got our Maintenance windows in here,
+so you can do it a particular time
+in which it's going to do upgrades.
+And in here you can see your estimated monthly costs.
+So let's go ahead and hit Create database.
+So that is now launching, it can take a few minutes
+depending on the size of the instance,
+it can take up to five to 10 minutes
+to actually see the instance.
+If you click on your dashboard, sorry,
+if you click on Instances, you'll be able to see it.
+So just click on RDS, you can see here that it is creating.
+While we wait for that to create,
+let's go back over to services.
+And we'll go over to EC2
+and hopefully our little instance has now being deleted.
+Yes, it has.
+And what we want to do is we're going to go ahead
+and launch a new instance.
+And we're going to use the Amazon Linux AMI.
+I'm going to use everything as default,
+and then we're going to leave everything here as default.
+The only thing that we are going to change
+is if we click on Advanced details,
+and here we're going to run a bootstrap script.
+And a bootstrap script simply runs at root level,
+and it executes commands in a chronological order.
+So let's have a look at our bootstrap scripts.
+You can download this in the resources section
+of the course, bootstrap scripts always start
+with a shebang.
+Shebang is just the number and then an exclamation mark
+and then this is the path to our interpreter.
+So this is what's going to interpret all the commands
+that we do after this line.
+So on line two, we've got, yum install Apache,
+we're going to install PHP, we going to install PHP MySQL,
+we're going to force it to install.
+We're also then going to update the operating system,
+we're going to make sure Apache switches on
+even if our EC2 instance restarts.
+We're then going to start the Apache servers
+so it becomes a web server
+as soon as that service has started.
+We're then going to create a little PHP page,
+which is just displaying our PHP info.
+And then we're going to output
+this to our var/www/html directory as index.php,
+We're then going to go into that directory,
+and then we're going to go and get this little file
+which is a connect.php file.
+And that connect.php file will look just like this.
+So it will say username, acloudguru, password, acloudguru,
+hostname and we're going to get the hostname
+when we go back into RDS.
+And then we got the database name acloudguru.
+And in here, this is the actual PHP to connect
+into the SQL database.
+So basically it says, "Connected to MySQL using username,"
+and then whatever the username is password,
+whatever the password is and the host, they're host name,
+and that's going to be the RDS endpoint,
+which we're going to supply later.
+And so it will either stay, "Connected to it,"
+or it will have an error message saying,
+"Unable to connect to MySQL database,
+"check the database name and try again."
+So that is all that we're going to do.
+So let's grab this bootstrap script now.
+If you just download it and open it
+and open it up in your favorite text editor
+we'll go back over to our web browser,
+just going to paste it in here and then
+I'm going to go ahead and hit Next to add my storage.
+And I'm going leave everything as default.
+I'm going to go ahead and hit Next to add my tags,
+I'm not going to add any tags,
+I'm going to configure my security group.
+I'm going to do it to my existing one, which is my web DMZ.
+Currently, this just allows port HTTP and HTTPS
+over IPv4 and IPv6.
+I'm going to go ahead and hit Review and Launch.
+And I'm going to go ahead and launch my web server.
+And I'm going to use my existing key pair,
+which is called MyNewKey pair.
+And I'm going to go ahead and launch that.
+So that is now launching.
+What I would do is probably just wait for five minutes,
+before we connect into this.
+You can however while you're waiting,
+just go over to your RDS instance in here,
+and we should hopefully have our RDS instance ready.
+So if we click on Instances, here it is acloudguru,
+and click in here, I'll get a nice little summary
+of all my instances and here is my database endpoint.
+So this endpoint is a DNS address,
+you're never given an IPv4 address for your RDS instances,
+you're always given a DNS address,
+and Amazon manage the mapping of that IPv4 address
+to this DNS address here.
+I'm sorry, I should be a little bit more specific,
+when I say you never given a IPv4,
+I mean a public IPv4 address for your endpoint.
+So copy that into your clipboard,
+let's go back over to services and go over to EC2.
+You'll know that your bootstraps script has run and is ready
+just by visiting the IP address.
+So if you copy this IP address and open up a new tab,
+and hit Enter, that will show this page.
+So we've got our PHP info page.
+So our web server is definitely up and running
+and ready to go, all our scripts have finished installing,
+and we're now ready to go in
+and configure our connection string.
+So you need to go over to terminal now and we will go in
+and configure the connection string,
+so we can connect to our RDS instance.
+Okay, so here I am in my terminal window,
+I'm just going to type, ssh ec2-user@
+and then I'm going to paste in.
+I've actually pasted this in from my web browser.
+So I'm just going to remove the "http".
+So, now I've got the public IP address,
+then I'm going to do -i,
+and I think it's called MyNewKeyPair.
+And go ahead and hit Enter, I'm going to hit Yes.
+And there we go, I'm going to elevate my privileges to root.
+So sudo su, and I'm going to clear the screen and now
+I'm just going to go over to my var/www/html directory.
+And I'm going to have a look in here.
+We should have two documents,
+we've got our connect.php and we've got our index.php.
+Now index.php was just the PHP info,
+one that we created earlier with a little bash command,
+and then we did a W get to get this connect.php.
+So what I want to do now, is I want to just open up
+my connect.php, so just type in nano connect.php
+and that will open it up.
+And you can see we've got the username, acloudguru,
+we've got the password, acloudguru, hostname,
+and then the DB name, acloudguru.
+So the only thing we need to do is update this hostname
+to our RDS endpoints.
+So I'm just going to delete this out here.
+And then I'm just going to go back over to the Console
+and get my RDS endpoint.
+Okay, so I'm back in the Console,
+just going to go over to Services and go down to RDS
+under databases, and I click in there,
+and then I'm going to click on my Instances, acloudguru.
+And I'm going to scroll down and grab my instance endpoint,
+which is this one here, and copy that into my clipboard.
+Then now let's go back over to our terminal window.
+So I'm back in the terminal window,
+I'm going to paste that in here.
+So that is now my hostname.
+What I'm going to do is hit Control + X,
+hit Yes to exit and then we're going to call it connect.php.
+Now, what you want to do is go back over to your web
+browser. So I'm back in my web browser. I'm
+going to open this up and instead of going to the IP
+address, I'm going to go to /connect.php.
+Now what this will do is it will hang for a little bit
+and eventually we're going to get an error message.
+And the reason we're going to get error message
+is this still one last little thing that we need to do.
+When we created our RDS instance,
+we created a security group inside that RDS instance.
+And this is a separate security group
+to what our EC2 instance is in.
+So right now we've got two different pieces of the AWS cloud
+in two different security groups.
+And of course,
+they won't be able to talk to each other by default.
+So you will need to go over to basically
+to the security group section.
+And we're going to need to allow communication
+from one security group to another.
+I'm just going to wait for this to timeout so you can see
+the error message.
+So I'm just going to pause the video.
+And if you are patient enough to wait, here you go,
+it says unable to connect to MySQL.
+So let's go have a look and then how we can fix this.
+If we just click back over to this tab.
+We can go over to our security groups, which is in here.
+So we've got our security group in here.
+If we click on this security group
+that will launch us over to a security group sections.
+I'm just going to close that this,
+so we've got our security group in here.
+And what we want to do is we want to go ahead
+and we want to go to Inbound.
+And we want, I'm just going to remove this filter
+so we can see all our security groups.
+So what we want to do is we want to allow an inbound
+security group for 3306.
+And we wanted to allow this from our web server.
+So we're going to go and click in here,
+and we're going to go down to MySQL, which is 3306,
+same with Aurora.
+And in here, what we can do is if we actually
+start typing sg, it will start to auto-populate.
+And we want to whitelist our web DMZ,
+so whichever security group that your web server is in.
+So mine's ending in 067, and that is it.
+I'm going to go ahead and hit Save.
+So can now see that rule down here.
+We go back over to this tab, and if we hit Refresh,
+there we go connected to MySQL using username, acloudguru,
+password, acloudguru, host, acloudguru,
+and then is the actual database endpoint.
+So we have now successfully connected to our RDS instance.
+We've connected our EC2 instance to our RDS instance.
+So that is it for this lecture guys.
+A common exam topic
+will be exactly what we just troubleshooted.
+One way, you've got an EC2 instance in one security group,
+and an RDS instance and another security group
+and something's not connecting.
+That's because you need to open up Port 3306
+to the security group that the RDS instance is in,
+you need to open up that to the security group
+where EC2 instance in.
+So hopefully that makes sense.
+So you go into the security group
+that you have your RDS instance in,
+you open up MySQL, and you just point,
+you allow the security group that you EC2 instance is in
+to talk to your RDS instance.
+So that is it for this lecture guys.
+In the next lecture, we're going to look at a combination
+of Multi-AZ as well as Read Replicas,
+and it's going to be a mixture of theory
+as well as hands on practical lab.
+So if you've got the time,
+please join me in the next lecture, thank you.

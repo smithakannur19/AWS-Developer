@@ -1,0 +1,219 @@
+Okay hello Cloud Gurus and welcome
+to this lecture.
+This lecture is actually for Windows users
+only and we're basically just going to teach you how to
+use Putty and PuttyKeyGen and you need to use Putty in order
+to SSH into your EC2 instance and you need PuttyKeyGen
+in order to convert your PEM file.
+This is the key pair file that's generated when you first
+create an EC2 instance and it's generated in a .pem format
+but Putty doesn't support PEM files,
+Putty needs its own PPK files.
+So basically PuttyKeyGen turns PEM files into PPK files.
+So in order to this lab you need to open up your browser.
+Okay so he were are in our browser, I'm on Google
+and I'm just going to type in Putty and there we go,
+we've got the Putty download page and it's
+chiark.greenend.org.uk
+so just click on that and then basically you just want to
+save the putty.exe and you want to
+save the puttygen.exe.
+So the top and the bottom link, once you've done that
+it will finish downloading.
+You might just want to copy this across to your desktop
+just because you will be using this a lot throughout
+the course.
+So if I just minimize everything and refresh my desktop,
+there we go, we can see Putty.
+So Putty is always the computer-to-computer icons,
+this is what you're going to use when you're SSHing
+and then PuttyGen is always the key generator so it's got
+a computer-to-key icon.
+So the next thing we want to do is just go ahead to the
+AWS Management Console, we want to launch an instance.
+So I'm going to go in and launch an EC2 instance, I'm going
+to use the Amazon Linux AMI.
+I'm going to leave everything else as default because I just
+want to show you how to connect into this instance.
+I'm just going to call this Putty as my instance
+and then go ahead and hit Next.
+I'm going to add a, create a new security group,
+I'm just going to leave it open to the world.
+At the moment its launch wizard one, yours might look like
+launch wizard two but just leave SSH open to world.
+It is a security risk, you could lock it down to your
+IP address but again this is just for demo purposes only.
+I go ahead and hit launch, now we want to create a new key
+so we'll call this MyPuttyKey
+and we're going to download this key pair.
+Now you'll see here it says it's being downloaded as a
+.pem file and in order for us to be able to use this
+with Putty, we need to convert it to a PPK file
+and that's where PuttyKeyGen comes in.
+So if we minimize and go back to our desktop
+and we open up PuttyGen, we'll be able to do that.
+First I'm just going to kick off this instance though,
+so I'm going to go ahead and hit launch.
+Okay so that is now launching, so while that's going on
+again I'm going to go back into PuttyKeyGen.
+I'm just going to open it up, now you might get this message
+saying its protected your PC, just click More Info
+and hit Run Anyway and so here we go, we've got PuttyGen.
+So the first thing we need to do is go and load our key,
+so go ahead and hit Load.
+Now this confuses a lot of people straight away
+because they can't see their key that's because it's looking
+for a PPK file but we saved it as a PEM file.
+So what we want to do is just hit All Files down here
+and then open up MyPutty.pem
+and there we go, it says it successfully imported it.
+To use this key with Putty you need to use the
+Save Private Key command to save it in Putty's own format.
+So we're going to go ahead and do that, hit Save Private
+key this is asking about a passphrase if you want to protect
+it what you can do is, a passphrase is just basically
+a password, so you need a password in order to
+open up this key, it's just an extra level of protection.
+Most people, you know, for the purposes of this course,
+you don't need to, if you're going to do this in production
+maybe you do want one.
+So I'm going to go ahead and hit Yes
+and then what we're going to do, I'm just going to change
+this to All Files and I'm going to change, click on here
+so it maintains the same file name.
+But then instead of saving as a .pem
+I'm going to save it as a .ppk, go ahead and hit Save
+and that is literally it.
+Now if we go into our downloads directory we can see
+a PEM file and we can see a PPK file.
+So the next thing we need to do is open up Putty itself.
+Here is Putty, it's a very simple interface to use.
+I'm going to go ahead and go look at my EC2 instances
+and hopefully it is live now and I will be able to get
+an IP address.
+So yeah, here it is and there's my IP address down here,
+so I'm going to highlight the IP address and I'm going to
+right-click and copy it.
+Now if we back over to our Putty configuration,
+we can type in here ec2-user
+and then @ and then the Putty, the IP address.
+So 52.51.120.70
+now what I can do is also copy and paste this into my
+saved sessions, we're not going to save it just yet
+because the last thing we want to do is go over here. So
+we're going to go into SSH, we're going to go over to auth
+and in here we're going to enter where our private key is.
+So this is the one we've just generated, MyPuttyKey.ppk.
+We're going to open it up and now if we go all the way
+back up to the top to session, we can hit Save
+and we don't need to do this again.
+We can basically just go in here, hit Load and then hit Open
+so let's go ahead and open that. First
+thing it's going to ask is about the server's host-key,
+it's not cached in the registry.
+So you just go ahead and hit Yes, and there we go,
+we've connected into our EC2 instance.
+Now you can see this is quite small, it can be quite hard
+to read, so let's close this off and just close the session
+and then what I'm going to do, again I'm just going to go
+back to my desktop and I'm going to open up Putty.
+Okay so we'll load our default settings, now we can
+actually change the appearance.
+We can go in here and change the font size,
+so go here and hit 20. That's going
+to change the font, you can change the colors etc.
+I'm just going to leave the colors as standard but I'm going
+to keep the font as 20, I'm going to go ahead and save that
+and now when we open it, it's going to be much bigger,
+so you've got much bigger text.
+Now for the rest of this lecture I'm going to switch over
+to my Mac, all the commands will be exactly the same
+because right now we are all on a EC2 instance in the cloud.
+So we're all using Linux so all the commands will be
+the same whether you're using Windows or Mac.
+Now I'm going to elevate my privileges to root, so I'm going
+to type sudo su and so now I'm a super-user.
+You can see over here it says root and so this means I have
+full admin access.
+So we have a little Linux server in the cloud, let's go
+and make it a webserver. So the
+very first thing we want to do is just run a yum update
+minus yes (-y), and this will just update the, you know,
+the operating system with all the relevant packages.
+So it means it's got all the latest updates applied to it
+so that hopefully there will be no vulnerabilities
+and that can take just a little bit of time but it's just
+cleaning up now.
+It's done all the installations and once this is done
+what we need to do is we're going to go in and install
+Apache and Apache just turns this little server
+into a webserver.
+And then what we'll do is we'll create a little webpage
+just that says Hello Cloud Gurus or something like that.
+So that has now finished updating, let's clear the screen
+and to install Apache we just need to write yum install
+and then httpd
+and then just do -y, for minus yes.
+So that has now installed and again, I'm going to clear
+the screen so you can find what I'm doing much easier.
+So you've installed Apache, the next thing we want to do
+is we want to start the Apache service.
+So we say service
+httpd
+start and that
+has now started the service and then we just want to
+do one other thing.
+So the service has started, the one thing that we want to do
+is if this EC2 instance reboots, we want Apache
+to come back on automatically.
+So to do that we just type in chkconfig
+and then httpd and then we say on
+and that all just means that if we restart this EC2 instance
+Apache will come on automatically.
+So we can now type in service httpd and then status
+and that will show us if the httpd service is running,
+the Apache service.
+It is now running and when install that we've created
+a directory, so if we go to
+cd/var/www/html
+this is the root directory of our web server.
+If we type in ls we can see that there's nothing there.
+So let's go ahead and fix that, what I'm going to do is
+I'm going to write nano index.html
+and we're going to create a little webpage.
+So here's a little text editor built into our EC2 instance.
+I'm just going to quickly do some code, so html,
+make this really simple so body and then h1, so header
+and then it's just going to say Hello Cloud Gurus.
+I'm going to end our h1,
+we're going to end our body.
+This is like literally the most simple piece of html
+you can do and we're going to end html, end html.
+And then I'm just going to hit the control X, it will ask us
+if we want to save, I'm going to hit Yes and then I'm going
+to hit Enter and so now if I do ls we can see
+my little index.html.
+So next thing to do is, I'm just going to clear the screen.
+Let's go over to our web browser and see this website.
+Okay, so here I am in my web browser, if I just type in the
+IP address, you can see straight away Hello Cloud Gurus.
+So we've created a little web server in the cloud,
+we've created a website and we can now connect to that
+website using our, using that public IP address.
+So what we now want to do is we're going to look at how
+we can register a domain name and how we can appoint that
+domain name back to this EC2 instance.
+Now before we go on to registering a domain name,
+we're going to need to create a Application Load Balancer
+in order for all this to work.
+So let's go in the next lecture and explore from
+a theoretical point of view, what a,
+what the different type of load balancers are.
+What's available to you and then once we've done that,
+we'll go on and we'll register a domain name and we'll point
+our domain name to our Application Load Balancer
+which will then point to our EC2 instance
+and then you'll be able to visit this website
+just by typing in a domain name.
+So if you've got the time please join me in
+the next lecture, thank you.

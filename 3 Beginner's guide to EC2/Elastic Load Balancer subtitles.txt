@@ -1,0 +1,193 @@
+Okay, hello Cloud Gurus, and welcome to this lecture.
+This lecture, before we get started on Route 53,
+and creating our own domain name,
+we are going to need to create
+an Elastic Load Balancer as a part of that.
+And I just wanted to go through
+the theory of Elastic Load Balancers.
+So what is an Elastic Load Balancer,
+or what's a load balancer?
+Well, the hint is in the name.
+A load balancer simply helps us
+balance our load across multiple different servers.
+So let's say you've got a whole bunch of Web Servers,
+and you want to equally balance the load between them,
+you deploy a load balancer,
+and then using various types of technology
+it will help you balance a load across those Web Servers,
+so no one Web Server will get overwhelmed,
+and so hopefully your application won't crash.
+So that's all a load balancer is.
+Now, with AWS there's three different types
+of load balancers.
+We've got our Application Load Balancers.
+And our Application Load Balancer operates
+at the OSI Layer Seven.
+So if you're not familiar with the OSI Layers,
+just go ahead and type it into Google
+and click on the Wikipedia article.
+It basically will go on and explain
+all the different layers of computing.
+So, Application Load Balancers can
+actually make very clever decisions.
+They can actually go all the way down to the
+application layer, and they can load balance based off that.
+If it could see that packets are destined for,
+let's say, sales.acloud.guru it would then send
+those packets directly to the sales Web Servers
+or application servers.
+If it was a different sub-domain,
+it could go to a completely different sub-domain.
+It can also look at whether or not
+someone's making a purchase.
+Maybe that would go to a whole bunch
+of different application servers.
+My point being is that Application Load Balancers
+can see all the way up to the application layer,
+and they can make very clever routing or rooting
+decisions, based on that, you know, information.
+We then have out Network Load Balancers,
+this operates at Layer Four.
+This is where you basically want super fast performance,
+and super fast speed.
+It is basically AWS's most expensive load balancer
+but it is what you would use in production.
+Especially is latency is an issue, you want to use
+Network Load Balancers.
+Then we have out Classic Load Balancers.
+And our Classic Load Balancers are pretty much,
+you know, they don't recommend them anymore.
+But it is there for legacy purposes.
+Interestingly the Developer Associate exam
+actually tests you mostly on Classic Load Balancers
+even though AWS, themselves, are pushing you to
+either use Application Load Balancers or
+Network Load Balancers.
+So, we will have a quick look at
+Classic Load Balancers as well.
+But in the next lecture, what were going to
+go ahead and create is an Application Load Balancer.
+So, lets start with Application Load Balancers.
+And they're best suited for load balancing
+of HTTP and HTTPS traffic.
+They operate at Layer Seven and are application-aware.
+They are intelligent, and you can
+create advanced request routing,
+sending specified requests to specific Web Servers.
+So here we've got a Tesla Model X
+lets say that we have an application inside our Model X.
+We can send all out Model X traffic to a specific
+set of Web Servers that are only designed for Model X.
+And then if we had a Tesla Model S or
+a Model 3, for example, we could get our
+Application Load Balancers to send them to completely
+different EC2 instances depending on the packets.
+Basically the Application Load Balancer
+could be configured so it could figure out
+what type of car was sending the request.
+And then it could send that to a group of web-servers
+that is designed specifically to
+respond to traffic for that car.
+We then have out Network Load Balancers.
+So, Network Load Balancers are best suited for
+load balancing of TCP traffic
+where extreme performance is required.
+And again I love Teslas, so here is a Tesla Roadster,
+it is going to be capable of doing
+zero to 60 miles per hour in under two seconds.
+So think of extreme performance.
+That is going to be one of the, basically, the fastest
+production car ever made.
+So, operating at the connection Level Layer 4
+Network Load Balancers are capable of handling
+millions of requests per second,
+while maintaining ultra- low latencies.
+So, use a Network Load Balancer for an extreme performance.
+Do bear in mind, that it is going to be the most costly
+load balancer of the three different load balancers.
+So, think of extreme performance.
+Think of a Tesla Roadster.
+You're going to get extreme performance out of them,
+but they are the most expensive Teslas that you can buy.
+We then have Classic Load Balancers.
+We've got our old Banger.
+So Classic Load Balancers are
+the legacy Elastic Load Balancers.
+You can load balance HTTP and HTTPS applications
+using Layer Seven specific features,
+such as the X-Forwarded-For and sticky sessions.
+But you can also use strict Layer Four load balancing
+for applications that rely purely on the TCP protocol.
+So essentially, you can either do
+Layer Seven or Layer Four using a Classic Load Balancer,
+but Layer Seven is not anywhere near as intelligent
+as an Application Load Balancer.
+It is literally just using
+X-Forwarded-For and sticky sessions.
+And we'll come to X-Forward-For in one more slide,
+but before we do that I just
+want to talk about load balancer errors.
+So, your Classis Load Balancer, if your application
+stops responding the Elastic Load Balancer,
+or Classic Load Balancer, responds with a 504 error.
+This means that the application is having issues.
+This could either be at the web-server layer
+or at the database layer, but basically it's not
+the load balancer itself that's having the issue.
+It's something below the load balancer, it's just not
+getting a response and that means you need to trouble shoot
+either the Web Server layer or the Database layer.
+You need to basically identify where the application
+is failing and scale it up or out where possible.
+So, that's if you get a 504 error, its basically
+a gateway timeout error.
+Moving on to X-Forwarded-For.
+So, we've got our user here.
+This is their public IP address.
+I've just made one up, it's 124.12.3.231.
+They then do a DNS request and they
+hit our load balancer.
+Our load balancer will take that request
+and it will use the private IP address,
+so, 10.0.0.23, and then send that on to
+our EC2 instance.
+Now, our EC2 instance will only see
+that private IP address, or see 10.0.0.23.
+Now this can cause problems because you probably
+want to know where in the world your user is,
+where they're coming from, et cetera.
+So how can you get the IPv4 public address when your
+Elastic Load Balancer is sending you the private address?
+Well, really easy, you just got to go and look for it
+in the X-Forwarded-For Header, and you will
+be able to see the public IP address there, so 124.12.3.231.
+So just remember that going into your exam.
+So, speaking of exam tips, so basically, just remember
+that there's three different types of load balancers.
+You've got your Application Load Balancers,
+your Network Load Balancers,
+and your Classic Load Balancers.
+Remember that a 504 error means
+that the gateway has timed out.
+And this means that the application is not responding
+within the idle timeout period.
+So how do you troubleshoot this?
+We'll go ahead and trouble shoot the application.
+Is the Web Server down?
+Or is the Database Server down?
+Do you need to scale out?
+Do you need to scale up? Et cetera.
+If you need the IPv4 address of your end user,
+using Classic Load Balancers then you just need
+to use the X-Forwarded-For header.
+So that is load balancers in a nut shell.
+Remember these tips going into your exam and you'll do fine.
+In the next lecture, what we're going to do, is were going
+to register a domain name using Route 53.
+We're then going to point that domain name to
+an Application Load Balancer, which will have some
+EC2 instances inside it.
+And then, hopefully, we'll be able to resolve
+our domain name all the way down to our EC2 instance.
+So, if you've got the time please
+join me in the next lecture, thank you.

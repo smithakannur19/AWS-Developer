@@ -1,0 +1,217 @@
+Okay, hello Cloud Gurus
+and welcome to this lecture.
+This lecture we're going to look at RDS 101.
+So what is RDS?
+Well it stands for relational database service, so I guess
+the best place to start with is
+what is a relational database?
+A relational databases are what most of us are used to,
+and they've been around since the '70s and I want you
+to think of the traditional spreadsheet.
+So in your spreadsheet you've got,
+a spreadsheet is basically a database, you've got the actual
+spreadsheet itself which consists of workbooks,
+and then a workbook is essentially a table
+so you can switch between the different workbooks
+inside an Excel spreadsheet for example,
+and then when you're actually in the tables,
+they consist of two things,
+they consist of rows and they consist of fields or columns.
+So that's all a relational database is, you have a database,
+it'll be filled with a whole bunch of different tables
+and each table has rows and columns.
+So here's a good example of a database, this is a student
+database for example.
+So we've got our ID,
+we've got our first name, our surname and our gender.
+So we've got four fields or four columns in this database.
+And then we've got individual rows.
+So student ID one is myself
+and student ID two is John Adams,
+student ID three is Julia Clark and student ID four
+is Erika Dustagheer.
+So this is the data that basically
+makes up a relational database, it's pretty pretty simple.
+So what are the different relational database types
+that you can have with Amazon's RDS service.
+Well first off we have Microsoft's SQL Server,
+we then have Oracle, we then have MySQL server,
+we then have PostgreSQL, we then have Amazon's own
+database technology which is called Amazon Aurora,
+and then we also have MariaDB.
+So these are the six instances
+that you can provision within RDS.
+And in the next lab what we're going to do
+is we're going to go ahead and provision a MySQL instance.
+Amazon Aurora is just worth noting it is Amazon's own
+flagship database technology, it's fully compatible
+with MySQL, so if you've got a MySQL database you can
+ship it over to Aurora, and we will cover Aurora
+in a lot more detail as we go through the course.
+It's worth also mentioning
+what a non-relational database is.
+Just so you know, we're going to have a whole section
+on non-relational databases and in particular DynamoDB.
+But basically a non-relational database is a database
+and inside the database we have a collection,
+we have documents, and we have key value pairs.
+So what's a collection?
+Well collection is basically a table
+think of it that way, a document is simply a row
+in that table, and the document comprises of a whole bunch
+of different key value pairs.
+Now the cool thing about non-relational databases
+is that you don't need to predefine the table structure.
+So if you remember from the last one where we had the ID,
+first name, the surname, and the gender,
+that all has to be predefined
+before you can put data into it.
+With non-relational databases
+you don't need to predefine your columns,
+you can add them as you go.
+So let's have a look at an example.
+So this is some JSON or NoSQL.
+So we've got our ID,
+we've got our first name, our surname, our age.
+Now we've got our address and inside our address
+we've got our street and our suburb.
+So if we look at the ID it's a key value pair,
+and basically within JSON it always will start
+with this curly bracket,
+and then followed by quotation marks,
+and then you'll have a field in there,
+so that field is going to be essentially your column.
+And then you're going to have a colon,
+and then we're going to have more quotation marks,
+and then the actual data itself.
+So what is the ID?
+Okay it's this number here.
+Then we close out the quotations and then we do a comma,
+and then we start over again.
+So we can add as much info in here as we want,
+and this will all form rows inside
+our non-relational databases.
+And in some non-relational databases
+you can also have nested fields.
+So in the address we could have the street, we could have
+the suburb, we could have the apartment number,
+et cetera, et cetera.
+Now don't worry too much about this just yet,
+we will have a whole section of the course on Amazon's
+non-relation database flagship product which is DynamoDB.
+And that is coming up.
+Another thing to mention around databases is
+what data warehousing is.
+So data warehousing is used for business intelligence.
+And tools like Cognos, Jaspersoft,
+SQL Server, sorry SQL Server Reporting Services,
+Oracle Hyperion and SAP NetWeaver
+are all business intelligence tools.
+And what they do is they pull in very large
+and complex datasets, and it's usually used by management
+to do queries on data such as current performance
+versus targets et cetera.
+And you can actually build these databases specifically
+so that they're not production databases
+but they're actually data warehouses that are used
+for reporting only.
+So your production database might
+push out all the information to a data warehouse
+and when you're running these really data intensive queries,
+you want to do that on your data warehouse
+and not on your production database,
+because you don't want to bring
+your production database down.
+And so we also should look at Online Transaction Processing
+versus Online Analytics Processing, and that's basically
+coming back to that example.
+So Online Transaction Processing
+differs from Online Analytics Processing
+in terms of the types of queries that you'll run.
+So an Online Transaction Processing could be an example
+of an online store, somebody places an order, the order
+number's 2120121, and it basically that's going to pull up
+a row of data such as the name of the person
+who's placing the order, the date,
+the address to deliver to,
+the delivery status, et cetera.
+So it's going to write a piece of,
+let's just say a row of data to a database.
+So that's an Online Transaction Processing.
+These transactions will happen much more frequently
+but they'll be very very simple transactions.
+They'll just be insert into this table this data.
+Whereas Online Analytics Processing could be something
+much more complex, perhaps you're trying to figure out
+the net profit for EMEA and Pacific
+for a Digital Radio Product and so you've got to pull in
+large numbers of records.
+You've got to basically
+add up the number of radios sold in Europe, Middle East,
+and Africa so EMEA, the number of radios sold in the Pacific
+and then you've got to come up with the unit cost
+of the radios in each, they'll probably be different,
+then the sales price of each radio,
+and then this is basically, you've got to figure out
+what the sales price is minus the unit cost and we also
+might have some kind of foreign currency conversion as well.
+So it's going to be doing an awful lot in one query.
+So data warehousing database has used different types
+of architecture both from a database perspective
+as well as also down to the physical infrastructure layer
+to maximize the performance on these types of queries.
+So OLTP will be very very simple transactions that happen
+very very frequently, OLAP will be much more complex
+transactions that will happen very infrequently.
+And then finally we're going to move onto ElastiCache.
+So ElastiCache is basically a web service that makes it easy
+to deploy, operate, and scale an in-memory cache
+in the cloud, and the service improves the performance
+of web applications by basically allowing you
+to retrieve information from fast, in-memory caches instead
+of relying entirely on slower disk-based databases.
+So basically if you're going to a store and let's say you
+want to see the top ten items that's on sale,
+you don't want every single user
+to pull that from your production database,
+because you can just cache that.
+So can cache that using ElastiCache,
+and then that way you take a load off your database.
+And typically what you're going to see
+in your exam is a whole bunch of what architectural changes
+could you make in order to make your databases run faster.
+So ElastiCache is a great way of caching
+frequently access information, and so that when users go
+and try and access that, they don't have to pull it
+from the database they can pull it from ElastiCache.
+And ElastiCache actually supports two open-source
+in-memory caching engines.
+So we've got Memcached, we've got Redis.
+And we'll have a lecture comparing
+the two later on in the course.
+So that is really it for this lecture.
+Let's just have a look at what we've learnt.
+So we've learnt that RDS
+is basically Online Transaction Processing,
+it consists of SQL, MySQL, PostgreSQL, Oracle,
+Aurora, and MariaDB.
+We've got DynamoDB which is Amazon's NoSQL offering,
+and we're going to cover that off as a whole section
+in the course, and then we've got RedShift
+which is Amazon's online analytics processing,
+and this is used for business intelligence and Big Data.
+And then finally we have ElastiCache and this is
+in-memory caching, and this is used to improve
+the performance of your databases in the AWS cloud.
+And we have two engines inside that, we've got Memcached
+and we've got Redis.
+So that is it for this lecture guys.
+In the next lecture what we're going to do is go in
+and provision a little RDS server.
+We're then going to go ahead
+and make sure our little web server can connect
+to that RDS server and read from it,
+and then we're going to get a bit more hands on
+and start doing some more complicated stuff with RDS.
+So if you've got time please join me
+in the next lecture, thank you.

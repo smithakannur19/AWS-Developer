@@ -1,0 +1,274 @@
+Hello, Cloud Gurus,
+and welcome to this lecture.
+This lecture, we're going to look at Route 53,
+and it is a lab so you will need to log
+into the AWS Console, but before we do that,
+let's have a brief overview of what Route 53 actually is.
+Route 53 is Amazon's DNS service,
+and allows you to map your domain names
+to things like EC2 instances,
+to load balancers which we'll cover off a bit later,
+and to S3 buckets which we'll also cover off a bit later.
+Route 53 essentially allows you to buy a domain name.
+We could buy, say, HelloCloudGurus.com,
+and then we'd be able to connect that domain name
+to three different back ends,
+so either EC2, or to our load balancers, or to S3.
+Let's go and log into the AWS Console.
+Here I am in the AWS Console.
+I'm going to go over to services,
+and I'm going to go down to network.
+It should down here,
+and here it is under Network and Content Delivery,
+Route 53 or Route 53, however you want to say it.
+What we want to do is go ahead and get started now,
+and we're going to go ahead and create a hosted zone,
+and we don't have any hosted zones.
+What we might want to do first before we create
+this hosted zone is to go and register a domain,
+so we'll go in and register a domain,
+and click on register domain.
+Now you need to choose a domain name.
+.coms are about $12.
+You can get something cheaper.
+Let's have a look at what the cheapest one is.
+Saw a $9 one.
+It's entirely up to you what you want to buy.
+You can see there's so many different top-level domains now.
+Here's one for $8, .me.uk.
+I'm just going to go ahead and buy a dot-com.
+You can choose whatever it is you want,
+and then you can just type in here.
+We could do HelloCloudGurus.
+I'm pretty sure that is taken.
+I'm pretty sure I bought it in another course.
+Maybe we'll do ImACloudGuru.com.
+Let's see if that's available.
+Yes, it is available,
+so I'm going to go ahead and add it to my cart.
+Then I'm going to go down here and hit continue.
+Now we have to fill in all this registrant information,
+so I'm going to go ahead and do that.
+You can do this yourself,
+and once that's done, I'm going to go ahead and hit submit.
+I have gone ahead and filled that out.
+I just need to agree to the terms and conditions.
+It's going to send me an email to the registrant email
+address just to check that I actually own it,
+and you won't be able to get past this screen
+until you verified that email.
+I've just gone ahead and verified that email.
+Let's just refresh the status here,
+and we can see that it has been registered now,
+so I'm going to go ahead and hit complete purchase,
+and that has now purchased my domains.
+It says, thank you for registering your domain to Route 53,
+ImACloudGuru.com
+What's next?
+Domain registration might take up to three days to complete.
+We'll send an email to the registrant contact
+once the domain is successfully registered.
+So you just click on go to domains, and you see that
+this status is domain registration in progress.
+It doesn't normally take three days.
+It depends what top-level domain name that you use.
+I'm just going to pause the video
+and wait for this domain name to become available.
+Okay, so this is now available.
+Full disclosure, it was a long weekend
+over the last few days, so this is a few days later,
+but you should be able to register it within a few hours.
+It really just depends on the top-level domain.
+We go back over to our dashboard,
+and we click on hosted zones.
+You'll be able to see your domain in here,
+so ImACloudGuru.com.
+What we can do is we can go ahead
+and go to our record sets,
+and this is where we create our DNS records.
+So if we go back over, we can create things
+like our A record, and A record is essentially,
+if you think of an old-school telephone book,
+you used to look up Mr. Smith in the telephone book,
+and you'd get their phone number.
+Essentially when you're creating an A record,
+it's exactly the same thing.
+What we're doing is we're saying
+where ImACloudGuru.com is going to go.
+So if we just click on Create Record Sets, you'll be able
+to see the different types of records in here.
+We've got A records, CNAME records, MX records,
+triple-A records, et cetera.
+An A record would point to an IPv4 address.
+A quadruple-A record would point to an IPv6 address,
+et cetera, et cetera.
+What we're going to do is we're going to create a address,
+and we're going to use what's called the naked domain name.
+What do we mean by naked domain name?
+Well, we simply just mean ImACloudGuru.com
+rather than www.ImACloudGuru.com,
+and this is sometimes also referred
+to as the zone-apex record.
+In order to this, we have to use an alias.
+If you're interested what an alias is,
+just hold your mouse over, and it says,
+Specify whether you want this record set
+to be an alias for an AWS resource.
+An alias-record set is similar in some ways
+to a CNAME-record set.
+One of the differences is that you create
+an alias for the zone apex,
+so we create this thought, the naked domain name,
+and this basically is only supported
+by A and quadruple-A records, so IPv4, IPv6 addresses.
+What we're going to do is in here we're going to click in
+here, and we got our different targets.
+You can have an alias target for an S3 website,
+for an elastic-load-balancer Application Load Balancer,
+elastic-load-balancer Classic Load Balancer,
+elastic-load-balancer Network Load Balancer,
+for CloudFront distributions,
+for Elastic Beanstalk environments, et cetera.
+What we're going to do is we're going to have
+to go and create a load balancer, and then what we're going
+to do is put our EC2 instance behind that load balancer,
+and then we'll come back here
+and basically create the DNS name
+so that when people go to our domain name,
+they'll be able to see our little website.
+Let's go back over to services.
+We're going to go over to EC2,
+and we should still have our little EC2 instance
+up and running that we created earlier.
+I have no idea why but for some reason, I'm in Oregon.
+That was a little bit confusing,
+so if you do not see your instance,
+just check where you should be.
+I should be back in Northern Virginia,
+and yeah, I can see my instance there,
+and then what you want to do in order
+to create a load balancer is if you go down
+to load balancing, you see it right here,
+and go to load Balancers and click on that link,
+and you'll see that right now we don't have
+any load balancers in this region,
+so go ahead and create a load balancer.
+There's three different types of load balancers.
+We have Application Load Balancers,
+Network Load Balancers, and Classic Load Balancers.
+Application Load Balancer is when you need to be...
+Basically you're using web applications for HTTP, HTTPS,
+and this operates at the request level.
+Network Load Balancers you would use
+when you need ultra-high performance
+and static IP addresses for your application.
+We're going to go ahead and create
+an Application Load Balancer.
+In here, you might want to give it a name,
+so I'm going to call it myALB, so Application Load Balancer.
+It's going to be internet-facing.
+It's going to be using IPv4.
+In here we have our listeners.
+Listener is simply what port our Application Load Balancer
+is going to listen on.
+HTTP is on port 80, and if you want to do HTTPS,
+you can do it as well which will be on port 443.
+Just zoomed out my screen a little bit.
+If you don't want to use SSL, you can delete that.
+I'm going to take it off for now.
+I don't want to listen on SSL.
+In here, we have our availability zones, so where do we want
+our Application Load Balancer to be based.
+I'm going to select all availability zones
+to give you maximum redundancy.
+Next, I'm going to go ahead and configure my security
+groups. It's going to give us this warning saying
+that it's not using a secure listener.
+In other words, we're not using HTTPS.
+That's fine.
+Hit next, and then we're going to assign a security group,
+so let's assign the one that we created in the last lecture,
+so we're going to assign our MyWebDMZ,
+and I'm going to go ahead and hit next
+to configure our routing.
+In here, we're basically setting up route requests
+to the targets in this target group,
+so you can have a whole bunch of different targets,
+and you can route request intelligently.
+It's entirely up to you.
+You might have web servers in one routing group.
+You might have application servers in another.
+You might have MySQL database servers in another, et cetera.
+I'm going to create a new target group.
+I'm going to call this MyWebServersGroup,
+and just going to do it on HTTP, on port 80.
+The target type is simply whether or not
+the target's going to be registered using your instance IDs,
+the actual ID of the EC2 instance,
+or using private IP addresses.
+I'm going to use instance IDs as the default value.
+In here, we have our health checks,
+so what is it going to look for when it goes
+and does a health check.
+We're going to type in here the little webpage
+that we created, Index.html.
+Going to leave everything else as default,
+and we're going to go in and register our targets,
+so I'm going to add this to the registered group,
+and then I'm going to go ahead and hit review,
+and I'm going to go ahead and hit create.
+The health check will take a little while
+to bring this load balancer into service as healthy,
+so what I'm going to do is I'm just going to...
+And it's also going to take a while to provision,
+so I'm just going to pause the video and wait
+for this Application Load Balancer to come up online.
+That should hopefully be set up.
+Let's just hit refresh,
+and we can now see the state has changed to active.
+If we actually go into the target groups,
+we should be able to see what targets are healthy.
+We can see here we've got a registered target,
+here's our instance ID, and that the status is healthy,
+so it has found that index.html.
+The very last thing we need to do
+is we need to go over two services.
+We're going to go back to Route 53
+which is under Network Content and Delivery,
+and we're going to click on there,
+and what we're going to do is we're going
+to point out DNS to our Application Load Balancer.
+So click in here, and we'll go just click on the link,
+and you can see in here, this is our hosted zones,
+so we're going to create a record set,
+and we're going to do an alias record,
+and in here we'll be able to see the target.
+Here it is, myALB.
+I'm going to click in there,
+and I'm going to leave everything else as default,
+and go ahead and hit create.
+So now, what we're going to do is we're going to open up
+a new tab, and we're going to go to ImACloudGuru.com.
+So here we are.
+I'm just going to open up in here.
+I'm going to type ImACloudGuru.com,
+and if we minimize, there we go.
+It says Hello Cloud Gurus,
+so we have now created a working website.
+It's behind an Application Load Balancer
+which is spread across multiple availability zones,
+and then when we go to result the name I'm A Cloud Guru,
+that's basically sending traffic
+to our Application Load Balancer
+which is sending traffic to our EC2 instance.
+That is it for this lecture, guys.
+Hopefully you've learned a lot.
+The next lecture, what we're going to do
+is we're going to log into our EC2 instance,
+and we're going to show you how to set up a user
+so that they can access S3 using the command line,
+and it's very important to understand
+how to do that going in to your exam,
+so if you've got the time,
+please join me in the next lecture.
+Thank you.

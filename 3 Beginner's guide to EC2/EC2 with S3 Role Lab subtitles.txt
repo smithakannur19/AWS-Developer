@@ -1,0 +1,240 @@
+Okay, hello Cloud Gurus,
+and welcome to this lecture.
+This lecture we're going to look at EC2
+with S3 Roles.
+So you might remember in the last lecture,
+we created our Secret Access Key and our Access Key ID.
+We then ran AWS Configure, and we were able
+to provision a bucket and copy of file up to that bucket.
+We then basically went into the IAM Console.
+And we went and deleted that Secret Access Key ID
+and our Access Key.
+So now we are no longer able to communicate with S3.
+And so the next thing we're going to do
+is we're going to create a role
+and we're going to give that S3 Admin Access,
+and then we're going to apply that role
+to a running EC2 instance.
+So this is a lab and you will need
+to log into the AWS Console.
+Okay, so I've looked into the AWS Console,
+I'm going to go over to Services,
+and I'm going to go down to Security Identity and Compliance
+and click on IAM.
+Now I've got a user in here and our user in our group,
+we have a look at our user, is called Developer1
+And we can see if we click on Developer1,
+that they're inheriting, the Administrator Access
+from the group, if we click on Security Credentials
+we'll see I've actually generated a new Access Key ID,
+just for consistency, I'll just go ahead
+and delete that so that this user no longer has
+any kind of access.
+So what I want to do now is I want to go ahead
+and create a role.
+So if I click on Roles, it says what are IAM roles?
+Roles are a secure way to grant permissions
+to entities that you trust.
+So you basically you grant a role to resources within AWS.
+So you could give your EC2 instance, you know,
+you basically create a role that allows
+your EC2 instance to talk to S3,
+when you create a role that allows Lambda
+to execute or you create a role that allows Lambda
+to write things to S3 or to DynamoDB.
+If you don't know what Lambda or DynamoDB
+or any of that is just yet, don't worry,
+we are going to cover it in the rest of the course.
+So what I'm going to do is going to go over here
+and create a role.
+And in here, we're going to create a role
+for an AWS service, you can create a role
+for another AWS account.
+You can also use it for web identities.
+So this would be things like Cognito
+or any open ID provider, so like Facebook for example.
+And then you can also allow your roles
+to interact with Active Directory.
+So SAML Two Federation.
+This would be your corporate directory.
+We're going to do this from the AWS service.
+And we're going to do this for EC2,
+this is the most common role.
+So let's go ahead and click on EC2,
+and go ahead and hit Next on our Permissions.
+And in here, we've got all our different policy types.
+Now we could give our EC2 instance Administrator Access.
+But that would be pretty insane,
+because if that EC2 instance was compromised
+and somebody managed to hack it, they could then go in
+and start provisioning stuff inside our cloud.
+They could go and create other EC2 instances, they
+could go and delete things. So we don't want to do that,
+we want to have a policy of least privilege.
+So in here, what I want to do is just type in S3.
+And in here, we can see that we've got a policy
+that is Amazon S3 Full Access.
+So we can click on that,
+you can actually see what the policies look like,
+you can click on the link,
+and you can go in and look at the JSON.
+And essentially this is a policy document,
+so all a whole bunch of just key pairs.
+So we've got our version, and then we've got our statement.
+And our statement has some nested roles inside it.
+So we've got effect, allow, action, S3,
+resource, everything.
+So essentially, this JSON is saying,
+we're going to allow basically this role
+to do anything inside S3.
+So I'm just going to go up here and close that,
+and come back over.
+So you can, you do definitely have to understand
+how to read roles going into this exam.
+So do be aware of that, or how to read JSON policies.
+So Amazon S3 Full Access is the one that we want.
+Let's go ahead and hit next.
+I'm going to call this My S3 Admin Access,
+and so that's my role name.
+And the role description allows EC2 instances
+to call AWS services on your behalf,
+you might want to change that to call AWS S3 on your behalf
+because that this role will only allow us
+to interact with S3, we can't do anything else.
+So let's go ahead and hit Create role.
+And that has now created our role.
+I've got a whole bunch of other roles
+in here from other courses, just ignore that.
+But you can see the role down here, My S3 Admin Access.
+So what I want to do now is I want to go over again to EC2,
+so I'm going to go to Compute and click on EC2.
+And what I want to do is apply this role to my EC2 instance,
+but before we do that, let's just log back in
+to the EC2 instance and make sure
+that we definitely cannot access S3.
+Okay, so here I am in my terminal window,
+I'm going to SSH over to my EC2 instance,
+going to elevate my privileges to root,
+and I'm going to clear the screen.
+And now I'll just type AWS S3 LS.
+We will be an error message saying, Invalid Access Key ID
+when calling the List Bucket Action.
+Now I could go in and type AWS configure
+and do a whole bunch of new, you know,
+Secret Access Keys and Access Key IDs,
+I'm not going to do that, what I'm going to do
+is just opt tab back over to the AWS console.
+So I'm back in the EC2 Console for AWS,
+I'm going to click on my little EC2 instance,
+I'm going to go over to Actions,
+and I'm going to go over to Instance Settings.
+And you can see just over here Attach/Replace IAM Role.
+So I'm going to click in here, and I'm going to go ahead
+and add my S3 Admin Access role.
+Now note that this box will only auto populate
+with EC2 roles, we can't see any
+of my Lambda roles, for example.
+So my S3 Admin Access, I'm going to go ahead and hit Apply.
+So that operation has now succeeded,
+I didn't need to stop my instance or reboot it
+or terminate it or anything like that,
+I just applied it to the instance.
+Let's go back over to our terminal window.
+Okay, so I'm back in my terminal window. If I
+type AWS S3 LS, I'm going to get the same error message.
+And the reason for this is because it still
+has Access Key ID and Secret Access Key saved
+in as little hidden directory inside our Linux Instance
+and will do the same in Windows as well.
+So in order to stop this, just go, CD, so change directory,
+and you want to go to your Home Directory,
+and then it's /.aws
+And that's a little hidden directory.
+If you type in LS in here, you can see the configuration
+and you can see your credentials.
+And in order to, you know, stop it from doing this,
+just go in and remove credentials.
+So RM credentials,
+and that will say remove regular file credentials.
+Yes, and then you may also just want
+to do the same with config.
+So remove config, yes.
+If we type ls in now,
+we'll see that there's nothing in there.
+So if we go back to our root directory
+and just clear the screen.
+What we'll do now is just type AWS S3 LS,
+you'll see that it doesn't have any credentials.
+But now the role has kicked in
+and we can see our S3 buckets.
+So we've got a cloud guru one, two, three, four -rk.
+And we can actually go in and have a look
+at the contents of that.
+So AWS S3 LS and then S3, and then a cloud guru,
+one, two, three, four hyphen then RK.
+And you'll be able to see our hello .txt in there.
+Again, we could, you know, go and echo.
+So Hello Cloud Gurus 2.
+And we're going to put that out to hello2.txt
+And then what we want to do is AWS S3 then copy,
+hello2.txt over to S3, and then a cloud guru
+one, two, three, four RK.
+And that should hopefully copy it up,
+there you go, this has been successful.
+And again, if we just run that command AWS S3 LS
+and have a look at the contents,
+we'll be able to see our second text file in there.
+Now for Windows users, if you want to locate
+where your configuration credential file is,
+it's in your user profile, and then /.aws
+And you can go, if you just go
+to docs.AWS.amazon.com/cli/latest/userguide
+and then it's under cli-config-files.html.
+So what are my exam tips?
+Let's go over and have a look.
+So my exam tips, well roles allow you
+not to use the Access Key IDs and Secret Access Keys.
+And if you do lose your Access Key ID or Secret Access Key,
+maybe you accidentally save it to a file
+that you publish on GitHub.
+Anyone can access your AWS account.
+And if you've given that account Administrator Access,
+they can literally do anything.
+So they're not very secure, they're difficult to manage.
+You have to go and install them on every single EC2
+instance, whereas roles the universe and you can apply them
+across multiple EC2 instances,
+and you can't compromise a role.
+So roles are always preferred from a security perspective,
+if you given a choice in a, you know, an exam scenario,
+and between Access Key ID and Secret Access Keys
+versus roles, always choose roles.
+Roles are also controlled by policies.
+So we saw, we added the S3 Admin Access Policy,
+policy is just basically a whole bunch of JSON,
+and it basically has key pairs and it states
+what you can and can't do,
+you can change a policy on a role,
+and it's going to take immediate effect.
+So I could go in there and go into my you know,
+S3 Admin Access Policy and start tweaking the JSON,
+and that will take immediate effect.
+I could say, Okay, I want to be only able to read from S3,
+I don't want that person to do any writes.
+As soon as you save that policy,
+that will take immediate effect.
+And then most importantly, you can attach and detach roles
+to running EC2 instances without having to stop
+or terminate these instances.
+It was that certainly quite a recent thing.
+For many, many years that was a very popular exam topic,
+you used to have to terminate your EC2 instance
+and then recreate it with the role attached.
+But now you can attach and detach roles
+to running EC2 instances.
+So that is it for this lecture guys.
+Remember if you do have a scenario question
+where you've got roles versus Access Key IDs
+and Secret Access Keys, always choose roles.
+If you have any questions, please let me know.
+If not feel free to move on to the next lecture. Thank you.

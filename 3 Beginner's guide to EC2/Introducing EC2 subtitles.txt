@@ -1,0 +1,82 @@
+Hello,
+Cloud Gurus and welcome to this section of the course where we're going to take
+a look at one of the most popular services that AWS has to
+offer, which is EC2.
+So what is EC2? Well,
+it stands for elastic compute cloud,
+and it's abbreviated to EC2,
+so that is where the name comes from and EC2
+is secure, resizable compute capacity in the cloud.
+So what does that actually mean? Well,
+it's basically like a virtual machine only it's hosted in AWS instead
+of being in your own data center and it's been designed to make
+web scale cloud computing, easier
+for developers and with EC2,
+you can have the capacity you want when you need it and you
+are in complete control of your own instances.
+So you get root or admin access to your own instances
+and when we say instances,
+it just basically means the virtual machine that you are running in AWS.
+So why is EC2 so-called? Well,
+when AWS introduced EC2,
+it was really a game changer for the IT industry for a number of
+reasons and AWS led a big change in the entire industry by being the
+very first cloud provider and by introducing EC2 as the
+first virtual machine running in a public cloud.
+So with EC2, you pay only for what you use.
+So you only pay for the time when your EC2 instance is up and running.
+So it's a pay as you go model and this really changed the economics of
+computing and with EC2,
+you should be able to avoid a lot of the wasted capacity,
+which is inherent in physical servers and this is because with
+EC2 you can select the capacity that you need right now,
+and you can grow and shrink as, and when you need. So over time,
+as the demands on your application change,
+you can grow and shrink your infrastructure to suit the requirements of your
+business and your applications and before EC2 came on the scene,
+if you had a new application and you had to purchase new physical servers,
+you'd have to estimate how much capacity you were going to need and when you're
+buying a physical server,
+this is really a longterm investment for maybe three to five years or sometimes
+even longer. So when I was working as a solutions architect,
+a lot of the time we would over specify the physical servers with the
+expectation that the application will grow into it.
+So think of all those companies all around the world,
+filling their data centers with huge servers and all this wasted
+capacity,
+but the real massive benefit for a lot of companies is that with cloud
+computing,
+you can have your servers up and running in minutes rather than waiting months
+and that's not a joke. I mean, if you've ever worked in a large organization,
+you'll know exactly what I'm talking about,
+because it can seriously take a minimum of three months at least to get a
+new server up and running in your data center. So why is that? Well,
+firstly, after getting approval to spend the money,
+you've got to then make the purchase and then you might wait maybe two or four
+weeks for the hardware to become available and to be delivered once it's
+actually been delivered,
+we've then got to get it physically installed in the data center.
+So our poor data center engineer has got to find a space in the data center
+to install our server.
+We've then got to patch our network cables and get it on the right network and
+then our sys ops team will install the operating system along with any
+monitoring and backup and security hardening software as well and all of
+this takes time.
+So there's many stages we have to go through before we can actually install
+an application on our server and this is why in some organizations,
+depending on the level of change control and approval process involved
+at each of these stages, in some cases,
+it can take three months or longer to purchase a new server and have it up and
+running and ready for you to install your application.
+So there's got to be a better way and for me,
+this is the big game changer with EC2.
+You can be up and running in minutes instead of waiting
+months. So onto my exam tips for EC2 just remember EC2 is like
+a virtual machine and it's hosted by AWS instead of being in your
+own data center and the great thing about it is that you can select the capacity
+that you need right now. You can grow and shrink whenever you need,
+you pay only for what you use and you get your infrastructure and it's ready to
+install your application in minutes rather than waiting months.
+So that is the end of this lecture. If you have any questions,
+please do let me know. Otherwise feel free to move on to the next lecture.
+Thank you.

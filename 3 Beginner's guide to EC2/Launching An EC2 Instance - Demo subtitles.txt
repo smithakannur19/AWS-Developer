@@ -1,0 +1,285 @@
+Hello, Cloud Gurus and welcome to this lecture.
+Now the key to learning AWS is getting as much hands on practical
+experience as possible and in this lecture,
+we're going to get our hands dirty and launch an EC2 instance,
+and then configure it as a web server.
+So if you'd like to join me in the console, we'll get started.
+Now you can complete this lecture using your own AWS free tier account,
+or if you have access to cloud playground,
+then you can just select cloud playground and select AWS
+sandbox and you will be provided with your own login to
+an AWS account that we provide.
+So you can just select open sandbox, right click,
+and I'm going to open it in a new incognito window
+and then you just copy and paste it.
+This username and password into the AWS console
+hit sign in,
+and you should be good to go but if you don't have access to sandbox,
+don't worry. You can just do everything within your own free tier account.
+So from the AWS console,
+the first thing I'm going to do is make sure that I'm in the North Virginia
+region.
+So this is the main region where AWS released all their new services.
+So if you want to play with the latest services, this is the region to select.
+So we are going to set up an EC2 instance and configure it as a web
+server.
+So I want you to head to services and we'll find EC2 under
+compute. So I select EC2
+scroll down until we see launch instance and select launch instance
+and instances are created using Amazon machine images or
+AMI. And this is basically the operating system image.
+So windows Red Hat, Amazon Linux,
+et cetera and there are loads to choose from and they even have some
+which have been optimized for a specific workload. For example,
+we've got some down here which have been optimized for a deep learning workload,
+and these images will come up pre-configured with some of the packages and
+software that you might need for machine learning.
+So it comes with a lot of these utilities and libraries already installed,
+but in this course, we're mainly going to be using the Amazon Linux AMI.
+So we'll select the latest one at the moment, that's Amazon Linux two.
+So select that one
+and this is where we select our instance type.
+So we can select an instance type based on the requirements of our application
+and this is just going to be a little web server.
+So we're going to keep to the default, which is the T2.micro.
+So hit next and here we can set the number of instances,
+we're just going to launch one and if we want to,
+we can request a spot instances and we can go in and set a maximum
+price that we're willing to pay for a spot instance,
+but I'm not going to do that. So I'm going to deselect.
+Now the network is going to be the default VPC,
+and don't worry if you don't know what a VPC is,
+we're going to be covering VPCs later on in the course, but for now,
+just think of it as your own virtual data center in the cloud that is private to
+you.
+So we'll use the default VPC and also the default subnet and don't worry,
+we're going to cover subnets later on in the course as well.
+We're going to auto assign a public IP.
+So just make sure that this is set to enabled.
+So this is going to create a public IP address that we can use to connect to our
+web server. So this is really important.
+Moving down the screen,
+we're just going to stick to the defaults for everything else,
+the shutdown behavior we can select,
+whether we'd like our system to stop or terminate when we shot our instance
+down.
+So I'm just going to keep that to stop and you can also protect
+against accidental termination by selecting this box.
+So this enabled termination protection means that you won't be able to terminate
+the instance accidentally and if you want to terminate the instance,
+you will have to remove the termination protection.
+So this is a really good thing for a production system,
+just to protect your systems against accidental termination.
+But I'm going to uncheck that one, moving down to monitoring.
+Now, all instances are monitored by default using CloudWatch,
+but if you want detailed monitoring,
+then you can select this box here and by default,
+the basic monitoring that they give you,
+it's free of charge and they collect the monitoring metrics in five minute
+intervals. So every five minutes,
+it's going to collect the monitoring metrics on your system and that is what you
+get for free but if you want more detailed monitoring,
+you can collect the data at one minute intervals instead,
+but they do charge you extra for it. In terms of tenancy,
+we're going to stick to the shared tendency model
+and then if you scroll down to the bottom of the page,
+you'll find advanced details and here in this text box under user data,
+this is where you can add bootstrap scripts
+and a bootstrap script is basically any command that you want to run.
+When the system first boots up, you can add it here as a bootstrap script.
+For example,
+you could run a command to update your operating system with the latest
+packages,
+or you could install an application and this is something that we're going to
+cover later on in the course. So if you're happy with that, we'll hit next
+and this is where we can add our storage. So by default,
+they give us a single EBS volume, and this is our root to volume,
+also known as a boot desk and this is where our Linux operating system
+is going to be installed. So by default,
+it's going to be general purpose SSD,
+and that's going to be fine for the majority of applications but if you do have
+a high performance or low latency application,
+then you can select the provisioned IOPS SSD, or IO1.
+Now they're also showing another option, which we haven't covered,
+and this is really a legacy option.
+So this is the previous generation and the current recommendation is to go
+with a general purpose GP2 for most applications,
+and then use provisioned IOPS IO1 for high performance applications,
+which need additional IOPS and you'll notice on the right hand side,
+you can also encrypt your root volume. So if we select the drop down,
+you should see something like this.
+So you should see a default encryption key and it's provided by a service
+called KMS,
+which stands for key management service and that's just another service that
+they provide for managing encryption keys to encrypt your data and
+we're going to find out all about KMS later on in the course but what I want you
+to understand is that it's really EC2 encrypt your EBS volumes.
+You just need to select this option when you create the volume,
+but I'm just going to keep it to not encrypted.
+And at this stage, you can also add additional volumes. For example,
+if you were going to install an application on an EC2 instance,
+and you want to install the application on its own dedicated volume,
+then you can add your additional volumes in here,
+but we're not going to do that.
+So I'm just going to hit next and here we can add tags
+and these are completely user defined key value pairs,
+which are associated with your instance and they're a really good way to
+organize your EC2 instances.
+So you might want to use a tag to name your system or describe which team it
+belongs to or which application it's running.
+So I'm going to add a tag called name, and I'm going to call my instance,
+my web server.
+So hit next and now it's asking us to configure a security group
+and you can think of a security group as similar to a virtual firewall.
+So this is what we use to allow traffic in and out of our instance
+and by default, they give us SSH access on port 22.
+So this gives us remote login using SSH and if you haven't
+used before, it's really similar to RDP.
+So it's basically what we use to log in and have a command line session to
+our Linux server but in addition to SSH,
+we're also going to need to configure another rule. So first of all,
+I'm going to change the name of my security group so that I know what it's
+called.
+So I'm going to call it my web DMZ I'm then going to select add rule
+and we're going to add a rule for HTTP. So select HTTP,
+and it should say port 80
+and the source is going to be anywhere because this is going to be a web server.
+So we'll need to allow access from anywhere and this is the
+notation that we use to define that. So it's 0.0.0.0/0
+and that just means that this rule will apply to all IP addresses.
+So that means any IP address is going to be able to connect to our instance on
+port 80.
+So that is all IPv4 notation on this is the IPv6
+notation for the same thing and then in terms of the SSH
+rule, well,
+we can set that to anywhere or we can set it to my own IP address as well.
+Right now we're just going to keep it to anywhere but if this was your
+production system,
+you're absolutely not going to want to use that kind of a rule.
+You'll want to lock it down to a specific IP address.
+So you might want to select my IP or select a custom IP,
+but for now, we're just going to keep that to anywhere.
+So now let's hit review and launch and launch
+and now it's asking us about key pairs.
+So to connect using SSH,
+we need to create a public and private key pair and this will allow us to log
+into our instance.
+So let's create a new one and I'm going to call it my new key pair
+and hit download and this is going to download it to our local
+machine.
+Key pair consists of a public key and a private key
+and it's used to control or restrict who can log in to the server
+and basically anyone with the private key is going to be able to log in and if
+you don't have the private key, then you're not going to be able to log in.
+So you want to be careful who you share this private key with,
+and you also want to make sure that you don't accidentally delete it and that
+you store it in a secure and accessible location.
+So once you've downloaded your key pair and it should end up in your local
+downloads directory, then you can just click launch instances.
+So our instance has been initiated, and this is showing our instance ID.
+So if we just click on the instance ID,
+that will take us to the EC2 dashboard.
+So here is our EC2 instance,
+and hopefully it should be showing as green and running and if we look down
+here, here is our public IP address.
+So now the next thing we're going to do is connect it to our instance,
+using this public IP address. Now, if you're working on a Mac,
+you can follow along with me,
+but if your local machine that you're working on is a Windows machine,
+then you'll have a slightly different process for logging in.
+So if you all working on a Windows machine,
+then please stop this video now and go to the very next video in the
+course,
+which is going to show you how to log in using a Windows machine and using a
+tool that you can download called PuTTY.
+But if you're a Mac user like me,
+then you can just follow along and do exactly what I do.
+So here I am in my applications folder on my Mac,
+and I'm going to head to utilities and I'm going to open a
+terminal window and the first thing I'm going to do is change to
+my downloads directory.
+I'm going to check that my private key has downloaded
+and there it is and the next thing we need to do is we need to set the
+permissions. So I'm just going to run CHmod 400,
+and then the name of my private key.
+So that just sets the permissions on this file and if you forget to do this,
+it will not work and now we already to SSH onto our
+instance. So just type SSH EC2-user
+at, and we need to grab the public IP address of our instance.
+So come back to the console and grab your public IP and
+paste and then -i
+followed by the name of our private key and hit enter.
+Now it's asking, do we want to continue such as type? Yes and if it's worked,
+you should see something like this.
+So we've established an SSH connection over port 22 to
+EC2 instance.
+I'm just going to clear the screen I'm then going to elevate my privileges.
+So type sudo SU.
+So I'm now effectively the root user,
+and I now have full admin access on this instance.
+So now the next thing we're going to do is turn our little Linux server into a
+web server.
+So the first thing we're going to do is we're going to upgrade our operating
+system to all the latest packages and to do that, we just type yum
+update -y for yes, and hit enter.
+And this just updates all the latest packages and the kernel as well.
+So this just means we're up to date with any security features and kernel
+packages and now we are ready to install the Apache web server.
+So I'm just going to type yum install httpd -y
+for yes, and hit enter,
+and then to start Apache it's system CTL start
+httpd. So this starts our web server,
+but if we want it to start automatically at boot time, we can run systemCTL
+enable httpd.
+So whenever this instance boots, or when it reboots,
+it's going to start httpd at boot time.
+So it's going to start it automatically
+and then the last thing we can do just to check that everything started
+correctly is we can run that systemCTL
+status httpd
+and if it's all running correctly, then it should show as active.
+And it's been running for a couple of minutes.
+So now the next thing we're going to do is we're going to create a little
+webpage. So I'm going to change directory to VAR www
+HTML type LS.
+So there's no webpages in here yet and this is just the default directory
+structure that gets installed when you install the web server.
+So let's add our first webpage and I'm just going to use the basic
+text editor included on our EC2 instance, and it's called nano.
+So I'm going to type nano followed by the name of the file that I'm creating,
+which is indexed.html and hit enter.
+And if you've never used nano before, it might be a bit scary,
+but it's actually pretty easy once you get used to it.
+So we'll just go ahead and create our little index.html file.
+So I'm just going to write the most basic possible HTML file.
+So we start off with HTML and we'll start a body section
+and then create a heading and then this is the text which is going to appear,
+and then I'm going to end my heading and my body and end my
+HTML,
+and then to save the file hit control and the letter X at the same
+time and it's going to ask if we want to save,
+so hit the letter Y and hit enter and then if you type LS,
+you should see your index.html file there.
+So now we should be able to check if we can access our little web page.
+So if you head back to the browser window,
+I'm going to copy my public IP address and open a new browser
+tab paste in the IP address and hit enter and if it's all worked,
+then this is what you should see and if you are not seeing that,
+then there's a few things that you should go back and check. So firstly,
+you can go back and make sure that you've created the index.html
+correctly,
+make sure that the httpd service is running and also make sure
+that the security group allows access for anyone on a port
+80. So there we go. We've created an EC2 instance.
+We've installed at the Apache web server and we've created a little simple
+website that we can access over the internet using the public IP
+address.
+So that is the end of this lecture and if you've created this in your own
+account, then do remember to go in and terminate your instance,
+as soon as you finished to avoid any unnecessary charges and you can just
+head to the EC2 dashboard, select your instance,
+and then on the actions and instant state,
+you can select terminate.
+So hopefully all of that work for you and if you have any questions,
+please let me know. Otherwise, feel free to move on to the next lecture.
+Thank you.
