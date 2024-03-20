@@ -1,0 +1,408 @@
+Hello Cloud Gurus, and welcome to this lecture.
+This is one of my favorite lectures
+and in this lecture we're going to go ahead
+and create our own Alexa skill, we're also
+going to use the AWS Polly Service to go in and go,
+basically transcribe our notes into MP3 files.
+We're going to host these MP3 files in S3,
+and then we're going to use Alexa to stream our MP3 files,
+and we'll be using the Serverless Application Repository.
+Now, this is all very hands-on,
+so it's going to teach you how to use
+the Serverless Application Repository,
+and how easy it is to build out Alexa skills.
+So hopefully you have an awful lot of fun,
+before we go on to the lecture,
+let's just have a look at how Alexa works.
+So this is an Amazon Echo,
+Amazon Echo is the name of the hardware for Alexa,
+and essentially you just go in and you say to your Echo,
+"Alexa, turn on Welcome Home"
+or "Alexa, turn on my chill music"
+or "Alexa, turn on the TV" et cetera, et cetera.
+Now, in terms of the way it works
+I like to use the example of an iPhone,
+and an iPhone is the hardware, Siri is the voice service.
+So with your Amazon Echo,
+that is the actual physical hardware,
+and Alexa is the voice service.
+So that is the way it works,
+so sometimes people use Echo and Alexa interchangeably,
+but technically speaking,
+Echo is the hardware and Amazon Alexa is the voice service.
+And you can also change the hardware up,
+so you can use Raspberry Pi's,
+you can use here the Amazon Echo,
+you can use Amazon Fire TV,
+we've got Echo Dots, we've got Echo Shows,
+and basically the hardware is becoming more,
+and more prevalent,
+so you can have multiple different devices,
+but they're all using the same voice service.
+They're all sending information to the AWS Cloud,
+and AWS uses Automatic Speech Recognition,
+and Natural Language Understanding to translate
+what you're saying into text,
+so it's doing a text-to-speak translation,
+and essentially what this is then going on to do,
+is to go on and trigger a Lambda function.
+So literally, every single time you use the Amazon Echo
+in your home, you are speaking directly to Lambda,
+and Lambda is talking back to you.
+So in terms of how we actually go and build out our skills,
+we always start with Lambda,
+so we go in and create our Lambda functions, so we're
+going to be using the Serverless Application Repository
+and sometimes this is referred to as the Skill Service,
+so this is one-half of our, of creating our skill,
+then we have to go in and configure the Skill Interface,
+and this is where we can figure things like
+Invocation Names, Intense Schemas, Slot Types,
+Utterances, et cetera.
+Now we're only going to do this once
+and it's beyond the scope of this course,
+in order to learn how to do all this.
+We do have some Alexa courses on the A CLoud Guru platform,
+and we will have a certification course coming out
+on the A Cloud Guru platform,
+because there is a new Alexa Specialty Cert.
+So let's go ahead and get started,
+and log-in to the AWS Console.
+Okay so here we are in the AWS Management Console,
+the first thing we want to do is just go ahead
+and create an S3 bucket.
+So we're going to go ahead and create a bucket,
+I'm going to call it acloudgurupolly2019
+something like that.
+And I'm going to go ahead and hit create,
+and that already exist so I'll call it,
+acloudgurupollyassets2019
+and go ahead and hit created,
+and that has now created my bucket.
+And here, I'm going to click in here,
+I'm going to go edit my public access settings
+so we do want to make this bucket public,
+so I'm going to go ahead and just type confirm,
+and then we're going to go and give it a bucket policy,
+making everything inside it public,
+so let's click in here, go to our permissions,
+and go to our bucket policy,
+and this will be available in the resources section
+of the course, just go ahead and copy that
+into your clipboard and then we're going to paste it in here
+and then we're just going to change the resource ARN,
+and we're going to grab our ARN from here,
+so just copy that into your clipboard
+and then go over to here, and paste it in,
+and go ahead and hit save.
+Straight away you'll be able to see that the UI has changed,
+saying, hey everything in this bucket is now public.
+So we're going to use this bucket to store our MP3 files
+and we're going to, basically, take some notes
+and then generate MP3 files using the Polly Service.
+So go ahead and copy that into your clipboard,
+this is the ARN for the bucket,
+actually you just need the bucket name,
+I don't think you need the ARN,
+so just copy the bucket name into your clipboard.
+And then what we're going to do, we're going
+to go over to services and we're going to go down
+and find the Polly Service,
+so the Polly Service can be found under machine learning,
+and you'll see Amazon Polly in here,
+and in here we can go and listen to this.
+Now I don't know if you're going to be able to hear this,
+but,
+"I will read any text you type here"
+So you can put in any text and it'll play it out.
+So I'm going to, cause I'm Australian in going to go over to
+Australian, and I like Russell,
+so I'm going to put Russell in here,
+and then what I want you to do
+is just paste some notes in here.
+So I'm on the EC2 landing page,
+you can write your own notes,
+I'm just going to copy this into my clipboard
+and go back over here, going to paste this in here.
+So we, basically it's just saying,
+"Amazon's Elastic Compute Cloud,
+EC2 is web service that provides..."
+I'm not going to read the whole thing to you,
+and then what I'm going to do,
+is going to go down and click, synthesize to S3,
+and in here I'm going to type in my bucket name,
+so it's acloudgurupollyassets
+2019,
+and I'm just going to maximize this
+and I'm going to go ahead and hit synthesize,
+and so that has now created a task to synthesize this text
+into an MP3 file,
+and if we go down to our S3 Synthesis Task
+you'll be able to see here, that one is scheduled,
+and this is one that I did earlier
+and that has now completed.
+So it does take a little bit of time,
+it can take a couple of minutes, if you just hit refresh,
+there you go, it actually took only a few seconds,
+so that has now completed the task.
+If we go back over to S3,
+we'll be able to see that MP3 file,
+which is sitting in our public bucket,
+and there it is, there.
+Now what we want to do is create an Alexa skill
+that will start playing these MP3 files,
+so you'll basically be able to say,
+"Hey Alexa, open Study Buddy" or something like that,
+and then it will read you out a random AWS fact,
+so it'll help you be able to study.
+So let's go over to services, and what we're going to do is,
+we're going to go over to Lambda,
+and we're going to go and create a Lambda function.
+Now I would do this in Northern Virginia if I was you,
+you need to do this in a region where
+the Alexa's triggers are enabled,
+and they're only in certain regions around the world,
+I think it's, definitely, Northern Virginia and Ireland,
+I think there's one in Sydney,
+but basically you need to do it in a region where
+the Alexa trigger is enabled.
+So I'm going to do this in Northern Virginia,
+I'm going to go ahead and create my function,
+now you could go over to Blueprints and type in Alexa,
+but if you do that you'll see that they all say,
+Please use the Alexa-Skills-Node-JS-Facts Skill,
+from the Serverless Application Repository,
+and it just says that for most of these skills.
+So let's use the Serverless Application Repository
+and these are basically Serverless Applications
+published by AWS, as well as AWS Partners,
+and other developers,
+and you can just use them for free,
+you don't need to know how to go ahead and program,
+you can see there's today, right now, there's 434.
+And what we're going to do is we're going to use
+the Alexa Skills-Kit-Node-JS-Facts Skills,
+so we're going to select this one
+and then what we're going to do,
+is we're going to just leave everything as default,
+in here we've got our permissions,
+we don't need to really do anything here,
+so we're just going to go ahead and hit deploy,
+and this will deploy our Alexa skill to Lambda
+and then that's it really, all we need is the ARN,
+and then we can go ahead and connect this up
+to the developer.amazon.com.
+So in here you can see your applications being deployed,
+if you go ahead and click on Lambda right now
+I've got 0 Lambda functions,
+but if I go back and just go back into Lambda
+or you could just refresh your page,
+eventually you'll see that the service has been deployed,
+and there we go, that has now been deployed,
+and this is basically,
+I think it's probably using CloudFormation
+to deploy this out.
+So let's go ahead and click in here,
+and we'll be able to see our functions,
+and you can see that we've got the Alexa Skills Kit
+as a trigger, so that's because this region supports
+the Alexa Skills Kit as a trigger.
+If we scroll down to our IDE we'll be able to see our code,
+now you can go in and customize this,
+essentially this is the message that is going to read out
+so it's, here's your fact, and then it will,
+this is your help message so if you get stuck it will say,
+"Hey you can tell me a space fact" et cetera, et cetera,
+this is a re-prompt, so basically if you invoke the skill
+and then you just stay silent,
+it'll say, "Hey what can I help you with"
+and then when you say, "Stop"
+it'll say, "Goodbye"
+and these are your facts here,
+so it's randomly going to choose one of these lines
+and it is completely random, and you can add more,
+just make sure that you use these,
+you basically use this exact format,
+so you could go in here and go copy,
+and then you just add it to the very bottom,
+you go paste and then let's just add my name
+as a random fact.
+And we actually use this for all kinds of purposes,
+like if we have a raffle, we just put peoples names in,
+so in fact, in AWS this week,
+we have competitions at the end of every week,
+and basically if you answer a really hard question
+on our Facebook page, you could win Guru Of The Week,
+Guru Of The Week is where you get a free sticker,
+a hand signed card, and t-shirt out to you in the post,
+and then you're in the drawer to win a free ticket
+to re:Invent, and at the,
+when we do the draw for re:Invent, we use this exact skill,
+and we just put every single person's name in here,
+as different line, and then we ask Alexa to pick one,
+and that's how we draw the winner to re:Invent.
+So it is completely random,
+so we use this skill personally, as well.
+So that is it, I'm just going to go ahead and hit save,
+and so that has now saved our skill,
+and the only thing you really need to take note of
+is our ARN, we're going to need that,
+so just hit that icon and you're going to need that
+to be able to create your skill.
+So I need you to go over to developer.amazon.com,
+need you to sign up for a Developer account,
+if you do have an Alexa device,
+make sure you use the same email that is registered
+to your Alexa device, because then you'll be able to,
+literally, use this skill straight away,
+so go over to developer.amazon.com.
+Okay, so I've signed into developer.amazon.com,
+I'm going to go ahead and hit on Amazon Alexa,
+and I'm going to click up here and go over to my skills,
+I'm going to into my Alexa console, and I'm going to go
+ahead and create a skill.
+And what's really cool is we can give this skill a name,
+so we'll call it, My Study Buddy,
+something like that, My Study Buddy.
+The default language, if you are in the UK or Australia,
+or wherever, make sure you change this to match
+the default language on your Alexa device.
+So if you are using the Australian one,
+or the UK one, change it.
+If you want to keep everything simple,
+change your Alexa over to US,
+English US, I'm going to leave this as default,
+my Alexa is on English US,
+and then we're just going to do custom and self-hosted,
+so that's already selected so all you need to do
+is click up here and go create skill,
+that will then go ahead and create our skill,
+and what's really cool is you can choose a template
+and we've already used the Serverless Application Repository
+for a fact skill, and in here we just need to click in this
+and that's it, go ahead and hit choose,
+it is seriously that simple.
+In here, this is the Alexa Development Console,
+again if you want to learn more about this
+we do have an entire course on Alexa,
+in here we've got the Invocation,
+so what's the invocation name,
+right now it says Space Facts,
+I'm going to call it Cloud,
+yeah let's do Cloud Facts,
+something like that, that might be easy.
+And then we're going to go down
+and we're going to go ahead and save our model,
+before we build our model,
+the only other thing we need to do is go to our end point,
+and in here this is where we give our,
+our skill the ARN,
+the Lambda ARN,
+so just paste it in there,
+whoops,
+and so this is basically pointing our skill
+to our Lambda function.
+Once you've done that hit, save Endpoints,
+then go back over to your, GetNewFactIntent,
+you don't need to add anything in here
+but these are your sample utterances.
+So you say, "Hey Alexa ask cloud facts" "A fact"
+or "A space fact"
+we might want to change this to "A cloud fact"
+in fact, let's add that in,
+a cloud fact,
+and going to hit, plus,
+and that adds it to our utterances.
+So an utterance is just a way of saying something,
+so I'm going to go ahead and save our model,
+and then we're going to go ahead and build our model,
+now the build will take a little bit of time,
+I'm just going to pause the video because it takes
+a couple of minutes, but as soon as it's built
+you'll see a little notification down here,
+saying that it's done.
+And you can see down here that the build is now successful,
+if I could go over to test, I should be able to test this,
+and we're just going to turn the test on to Development
+and that will allow us to test,
+and then what we can do is say, "Open Cloud Facts"
+I think it's "Cloud Fact" let's have a look.
+Here's your fact, Jupiter has the shortest day
+of all the planets.
+So it is definitely working,
+and over here you can see this is the input
+and then this is the output,
+this is our Lambda function talking back to us,
+and you can see that it has speak,
+so it's sort of like HTML and that,
+it's actually called SSML,
+which stands for Synthesis Speech Markup Language,
+so you speak, here's your fact,
+Jupiter has the shortest day of all the planets,
+and it got that from our Lambda function.
+If we go back over here what we can do is,
+we can just go through and delete all these other facts,
+so if I just go in and delete that.
+So I've only got one fact now, if I hit save
+and then I go back over to my Developer Console,
+sorry it's over here, and I say,
+let's open Cloud Fact again,
+it should just read out by now.
+Here's your fact, Ryan Kroonenburg.
+There we go, it just read out my name.
+So the last thing we want to do,
+is we want to, essentially, point our fact to our S3 bucket,
+to our MP3 file that Polly just generated.
+So to do that, let's go over to services,
+and we'll go over to S3,
+and then all you want to do is click on the bucket
+so acloudgurupollyassets, click in here,
+and just grab this URL, so copy that into your clipboard,
+then we want to go back over to our Lambda function
+and we're just going to go in here
+and we're going to add one little edit,
+so in here, if we scroll all the way down,
+I'll just scroll up so it's easy to see,
+we've got, we've got our data in here.
+So instead of saying Ryan Kroonenburg,
+let's go ahead and paste our link in here,
+now to make it talk you can see there's an example here,
+so it's audio SRC and then the link,
+this is a super useful reference guide
+to doing stuff with Alexa, so I'm going to leave this
+in the resource section of the course.
+So I've got our URL in here, all we now need to do
+is go audio, and then source, and then equals,
+then we're going to do our double-quotations
+and then a forward-slash,
+sorry back-slash, and then we go all the way to the end,
+and then another back-slash then end-quotations,
+and then forward-slash, and then close it out.
+And so then we're going to go ahead and hit save,
+and that is now saved, let's go ahead and test this.
+So if we go over to here we can go in and just say,
+"Open cloud fact"
+and hit enter,
+and that should...
+00:15:20.691 --> 00:15:22.810
+00:15:22.810 --> 00:15:26.170
+00:15:26.170 --> 00:15:27.780
+00:15:27.780 --> 00:15:30.470
+00:15:30.470 --> 00:15:34.020
+00:15:34.020 --> 00:15:35.240
+00:15:35.240 --> 00:15:37.951
+00:15:37.951 --> 00:15:40.740
+00:15:40.740 --> 00:15:43.900
+00:15:43.900 --> 00:15:46.870
+00:15:46.870 --> 00:15:48.950
+00:15:48.950 --> 00:15:51.860
+00:15:51.860 --> 00:15:53.790
+00:15:53.790 --> 00:15:55.290
+00:15:55.290 --> 00:15:57.320
+00:15:57.320 --> 00:15:59.580
+00:15:59.580 --> 00:16:01.970
+00:16:01.970 --> 00:16:03.420
+00:16:03.420 --> 00:16:04.880
+00:16:04.880 --> 00:16:06.950
+00:16:06.950 --> 00:16:07.783
+00:16:07.783 --> 00:16:10.200

@@ -1,0 +1,204 @@
+Okay, hello, Cloud gurus,
+and welcome to this lecture.
+This lecture, we're going to look at Step Functions.
+So, what are Step Functions?
+They basically allow you to visualize
+and test your serverless applications,
+and they provide a graphical console
+to arrange and visualize the components of your applications
+as a series of steps.
+And this makes it easy to build
+and run multi-step applications.
+Step Functions automatically trigger and track each step,
+and retries when there are errors,
+so your application executes in order and as expected.
+Step Functions logs the state of each step,
+so, when things do go wrong, you can go in
+and diagnose and debug problems quickly.
+So, there's various ways you can use it,
+and you can have sequential steps.
+This might be where you upload a RAW file,
+and then the next step is to go through
+and delete that RAW file.
+You can be wondering why you'd do that,
+but that could be one step.
+Or you can have a branches of steps.
+So, let's say you go in
+and your user select and image converter,
+and you want to convert that RAW file to a JPEG,
+or that RAW file to PNG, or perhaps as an unsupported type.
+If they do converted to a JPEG or to PNG,
+that will then load into a DynamoDB database,
+and then that's the end of your function.
+So, this is basically a branching function.
+There's difference like a tree branch, really,
+it's different choices that you can do.
+And then, of course we've got parallel steps,
+so perhaps somebody uploads a photo to an S3 Bucket,
+that triggers the Lambda function,
+and then, well, actually goes
+and triggers three Lambda functions.
+So, one Lambda function extracts the metadata,
+one Lambda function resizes the image,
+one Lambda function runs some facial recognition
+to try and figure out who it is.
+And then, all those Lambda functions store that information
+in your DynamoDB database.
+Now, literally, for the exam, you just need to know
+what Step Functions is,
+what I'm going to do now is just
+to quickly give you a demo of it.
+It's probably the easiest way to learn.
+And then, we will move on.
+So, let's go into the AWS Console.
+Okay, so here I am, in the AWS Console,
+and to get to Step Functions, we just go down to "Services"
+now it isn't under "Lambda" which is under "Compute"
+it's actually down here,
+and it's under "Application Integration."
+You'll be able to see it here, "Step Functions."
+So, go ahead and click on that.
+If you scroll down, it'll tell you a little bit
+about how it works.
+The way Step Functions works is you're using JSON-based
+Amazon State Language, so it is its own language.
+Again, don't worry, you won't need to learn the language
+in order to pass the AWS Certified Developer Associate Exam,
+you would need to learn it
+when using Step Functions, however,
+so, if you are going to go in
+and use Step Functions in production,
+you are going to have to go ahead and learn the language.
+Very very simple to get started though,
+just go up here and hit "get started."
+Automatically, it'll drop you into this
+"Run a Hello World example."
+If we just go back to "State machines"
+you'll be able to see in here,
+we can create our State machines.
+So, go ahead and hit "Create a State machine."
+And we're going to do some sample projects,
+and I'm going to choose one that's a little bit
+more complicated, which is the "Job Poller"
+and this is going to manage an asynchronous job,
+using a serverless polling loop.
+So, it's a combination of AWS Lambda and AWS Batch.
+If you click on there and scroll down,
+you'll be able to see the JSON in here,
+the Amazon State Language, ASLs, what it's abbreviated to.
+You can see it's pretty straightforward.
+So, in here, we've got our "Start"
+and then we've got our "Different states"
+so, we've got our "Submit job" state,
+we've then got our "Wait X second" state,
+we've got our "Get job status"
+and as you go ahead and complete this,
+it actually draws out this little graph for you as well.
+A sort of really good way of visualizing it.
+Then leave everything else default,
+so, what this actually does is we've got our "Start" here,
+we're going to submit a job,
+we're going to wait for 60 seconds,
+we're then going to check the job's status,
+and see whether or not it's complete.
+If it's not complete, we've got our "Max Attempts" here.
+So, essentially, it's going to go through
+and check again and again,
+and then if it's still not complete,
+the job's going to be failed,
+but if the job is completed,
+then we're going to this "Get the final job status"
+and then the whole thing ends.
+So, that's all essentially it does.
+Again, you don't need to understand the language in here,
+in order to pass the Certified Developer Associate Exam,
+but you would need to learn your Amazon States Language
+if you were to go on and use this in production.
+So, let's go ahead and hit "next."
+In here, we're going to go ahead and hit "deploy resources"
+and this is basically just
+creating a AWS CloudFormation stack,
+and it's going to go out
+and deploy a couple of Lambda functions,
+and set this environment all up for you.
+Now, this can take up to 10 minutes.
+So, I'm just going to pause the video
+and wait for this to come live.
+Okay, so, it has now finished.
+My CloudFormation template has now finished.
+You can see our wait time, 60 seconds in here.
+This is basically a new execution.
+So, we're going to go ahead and execute this.
+If you want to do this multiple times,
+you will need to copy and paste this,
+and save it somewhere else,
+you might want to save it in a text editor.
+So, I'm just going to call this "My Test Execution"
+and I'm just going to open this in a new browser tab,
+so I don't lose this code.
+So, I'm going to go ahead and hit "Start Execution."
+That will now start my execution.
+You'll be able to watch it
+in realtime here in our Visual Flow.
+And you can zoom in, zoom out, etc., etc.
+So, right now, it's at the "Start submit job"
+that has now successfully gone.
+So, my Lambda function has now
+successfully submitted my job.
+But if you actually go to "Services"
+and go over to "Batch"
+okay I'm going to open this up in a new tab,
+we have to be pretty quick to catch it,
+but if you click on "Jobs" now I've already missed it,
+you could see it in the dashboard anyway.
+So, it's in a job queue, and it is currently running.
+It hasn't failed or succeeded yet.
+I'm actually back in my Step Functions.
+We can see that it is waiting for folder 60 seconds,
+so it is in progress.
+And then, we're going to go through.
+Now, it's just gotten the job status,
+the job has now completed, and now, we're going to get
+the final job status and figure out whether or not
+this has failed or has it passed.
+So, it's still in progress.
+Just going to zoom out a bit, so you can see it.
+And just going to pause the video,
+and wait for this to update.
+And there we go.
+It has now succeeded.
+So, we can see that's all greens.
+And we can actually go down here
+and have a look at our execution event history.
+So, we can see that it's gone through.
+The task has started.
+We've got our Lambda functions.
+We've then waited,
+we've then triggered more Lambda functions.
+Things all logged to CloudWatch Logs, etc., etc., etc.
+So, that is it for Step Functions.
+I'll just quickly show you how to delete it.
+So, if you go in, you can actually go into "Lambda"
+and have a look at the functions that it's generated.
+These Step Functions here.
+There's two of them.
+But let's go back over to,
+we need to go over to "CloudFormation"
+and inside CloudFormation, we're able to see this template,
+so "Step Functions" go ahead and go to "Actions"
+and just delete the stack,
+that will then delete all the associated resources,
+and that will now clean up your AWS environment.
+So, what are my exam tips?
+So, really, you just need to know what Step Functions are.
+They are a great way
+to visualize your serverless application.
+Step Functions automatically triggers and tracks each step.
+And Step Functions logs the state of each step,
+so, if something goes wrong,
+you can track what went wrong, and where.
+So, you literally just need to know what Step Functions are.
+It's probably worth one or two questions in your exam.
+So, that is it for this lecture, guys.
+If you have any questions, please let me know.
+If not, feel free to move on to the next lecture. Thank you.

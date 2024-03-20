@@ -1,0 +1,128 @@
+Okay, hello Cloud Gurus,
+and welcome to the very last lecture
+in this section of the course.
+So this is the serverless summary.
+So let's go through all our exam tips,
+and we'll start with Lambda.
+So remember that Lambda scales out and not up,
+so you scale it out automatically.
+So this just simply means that you can have
+many many different concurrent Lambda functions
+running at once.
+Lambda functions are all independent,
+so one event is going to equal one function.
+Lambda is serverless
+and you should know what services are serverless,
+so things like DynamoDB, things like S3,
+things like Lambda.
+Things like Elastic Beanstalk have servers,
+EC2 has servers et cetera.
+Lambda functions can trigger other Lambda functions,
+so one event can equal x number of functions
+if the functions trigger other functions,
+so you can have an infinite number of functions in theory.
+And then architectures can get extremely complicated
+with Lambda and AWS X-ray allows you
+to debug what is happening.
+So we saw that in our lab.
+We're able to go in and see X-ray, using X-ray,
+we're able to see updates to DynamoDB,
+our SNS notifications and that it was failing,
+and then we're able to go in and troubleshoot with that
+and make it better.
+Also remember that Lambda can do things globally,
+so you can use it to back up S3 buckets
+to other S3 buckets in other regions,
+but each Lambda function is on a regional basis.
+So if you're doing in it Northern Virginia,
+that's a separate area than obviously
+if you're doing it in EU west one.
+And then also go into the exam knowing the Lambda triggers.
+It is really important to understand
+all the different services that can trigger Lambda.
+Remember what API Gateway is at a very high level,
+and remember that API Gateway has caching capabilities
+to increase performance.
+So I used that example of a waiter, sorry, at McDonalds.
+You know, when you're at McDonalds,
+you get Big Macs and cheeseburgers very very quickly.
+But if you're going to order something
+like a fish burger or a salad,
+it can take the kitchen longer,
+given the kitchen actually has to go out to make it,
+just like that, API Gateway can cache
+the most common requests so you get it a lot faster.
+API Gateway is very low cost and scales automatically
+and you can throttle API Gateway to prevent attacks.
+And Amazon do throttle API Gateway themselves.
+Anyway, we'll get to that in a few slides.
+And you can log results to CloudWatch.
+If you're using Javascript/AJAX
+that supports multiple domains with API Gateway,
+you have to ensure that you've enabled CORS on API Gateway
+and CORS is enforced by the client.
+So Cross-Origin Resource Sharing.
+Moving on to version control.
+With Lambda, you can have multiple versions
+of your Lambda functions.
+The latest version will always use the $latest.
+Qualified versions will use $latest
+and unqualified versions,
+when I say qualified versions, it will be the ARN,
+and then at the ends you have the colon and then $latest,
+whereas unqualified will not have the $latest
+at the end of the ARN.
+Versions are immutable.
+They cannot be changed and you can actually split traffic
+using aliases to different versions.
+You cannot split this traffic with the $latest,
+instead you have to go and create an alias to the $latest,
+and then you can split your traffic from there.
+And remember you can only split it two ways.
+You can't do it three ways.
+Step functions was a great way to visualize
+your serverless application.
+And step functions automatically triggers
+and tracks each step.
+Step functions logs the state of each step
+so if something goes wrong,
+you can track what went wrong and where.
+And then X-Ray, sorry, X-Ray we used again
+to just see what was going inside
+our serverless applications,
+to see the performance and if there was any errors.
+The X-Ray SDK provides three things.
+You've got your interceptors to add to your code
+to trace incoming HTTP requests.
+You've got your client handlers
+to instrument AWS SDK clients
+that your application uses to call the other AWS services.
+And then you've got an HTTP client
+to instrument calls to other internal
+and external HTTP web services.
+With X-Ray, remember that it integrates
+with Elastic Load Balancing, Lambda, API Gateway,
+EC2 and Elastic Beanstalk,
+and then also just remember
+the languages that are supported.
+So Java, Go, Node.js, Python, Ruby and .net.
+So that is it for this section of the course guys.
+Hopefully you've had lots of fun building up
+our serverless website.
+We then went on to build out our own Alexa Skill
+using the serverless application repository.
+We then went on to learn about X-Ray, about step functions,
+about Lambda, about API Gateway.
+Now remember we do do serverless conferences
+all over the world.
+Check out http://serverlessconf.io/
+if you want to check out where the nearest one is.
+Serverless is a huge revolution in software architecture,
+and it really is,
+most applications will become serverless sooner or later
+in my opinion.
+So that is it for this lecture guys.
+If you have any questions, please let me know.
+If not, feel free to move on
+to the next section of the course.
+Thank you.

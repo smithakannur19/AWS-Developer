@@ -1,0 +1,225 @@
+Okay. Hello,
+Cloud Gurus and welcome to the second last lecture in this section of the
+course, it is going to be the last lab.
+We are going to learn all about AWS X-ray.
+So what is X-ray? Well,
+basically it's a service that collects data about your requests that your
+application serves, and it provides you with tools you can use to view,
+filter and gain insights into that data to identify issues and opportunities for
+optimization.
+So basically it's a way of visualizing your serverless application.
+you can see where your performance bottlenecks are,
+what's causing it to run slow and how you could potentially go in and fix it,
+or just generally what's going wrong.
+If it's not working for any trace requests to your application,
+you can see detailed information, not only about the request and the response,
+but also about calls that your application makes to downstream AWS resources,
+microservices, databases, as well as HTTP web API APIs.
+So let's have a look at how it works. Let's have a look at the architecture.
+So you're going to have your application and you're going to have the AWS X-ray
+SDK installed inside your application and basically this
+SDK sends bits of Jason to the X-ray demon
+and this X-ray demon can be installed on Lenox PCs, windows, PCs,
+as well as OSX and essentially what it does is it's listening on UDP and it
+takes this Jason and then sends it over to the X-ray API and then
+the X-ray API basically stores all this data and then creates the X-ray sort of
+visualization, which you see off to the right. So we can see here,
+we've got our web app, we've got our API.
+So here's our API here and then here are our resources inside our
+application.
+So these are all his scorekeeper user and what we'll go and have a look at this
+when we do the labs. So this is at one DynamoDB table.
+This is another DynamoDB table. This is another DynamoDB table. over here,
+we've got an SNS queue a et cetera, and we can see when what's happening.
+When our users are interacting with the API,
+we can see all the different microservices and we can see the actual time that
+it takes. so you've got 27 milliseconds here, 25 milliseconds here.
+This one is taking 20 and 99 milliseconds to write to the database.
+So that's basically how it works.
+we also then have our scripts and tools.
+So this could be the normal AWS SDKs,
+as well as the CLI and they communicate either with the demon or with
+X-ray API directly. So in terms of the SDK,
+it provides you with three things.
+It provides you with interceptors to add to your code,
+to trace incoming HTTP requests, client handlers, to instrument,
+AWS SDKs clients,
+that your application users to call other AWS services and our HTTP client
+to use to instrument calls to other internal and external HTTP web
+services. So in terms of integration,
+it actually integrates with the following services.
+So you can have it with elastic load balances, with Lambda, with API gateway,
+with [inaudible] and with Elastic Beanstalk and we're going to be using
+Beanstalk to deploy our app in this part of the lab,
+just be aware of what languages are supported by X-ray.
+It's basically every language that ported by Lambda. So we've got Java go,
+node.js. Hi, Ethan, Ruby and.net.
+Those are the current languages supported by X-rays. Okay.
+So the easiest way to learn about X-rays to get our hands dirty.
+So you will need to go to this link.
+We have a LinkedIn in the resources section,
+but just go to console.aws.amazon.com forward slash Elastic Beanstalk forward
+slash a number and then forward slash new application and then we just want to
+pass it some data.
+So it's the application name is scorekeeper and the solution stack name is Java.
+So if you can click on that link, we should be ready to go. Okay.
+So here I am in the AWS console, I've clicked on the link.
+I'm going to deploy this into Northern Virginia.
+My application name is going to be score. Keep my environment is score,
+keep environment one.
+I'm going to leave the domain blank so that it's automatically generated and
+we're going to use a pre-configured platform of Java,
+and we're going to use a sample application.
+and we'll all we need to do now is go ahead and hit create application.
+Now this can take a little bit of time and I mean,
+probably up to 10 or 15 minutes. So just be patient.
+I'm just going to pause the video while I wait for this application to deploy,
+okay, that took about five minutes or so,
+but it has now deployed and it is healthy.
+So what we can do is we can click up here and that is going to go and open the
+X-ray open up our little website and we can now start generating some sample
+traffics. You can click this as many times as you want,
+and then click on this link over in the AWS eX-ray console that will now open up
+our X-ray console and we should hopefully see a couple.
+So we can just see one thing at the moment,
+which is our environment and the reason is we have created an IAM role
+with when we were using Elastic Beanstalk,
+but the IAM role doesn't have the ability right now to talk to S3 talk to
+DynamoDB or to use the X-ray service.
+so in order for this to have more circles or to see more services,
+what we need to do is just quickly go over to services,
+go down to identity access management,
+and we just need to go to our roles and we'll be able to see our role in here.
+So it's the 800 us Elastic Beanstalk EC2 role.
+Just go ahead and click on that. I'm going to add some more policies.
+So we want three more policies.
+We're going to say X-ray X-ray full access.
+So let's click on that one. and then we're going to also look for S3.
+So we want S3 full access, and then we also want DynamoDB
+and then full access. So click on all three,
+then go ahead and hit attach policy and now attach the S3 DynamoDB
+and X-ray full access.
+If we go back over to X-ray so let's go over to services.
+X-ray is under developer tools.
+So find developer tools and go ahead and click on it. Now,
+if we click on our service map again,
+let's go ahead and generate some more data by going back to that little
+webpage, just clicking on a few times, and let's see it's computing my map.
+There we go. We can now see that it's talking to S3.
+Now this is just a static website.
+or this is just a website on our EC2 instance that's talking to S3,
+or why don't we go ahead and upload some code to Beanstalk and then what we'll
+do is we'll be able to play tic tac toe and every time we do that,
+it's going to store information inside DynamoDB,
+and it's also going to send us notifications through SNS.
+So the code is in the resources section of the course.
+Once you've downloaded that code, just go to upload and deploy.
+So here's my file in here. EB Java scorekeeper,
+going to go ahead and click on deploy.
+So that will now upload and deploy my code to the Elastic Beanstalk environment.
+Now, this is going to take a fair bit of time.
+I'm talking probably 15 to 20 minutes, depending on your own environment.
+So go ahead, pause the video. Sorry. I'm going to pause the video, but go ahead,
+make yourself a coffee. Have a break. and then in 15 minutes time,
+this sort of environment should hopefully be deployed. Okay.
+So Elastic Beanstalk has now finished.
+If I go over and have a look at my logs we started it at
+about 12:12. so it took all the way up to 12:23.
+So it took just over 10 minutes in order to do it. If we click in here,
+we'll be able to get our new URL and what we'll be able to do is go ahead and
+create a game. So we're going to use username as may, as well write Hello,
+Cloud Gurus, hello, Cloud Gurus. Our session has games.
+I'm going to go ahead and hit create, and that will now create our session.
+And our game name will be cloud guru and the rules tic
+tac toe. So go ahead and create. So that has now created my game.
+I'm going to go ahead and hit play and here we go. We've got tick tac toe.
+So I'm going to start off here now. Let's assume someone puts on there.
+I'm going to go here.
+They're going to go there and I'm going to go here and no matter what happens,
+I'm going to win because they can't block it twice. So there we go.
+I have now one, let's go ahead and click on this link here,
+view traces for this game. So in here,
+these are all our traces and traces are just events that have happened and if
+you want to visualize it,
+you click on service map and it's now computing the map.
+This map will have a lot more sort of circles to it because we have
+allowed IAM.
+We've added that IAM policy allowing full access to X-ray S3, DynamoDB,
+et cetera, et cetera. so we can see in here,
+we've got our different different tables. So there's a score keep user,
+score keep game. We've got score keep move.
+I've got score keep, and score keep session.
+So it has definitely worked now just refresh the map and you can see here that
+there has been an error SNS has not worked. So there is an SNS component.
+May take a little bit of time to see this.
+So just refresh if you can't yet see SNS. We click in here.
+We can see that we've had a one, had a 100% error rate.
+The way we debug that is by going back and viewing our traces.
+That's what we saw a little bit earlier, and here we've got our trace list.
+So let's go ahead and click on that. So go to our timeline here,
+and we can see that scorekeepers had an error and we had 147 milliseconds.
+It was writing to DynamoDB.
+First it was writing to score keep game and then to get items
+score keep game and then when it tried to do an SNS, publish something to SNS,
+it didn't work and if you click in here,
+you'll be able to see the actual error and it says user ARN,
+et cetera, et cetera,
+is not authorized to perform SNS publish on resource you SNS and so we're
+actually having an issue with our SNS queue.
+So the way we could troubleshoot this is it's actually in the configuration.
+So if we go back over to Elastic Beanstalk,
+so I'm back in Elastic Beanstalk, I'm going to go over to configuration,
+and then I'm going to go over to my software and go ahead and modify
+and it's this email here. This email address is incorrect.
+So what we need to do is just go in here and change it to your email address,
+and then go ahead and hit apply. So I want you to do that now. Okay.
+So that is now updating my Elastic Beanstalk environment.
+I'm just going to pause the video and wait for this to finish. Okay.
+That has now finished updating. So we can go ahead and test it.
+We can click in here.
+I haven't actually subscribed to the SNS topic because I'm actually,
+I'm just curious. I haven't,
+I haven't accepted the subscription to the SNS topic because I'm actually
+curious as to whether or not X-ray will detect that.
+So I'm going to go ahead and click in here and I'm going to go ahead and just
+create a game and then that game I'm going to use the rules,
+tic tac toe hit create, and then I'm going to go ahead and play it.
+And we'll just quickly play a game of tic tac
+toe, just clicking randomly. There we go and so that has now finished.
+Let's go ahead and view the service map. So the service map is now loading.
+It can take a little bit of time if we just hit refresh,
+it can also take a while for the the entire map to update.
+I still can't see SNS.
+So I'm going to hit refresh again and you might have to do this for a couple of
+minutes. So you might just pause the video. There we go.
+I can see SNS now it's down here and it has gone off as green,
+so I didn't need to even subscribe to that SNS topic but it has triggered the
+SNS function. So that is X-ray in a nutshell,
+let's go over to my exam tips actually, before we do that,
+I'll just show you how to terminate this environment.
+So you just want to go back over to services and we want to go over to Elastic
+Beanstalk, which is under compute.
+Go ahead and click on that and then here's your environment here.
+In order to terminate your environment,
+just go to actions and go to delete application, go ahead and delete that.
+Interestingly, this won't delete that identity access management role,
+and it won't delete the S3 bucket. You will need to delete those yourselves,
+but it will delete the EC2 instance and the DynamoDB
+tables. So what are my exam tips around X-ray? So what are my exam tips?
+Well understand what X-ray is,
+understand that it's a way of visualizing your serverless you know,
+applications understand what the X-ray SDK provides.
+So it comes to three things. It comes with the interceptors to add to your code,
+to trace incoming HTTP requests, comes with client handlers to instrument,
+AWS, SDK clients that your application users to call other AWS services.
+And it also comes with the HTTP client to instrument calls to other internal and
+external HTTP web services. Understand what it integrates with.
+So integrates with elastic load balancer, Lambda, API Gateway,
+EC2 an Elastic Beanstalk and then finally just remember what
+languages hold it. It's basically all the languages that Lambda support.
+So Java go, node.js Python, Ruby and.net.
+So that is it for this lecture guys, the next lecture,
+we've got our very last earth theory lecture in the course,
+and then we're going to summarize everything and then we are done with the
+serverless section of the course. So if you've got the time,
+please join me in the next lecture. Thank you.

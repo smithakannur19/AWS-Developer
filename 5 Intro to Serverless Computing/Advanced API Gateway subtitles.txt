@@ -1,0 +1,92 @@
+Okay, hello Cloud Gurus and welcome to this lecture.
+This is the very last lecture before our summary lecture
+and we're going to cover off Advanced API Gateways.
+So we covered it off at a very basic level.
+There's a few more things you need to know about API Gateway
+before you go in and do your exams,
+and the very first one is that you can import APIs,
+so you can use the API Gateway Import feature and
+basically you can import Swagger 2.0 definition files.
+So you can either create a new API by submitting a
+POST request that includes a Swagger definition
+in the payload and endpoint configuration,
+or you can update an existing API by using a PUT request
+that contains a Swagger definition file in the payload.
+And you can update an API by overwriting it
+with a new definition, or merge a definition
+with an existing API.
+And you just specify the options
+using a mode query parameter in the request URL.
+Let's have a look at how we do this in the AWS Console.
+So here I am in the AWS Console, just go over to Services
+and we want API Gateway which is going to be
+under our Network and Content Delivery
+and then if we want to go ahead and create a new API
+just hit Create API, and you can see here that
+we can import from a Swagger file.
+So you can open up your Swagger file and paste it in here,
+or you could go ahead and select it.
+And then you basically just go forward and
+configure it as usual.
+So if you do have a Swagger file, go ahead and try that,
+I am not going to go through it in a lot of detail,
+most important thing going into your exam is just
+to remember you can import existing APIs
+using Swagger files.
+Moving on to API throttling, so Amazon do throttle
+API Gateway, and they throttle it two different ways.
+The API gateway limits the steady-state request limit
+to 10,000 requests per second, or RPS.
+So you can only have 10,000 requests per second
+on your API gateway, and the maximum number of
+current requests is 5,000 requests, and this is
+across all APIs within an AWS account.
+So you can either do 10,000 over once second, or
+5,000 concurrent requests, so at the very same time.
+If you go over the 10,000 requests per second or
+5,000 concurrent requests, then you're going to receive
+a 429 Too Many Request error response.
+So let's have a look at some examples.
+In example one, we've got 10,000 requests in one second,
+but it's spread over the period evenly, so 10 requests
+every millisecond, and API Gateway will process all those
+requests without dropping any,
+because you are allowed 10,000 in one second.
+If the caller sends 10,000 requests in the
+first millisecond, API Gateway is only going to serve
+5,000 of that, because you can only
+have 5,000 concurrent requests.
+If a caller submits 5,000 requests in the first millisecond
+and then evenly spreads another 5,000 requests
+through the remaining 999 milliseconds, then API Gateway
+will process all the 10,000 requests
+in the one second period without returning a 429.
+So just remember 5,000 concurrent requests, or
+10,000 requests per second.
+And then finally, you can use API Gateway as
+SOAP web service passthrough, so if you do have
+an older SOAP XML API that you've created
+maybe with your legacy company, you can definitely
+configure API Gateway to communicate with that service.
+The steps on how to do it, there's a blog here,
+I'll put it in the link below.
+Again, it is beyond the scope of this course,
+you just need to understand for the exam, that yes,
+it is possible, and if you want to find out how to do it,
+go check out that blog.
+So, what are my exam tips?
+Like I just said, Import APIs using
+Swagger 2.0 definition files, API Gateway can be throttled,
+and your default limits are 10,000 requests per second,
+or 5,000 concurrently, and you can configure API Gateway
+as a SOAP Webservice passthrough.
+By the way, if you want to lift those throttling limits,
+you can do that inside API Gateway as well,
+but you are obviously going to incur further charges,
+so just be aware of that.
+So that is it for all the theory and
+labs for this section of the course.
+In the very next lecture, we are just going to cover off
+everything we've learnt and then you're ready to move on.
+So if you've got the time,
+please join me in the next lecture, thank you.

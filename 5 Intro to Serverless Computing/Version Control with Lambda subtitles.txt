@@ -1,0 +1,226 @@
+Okay, hello Cloud Gurus, and welcome to this lecture.
+This lecture we're going to look at
+version control with Lambda,
+and we're just going to look at this before we go ahead
+and build our serverless website using Polly,
+And where we will use version control,
+or where you should use it in real life
+is when you're developing Alexa skills,
+when you're making changes to your Alexa skills,
+because if you break something,
+you can just roll back to a previous version.
+So, versioning, when you use versioning in AWS Lambda,
+you can publish one or more versions
+of your Lambda function,
+so you can have Version 1, Version 2,
+Version 3, et cetera, et cetera,
+and as a result, you can work with
+different variations of your Lambda function
+in your development workflow,
+so you could have development, you could have beta,
+you could have production, et cetera, et cetera.
+Each Lambda function version has a unique ARN,
+and we'll see that in the lab as we go,
+and after you publish a version, it's immutable,
+and that just simply means it cannot be changed.
+You won't be able to go in there and edit it.
+The one you can go in and edit
+will always have the $LATEST,
+and the $LATEST is basically
+the most, is the latest version of your function, and
+again, we're going to see that in the AWS console shortly.
+And then we have qualified and unqualified ARNs.
+So basically there's two types of ARNs
+when you're referring to your functions.
+Qualified ARN has, if we have a look at an ARN here,
+we've got our ARN, it's called helloworld,
+and then we've got $LATEST,
+that's a qualified ARN.
+An unqualified ARN is just the name of the function,
+we don't have any version after it.
+So that's all that a unqualified ARN is.
+And then, finally, with versioning, we can create aliases.
+So, basically, an alias is just a name
+that points to a particular version of your function.
+So let's say we create Version 1 of it,
+we could then create an alias called production,
+and that points to Version 1.
+And then, what you can do is you can use things like
+if you're using S3,
+or you've got a whole bunch of other Lambda functions,
+you could point it to the production ARN,
+so it would be your version name, and then PROD,
+and then that will automatically map back to the latest one.
+Now when you update your latest code,
+and let's say you publish Version 2,
+you can then change the mapping of that alias
+over to Version 2,
+so that you don't have to go through
+and update all your functions,
+other Lambda functions, or S3, or whatever.
+It's still using the production alias,
+and all you're doing is changing the mapping,
+and then that way if something does break,
+you can change your alias back
+from Version 2 to Version 1,
+and your code will then work.
+So that's what we use aliases for,
+we're going to have a quick look at that in the console.
+So let's go ahead and get started.
+Okay, here I am in the AWS console.
+We'll go over to Services and we'll go down to Lambda,
+which is under Compute, it is a Compute service,
+and you'll get this splash screen
+if you haven't created a function before.
+Go ahead and create a new function.
+We'll call this function myNewFunction, something like that.
+I'm going to do it in Node.js,
+it really doesn't matter what runtime environment you have,
+and then I'm going to use an existing role,
+which is MyLambdaRole,
+which we created in the Lambda lecture.
+Go ahead and create the function.
+So that has now created the function,
+and you can see it in here,
+it just says "Hello from Lambda."
+So what we're going to do is
+we're going to go ahead and create
+three different versions of this function.
+The first one's going to say "Hello,"
+so I'm going to go here, make a change,
+and then I'm going to hit Save.
+Now, straight away, if we click up into Qualifiers,
+you'll see two ones, you'll see Versions and Aliases.
+So if we click on Versions, the $LATEST version is here,
+and you can see here, now we're at this function ARN,
+and we've got $LATEST at the end,
+and this means it is the latest version of our function,
+and it's just saying "Hello."
+Now what we want to do is
+we want to save this as, publish it as a version.
+So we're going to publish this as a immutable version,
+so you can't go in and make any changes.
+So we'll call this version description "Version 1"
+and go ahead and hit Publish,
+and you can see up here, "Version: 1"
+and it's even, we've got the ARN myNewFunction
+and at the end we've got the colon and then "1."
+And if we actually scroll down you can see the text in here
+but we can't go and edit it,
+and it says "Code and handler editing
+"is only available for the $LATEST version."
+So click here to go to $LATEST.
+You'll see up here, our ARN has now changed to $LATEST
+and we are now able to go in and edit our code.
+So let's go ahead and make a new version,
+so "Hello Cloud" I'm going to hit Save, and then
+what I'm going to do is I'm going to click in Actions,
+publish as a new version,
+and we're going to call this "Version 2."
+Go ahead and hit Publish.
+Then finally, I'm going to, again you can see up here,
+we're now ":2" at the end of the ARN.
+I can't go in here and make any edits.
+If I want to go back to my latest version
+I just click in here under Versions.
+And then what I want to do is write a third version: Gurus.
+So "Hello Cloud Gurus" which will now be my latest one.
+Going to go ahead and hit Save,
+and again I'm going to publish as a new version,
+and I'm going to call this "Version 3."
+So there we go, publish.
+So now we can go back through our different versions,
+so we can look at Version 1,
+it's immutable so we can't edit it, just says "Hello."
+Version 2, it'll say "Hello Cloud"
+and then Version 3,
+which is also our current latest version,
+"Hello Cloud Gurus"
+but we can also go in and have a look at our latest version.
+So let's have a look at some aliases.
+We can go ahead here and go Create Alias,
+and we can call this one, let's say Version1,
+you can't have spaces.
+So "This is my version 1"
+and then we're going to point it at which version?
+Well we're going to point it at Version 1!
+And go ahead and hit Create.
+So now with the alias,
+you can see the actual alias name up here, Version1,
+and it's a way of mapping to our versions.
+So that's all aliases are doing,
+they're mapping to our versions.
+So what you might want to do in the real world
+is go ahead and create an alias for your latest version.
+So let's call this "latestversion"
+and "latest version of my code"
+and instead of doing it to Version 1, two, or three,
+we're going to point it at $LATEST,
+and then we can actually reference this ARN elsewhere in AWS
+and we know that it's always going to be
+pointing to the latest version of our code,
+because this is mapping it to,
+the alias is mapping it to latest version.
+So that's how versioning works.
+One last thing I should show you,
+you can use versioning to create splits between traffic,
+so let's say you want to do blue/green testing,
+or A and B testing, so blue and green deployments,
+so we'll say "MySplitTraffic" something like that,
+and so what we're going to do is
+we're going to send, let's say 50 percent to Version 3,
+which would be our latest one,
+we could do 25 percent to, let's put in here 25 percent,
+and you'll note that we can't go in
+and add additional versions.
+So we can split traffic between our Lambda functions,
+it's always going to add up to 100 percent.
+As we decrease one, the other one will increase,
+and one last thing I should point out
+is you can't do it to the latest version,
+so if I go to $LATEST and then Additional Version: 2,
+and I try and hit Create,
+it's going to give us an error.
+So "There was an error creating the alias.
+"$LATEST is not supported for
+"an alias pointing to more than 1 version"
+so you can't have $LATEST in there,
+so the way you get round that
+is you just publish your latest as a particular version,
+so Version 3 and Version 2, 20/80 percent,
+and we'll go ahead and hit create.
+And there we go.
+We can now split our traffic using this alias.
+So this is going to split it between two functions,
+and it's very important to remember that you can do that,
+going into your exam.
+So what are my exam tips?
+So my exam tips, well.
+You can have multiple versions of Lambda functions.
+The latest version will always use $LATEST
+at the end of the ARN, so you'll be able to see it.
+Qualified versions will use $LATEST,
+unqualified versions will not.
+Versions are immutable, so they cannot be changed.
+If you do want to make a change,
+you have to basically go in,
+delete the version, and republish it.
+And then you can split traffic
+using aliases to different versions,
+but you cannot split traffic with $LATEST,
+instead you need to create an alias to the latest,
+and then basically go in and split the traffic from there.
+So the most important thing to remember
+is the traffic splitting is definitely an exam topic,
+and you just basically need to know that it is possible.
+We will use versioning, or you should use versioning
+in the Alexa lab.
+I use versioning for
+creating my Alexa skills all the time.
+It's definitely worth doing,
+so that way if you make any mistake in the code
+and your Alexa functions doesn't work any more
+you can always just roll back.
+So that is it for this lecture, guys.
+If you have any questions, please let me know.
+If not, feel free to move on to the next lecture, thank you!

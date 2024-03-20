@@ -1,0 +1,144 @@
+Okay. Hello, Cloud Gurus. Welcome to this lecture.
+This is one of my favorite sections in the course.
+This is the serverless section and this lecture is called serverless 101. Now,
+before we talk about what serverless actually is,
+let's go through the history of cloud computing and I'm going to try this in
+approximately two minutes.
+I'm going to try and summarize the entire history of cloud computing.
+So a lot developers and solutions, architects like me.
+We really don't like computer hardware. It's heavy, it's cumbersome.
+It breaks all the time.
+We've basically spent the last few decades building layer of obstruction over
+layer of obstruction in code to shield ourselves from the ugly truth of what's
+actually running our code and first we decided, hey,
+let's chuck all this hardware in a data center somewhere and someone else can be
+responsible for making sure it's turned on.
+It's connected to the network that there's fault tolerance, et cetera,
+and hooray. We no longer needed to get out of our chairs,
+but provisioning the infrastructure. Wasn't fun. We had to do talk to people.
+We had to place orders with suppliers.
+We had to get the suppliers to provide the hardware to the data center provider.
+We then needed to get it racked. We needed to get it networked.
+We needed sys ops administrators to go in and give us you know,
+install the operating systems or at least give us remote access.
+So we could do that and I worked at Rackspace in 2010,
+so over eight years ago now but when I worked there,
+it would take anywhere from 10 days from when a customer placed an order through
+to 20 days, depending on the customer segment and so that, you know,
+is quite a long time and Rackspace are actually really fast compared to other
+providers in the industry. One of the other places that I worked,
+it could take us anywhere between three to six months from when a customer
+placed an order to when we actually delivered all the hardware for them to be
+able to access. So it hasn't been fun,
+but things have gotten a lot faster. So in 2006, Amazon released EC2,
+and this was the birth of infrastructure as a service.
+Suddenly you could provision machines with API calls from the command line or
+from your web browser and it was absolute heaven and infrastructure as a service
+was born and developers and solutions architects and technical people all around
+the world cheered and AWS is basically infrastructure as code.
+You can go in and commission machine anywhere in the world and have it do your
+bidding with a single API call. Now,
+if I went back in time to 2010 and told or, you know,
+even 2006,
+let's say and told someone that they'll be able to spin up virtual servers in
+the cloud from anywhere on earth, they would have thought that I was crazy.
+So this is why AWS is so far ahead of the game.
+They were one of the very first people to market with this service,
+but there's still a problem with this, right?
+There's still infrastructure to run, but there's still a problem with this,
+right? You still have to work about infrastructure.
+It still exists and basically something could still go wrong at any moment.
+It's always going to be in the back of your mind.
+What if it crashes or what happens if it gets hacked or it goes offline,
+et cetera and then Microsoft Azure came out blazing with platform as a
+service and Amazon's our version of AZ is basically Elastic Beanstalk and
+what it does is it allows you to, you know, it's nice way of saying,
+give me your code and we'll spin up the machine for you and we'll even push your
+code into it, run it for you. And that was great.
+It was one less step that you had to perform.
+You didn't have to worry about the architecture, but again,
+you still had a server that you had to control and where things could go wrong
+and that was still your responsibility as a customer and then containers came
+along and containerization has gained a lot of popularity in the last few years
+and although it's not exclusively related to cloud containers are popular in
+cloud environments and containers are lightweight alternatives to full blown
+virtualization. They're isolated and lightweight, but they still need to,
+to be deployed to a server and they are an excellent solution when dependencies
+are in play, but they have their own housekeeping challenges.
+You still have to worry about keeping your containers, running stuff,
+to worry about scaling and response to load, et cetera,
+still your responsibility and then Lambda comes out and serverless
+computing.
+It was born and basically Lambda allows you to take your code and run it without
+any need to provision servers, install software, deploy containers,
+or worry about any low level details and your code can be run in massive
+parallel parallelized way in response to events.
+So the cloud provider takes care of provisioning and management of the
+infrastructure and the developer doesn't even need to think about it and if you
+have an Amazon Alexa at home, every time you say the word Alexa,
+every time you are talking to your Alexa device,
+guess what's actually what you're communicating with.
+You're actually communicating with Lambda that's Lambda talking back to you.
+So even now you know,
+in 2000 from basically since the first Alexa came out,
+so 2016,
+you have been able to talk to Lambda and Lambda talks back to you and the great
+thing about this is you don't have to worry about managing servers.
+So this is a blog written by my brother.
+This was written on October 21st, 2015,
+and it talks about serverless.
+I would argue that we were certainly one of the first startups in the world to
+fully embrace serverless if not, the very first startup was certainly.
+Well the first startup to build a serverless learning management system.
+so we've been doing serverless awful long time.
+I'll show you a brief network diagram of our you know,
+our platform in a second. we are also the founders of serverless conf.
+So we had the very first serverless conf,
+which was in New York in 2016 in Brooklyn.
+We then did one in Tokyo and one in London. last year we did one in Austin,
+one in New York, and then another,
+the one in Tokyo we've already had one in Paris this year and we have another
+one in San Francisco coming up. So if you want to check that out,
+just go to serverlessconf.io we're always I mean,
+the conferences are amazing.
+It's all the cutting edge people in cloud talking about how they're using
+serverless and how it's,
+what impact it's having on their business and this is the platform of the a
+cloud guru architecture. So we have here angular, JS,
+running across the bar in the browser across all devices.
+So it could be your iPhone could be,
+our iPad could be your Android tablets could be your PC, your macs,
+whatever and then basically it's running in the browser,
+the browser then sends requests to API Gateway and then that's routed to
+different Lambda functions. So it might be that you know,
+you're on our discussion forums asking a question,
+or it might be that I'm uploading a video to the platform and updated lecture
+and it's going to kick off a whole elastic transcoding pipeline, et cetera,
+et cetera.
+And then when you're actually watching the videos they're stored in S3,
+we actually use CloudFront to you know, stream them down.
+So CloudFront is Amazon CDN service.
+We use Auth0 for authentication.
+So when you sign in with Facebook or with Google, or with LinkedIn or whatever,
+that's Auth0.
+we use Firebase as our backend database Firebases is now owned by Google so
+we are multicloud as well and then we use Stripe. We use PayPal,
+we use Braintree, et cetera,
+for credit card payments and we send all our emails out through Campaign Monitor
+and what's unique about this entire architecture is we don't have any easy two
+instances. We don't have any RDS instances. We don't have anything to manage and
+this scales automatically,
+so we could have a hundred thousand or a million people on the platform at any
+given time and Lambda
+it's just going to scale automatically to meet that demand. So it is very,
+very scalable and the great thing is it's very, very cost effective.
+We actually only just started paying for our Lambda invocations,
+I think at the beginning of this year and we just turned three just
+actually just a few days ago.
+so we've basically been running on free tier Lambda for the last two years
+and we are at currently about 600,000 students.
+So it gives you an idea as to why serverless is so disruptive anyways.
+So that is an introduction to serverless in the next lecture,
+going to cover off Lambda and what it is and how it works from a theoretical p
+oint interview and then we're going to start getting our hands dirty.
+So if you've got the time, please join us in the next lecture. Thank you.
