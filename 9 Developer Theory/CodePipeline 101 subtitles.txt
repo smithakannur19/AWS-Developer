@@ -1,0 +1,80 @@
+Hello, Cloud Gurus,
+and welcome to this lecture,
+where we're going to take a closer look at CodePipeline.
+And of course, CodePipeline is a fully managed CI/CD service
+which orchestrates the build, test,
+and deployment stages of your software release process.
+And you can configure CodePipeline to trigger the pipeline
+every time there's a change to your code.
+For example, if you're using CodeCommit
+to store your source code
+and you make some updates to your code,
+then this can trigger CodePipeline to begin the build, test,
+and deployment processes automatically,
+just like a conductor in an orchestra,
+controlling everything, directing and orchestrating
+the entire process so you don't have to.
+And by using an automated release process like this,
+it means that your release process is going to be faster,
+more consistent, and with fewer mistakes,
+and it really enables the quick release of new features
+and bug fixes in your software.
+But how does it do all of this?
+Well, it actually integrates
+with a whole bunch of other AWS tools
+as well as some third-party open source tools.
+So think CodeCommit, CodeBuild,
+and CodeDeploy for the AWS developer tools.
+It also integrates with open source tools
+like GitHub and Jenkins.
+And if you haven't used Jenkins before,
+it's an open source application which can be used
+to build, test, and deploy your application.
+CodePipeline also integrates with Elastic Beanstalk
+and CloudFormation,
+as well as Lambda and Elastic Container Service.
+And if you haven't used Elastic Container Service before,
+it's a fully managed platform which allows you to run
+containers like Docker as well as Windows containers in AWS.
+So let's take a look at an example CodePipeline workflow,
+and you'll see how CodePipeline integrates
+with all the other developer tools
+that we've been talking about.
+So once your workflow has been defined,
+it all begins when a change is detected
+in your code repository.
+And in this case, the code repository is CodeCommit.
+So new code appears in our CodeCommit repo,
+and that is detected,
+and immediately CodeBuild comes in
+and compiles the source code,
+runs any tests that you've defined,
+and produces packages which can be used
+to deploy your software.
+And then finally, CodeDeploy comes in,
+and the newly built application is then deployed
+into either a staging or production environment.
+So all of this can be done automatically,
+and this is an example of a CI/CD,
+continuous integration and continuous deployment
+or delivery workflow,
+all orchestrated using CodePipeline.
+So let's take a look at some of our CodePipeline exam tips.
+First of all, just remember it's a CI/CD service,
+so it orchestrates your end-to-end software release process
+based on a workflow that you define.
+It can be configured to automatically trigger your pipeline
+as soon as a change is detected
+in your source code repository.
+And finally, it integrates with lots of AWS tools,
+as well as some third-party tools.
+So think CodeCommit, CodeBuild,
+and CodeDeploy for the AWS developer tools,
+and for the third-party open source tools,
+it also integrates with GitHub and Jenkins,
+as well as things like Elastic Beanstalk, CloudFormation,
+Lambda, and Elastic Container Service.
+So that is the end of this lecture.
+If you have any questions, please let me know.
+If not, feel free to move on to the next lecture.
+Thank you.

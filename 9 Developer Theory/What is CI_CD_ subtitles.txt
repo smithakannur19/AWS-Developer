@@ -1,0 +1,160 @@
+Hello Cloud Gurus, and welcome to this lecture
+where we're going to take a look at CI and CD,
+and all of the services that AWS provides
+to enable developers to adopt CI/CD practices.
+So what is CI/CD?
+Well, it's a software development best practice,
+and it stands for Continuous Integration
+and Continuous Delivery or Deployment,
+and sometimes it's delivery, sometimes it's deployment,
+these terms are frequently used interchangeably,
+but there is a difference,
+which we're going to find out about later.
+And one of the main characteristics of CI/CD
+is that it requires you to make
+small changes and automate everything.
+So we make small incremental code changes,
+and we automate as much as possible.
+For example, code integration, build, test,
+and deployment tasks, and by doing that,
+it's possible to make very frequent
+code releases on a regular basis,
+adding new features for our customers to enjoy,
+and fixing bugs as well.
+But why is it so cool?
+Why does everyone love CI/CD so much?
+Well, modern companies like AWS, Netflix,
+Google, and Facebook have really pioneered this approach
+to releasing code, successfully applying thousands of
+changes per day without impacting their production systems.
+And by doing that, they're able to quickly bring to market
+brand new features and services,
+enabling these companies to become
+very successful market leaders.
+So let's take a look at some of the main benefits
+to using the CI/CD approach, and of course automation is
+always a good thing when it comes to software development.
+It makes things fast, repeatable, and scalable,
+and it really enables rapid deployment of new software.
+And of course, doing things manually is always a bad thing
+when it comes to software development.
+And while doing things manually or by hand
+might be great if we were
+creating a beautiful artisan loaf of bread,
+but it's really not ideal for software development
+because it's just slow, it's error-prone, it's inconsistent,
+it's unscalable, and it creates complexity as well.
+And ideally, we want our software to be built and deployed
+in a consistent and repeatable way,
+making it easier to support and maintain.
+And finally, with CI/CD, we're making small,
+incremental changes, and testing our changes
+before integrating with the main code base.
+And this allows you to catch bugs when they're small
+and really simple to fix.
+So let's take a look at an example
+continuous integration workflow at a high level,
+and it all starts of with a shared code repository.
+So we have multiple developers contributing to a
+shared code repository like Git, frequently merging
+or integrating their code updates.
+And typically, that would be on a daily basis as a minimum.
+We then have an automated build stage,
+so when changes appear in the code repository,
+this triggers an automated build of the new code,
+and finally we also have an automated test step as well.
+So we run automated tests to check the code locally
+before it gets committed into the master code repository.
+So moving on to our continuous delivery
+and continuous deployment workflow.
+After successful testing,
+the code gets merged into the master repository.
+It then gets prepared for deployment,
+so it gets built, tested, and packaged up,
+ready for deployment.
+And then with continuous delivery,
+there's usually a manual decision.
+So humans may be involved in the decision
+where and when to deploy the code,
+and that is known as continuous delivery.
+However, that stage can also be fully automated as well.
+So the system can automatically deploy the new code
+as soon as it's been prepared for deployment,
+and that is known as continuous deployment.
+So let's take a look at some of the developer tools
+that AWS provides to enable developers
+to get started with their CI/CD workflow.
+Well first of all, we've got CodeCommit,
+and that provides source and version control for our code.
+So it's a managed source control service,
+enabling teams to collaborate.
+And you can store anything from code to HTML pages,
+scripts, images, and binaries, et cetera.
+Basically, everything it takes to make your software run.
+And you can store all of that in CodeCommit,
+and have it perform source control
+and version control for you.
+And it's actually a fully managed private Git repository,
+so if you've ever used Git before,
+then you'll understand exactly what CodeCommit is.
+We then have CodeBuild, which is an automated build service,
+and that compiles the source code,
+it can run automated tests, and produces packages
+which are ready to deploy in your environment.
+We then have CodeDeploy,
+and that provides automated deployment,
+so it automates code deployments,
+and that works with any instance or server type,
+including EC2, Lambda,
+and it can also work with your on-premises systems,
+so systems located in your own data center.
+And finally, we have CodePipeline,
+which can manage the entire end to end workflow,
+orchestrating the whole build, test,
+and deployment pipeline.
+It integrates with all of the other tools,
+so CodeCommit, CodeBuild, and CodeDeploy,
+and you can actually configure it to deploy
+the new version of your application every time
+there's a code change, and new code appears
+in your CodeCommit repository.
+And later on in the course, we're going to get
+our hands dirty with all of these tools,
+so that you can get plenty of hands-on experience
+and be really well prepared
+for any questions you see about these in the exam.
+So let's take a look at our exam tips for CI and CD.
+So first of all, continuous integration
+is all about integrating or merging code changes frequently,
+at least once per day,
+and the service they provide for this is CodeCommit.
+Just remember,
+that is just like a managed private Git repository.
+Secondly, we have continuous delivery,
+and that's all about automating the build, test,
+and deployment functions of your release process.
+So think CodeBuild an CodeDeploy.
+And finally, we've got continuous deployment,
+and that's the fully automated release process
+where code is deployed into staging or production
+as soon as it's successfully
+passed through the release pipeline.
+And the service they provide
+for that is called CodePipeline.
+And then the last thing I wanted to tell you about
+is this AWS Whitepaper, and it's called
+Practicing Continuous Integration
+and Continuous Deployment on AWS.
+And this is a great Whitepaper because it explains
+the features and benefits of using continuous integration
+and continuous delivery or deployment,
+and discusses all the AWS tooling that you can use
+in your software development environment.
+And there's a link to this Whitepaper
+in the resources section of the course,
+so if you have time,
+it's definitely worth reading this Whitepaper.
+And that brings us to the end of this lecture.
+If you have any questions, please let me know.
+If not, feel free to move on to the next lecture.
+Thank you.

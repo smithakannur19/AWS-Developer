@@ -1,0 +1,220 @@
+Hello Cloud Gurus
+and welcome to this lecture.
+And this lecture is going to be all about CodeCommit
+and it's going to be a lab.
+So firstly, we're going to create
+a new repository in CodeCommit,
+we're going to add a file into the repository,
+we're going to create a new branch,
+which is like a new working area in the repository.
+We're then going to update our file
+and then finally we're going to merge our changes
+from our branch back into the master repo.
+So if you've got time, please join me in the AWS console.
+So here I am in the console
+and you will find CodeCommit.
+It's down under the developer tools,
+so just click on CodeCommit,
+click on get started.
+And they have recently updated the console
+for CodeCommit to make it easier
+and it is much more user-friendly than it used to be.
+So that's why you can see this banner up here's saying
+do I want to return to the old experience.
+Well, I definitely don't
+and I'm going to stick with the new experience.
+So this lab uses the new console.
+So the first thing we're going to do
+is create our new repository.
+We're going to start by giving it a name
+and I'm just going to call this ccrepo.
+You can add an optional description.
+And then click create.
+So that has successfully created our repository.
+And it gives you a description
+of the different types of connection
+that you can have into your respository.
+So you can have either HTTPS or SSH
+and this just describes the different connection types
+from your clients.
+So whenever you connect to the respository
+it's always done in a secure way
+and your connections will be encrypted in transit
+using either HTPS or SSH.
+But we're not going to configure
+those kind of connections right now,
+we're just going to interact with our respository
+using the console.
+So I'm just going to close that section down
+and now we're going to add our very first file
+into the respository.
+So click on add file
+and we're going to create a new file.
+So we're just going to create a really simple text file.
+We need to give it a name,
+add the name of the author,
+and an email address
+associated with this change that we're making.
+And we can also add an optional Commit message
+as we commit our change into the master.
+And then select commit changes.
+So that file has now been committed to the master
+and you can see that we can view the file from the console.
+If we click on the name of our repository
+we can see the file is located there
+and we can see that it's located in the master branch.
+And of course, the master branch, that's our golden source
+or our master source of our code.
+But just imagine that you needed to make a change,
+you needed to update the file.
+For example, if you were developing a new feature
+or if you were fixing a bug in an existing piece of code.
+Well you wouldn't want to make that change
+on the master copy of your data.
+So that is where branches come in.
+And what you would do instead
+is you would create a new branch
+and you would make those updates on your own branch.
+And a new branch is simply a new working area
+and it's a copy or a clone of the original master branch.
+So let's go ahead and create a new branch.
+So let's click on branches, create branch
+and we're going to give it a name.
+And we're just going to call it mybranch and we're
+going to select to create the branch from the master.
+So it's going to be a clone of the master.
+So click on create branch.
+So that's our new branch created.
+And if we click on the branch
+it has exactly the same file in.
+If we click on the file it looks exactly the same.
+So now we can go ahead and edit our file.
+So I'm just going to click on edit
+and add another line into the file.
+Once again we need to add the author name.
+So who made the edit, what's their email address,
+and we can add an optional message again.
+And click on commit changes.
+So now we've updated the file
+but we've only updated it in mybranch.
+And if we go to branches
+we've got our two different branches there
+and you can see that we last made a commit
+on mybranch just now
+but the original branch is still three minutes out of date.
+And at this stage, in practice you would probably want
+to get your updates peer reviewed.
+You might want to run some tests,
+say some automated tests preferably,
+or some manual tests to make sure that you're happy
+with the changes and that they're good to go
+and that you're confident
+that you want to merge them into the master.
+So once you're happy
+and you're ready to merge your changes into the master
+the next thing you need to do is create a pull request.
+And this is going to apply the changes
+that we made in our branch into the master respository.
+So it's going to merge the change we made
+into that master branch.
+So in order to do that we click on create pull request
+and we need to define the source and destination.
+So the destination is going to be the master
+and the source is going to be mybranch.
+So select your branch and then click on compare.
+And what this does is it runs a number of tests
+to make sure that there's no conflicts
+between mybranch and the master.
+So for example one of the checks it will do
+is it will check that the master has not been updated
+by somebody else while you were preparing your own changes.
+And if that has happened that means your own branch
+is going to be out of date.
+And if your branch is out of date
+then you're going to have to clone the code
+from the master again
+and add your changes into the brand new copy of the code.
+But for us right now there shouldn't be any conflicts
+between your branch and the master
+so we should be able to go ahead
+and merge our change into the master branch.
+So first of all we need to give our merge a title
+to describe what we're doing.
+So I'm just going to type merging mybranch into the master.
+And if we scroll down it shows you
+there's visual representation of the changes
+that we're actually making.
+It's compared the two files
+and it's detected that we're adding this line here
+and if you've ever used GitHub before it's very similar.
+You get the same view in GitHub where it will show you
+if you've deleted something, changed something,
+or added something and it would color code the differences
+between the two files so it makes it really easy
+to identify the changes that are going to be made,
+especially if somebody else is reviewing your code.
+So let's go ahead and click create
+and that will create our pull request.
+So now our pull request has been created
+and the next thing we need to do is click on merge
+and that will merge our branch into the master repository.
+And it gives you the option of deleting the source branch
+after the merge.
+So do you want to delete mybranch
+after the merge has been completed or not?
+And generally you would want it to delete that source branch
+after you have merged.
+At a later date if you want to do another change
+then it's best practice to just create another branch
+and start again with a clean branch.
+So let's go ahead and click merge pull request
+and hopefully that should be successful.
+So it says mybranch has been merged into master.
+And if we click through these tabs
+it just gives you an overview
+of the events that have happened.
+So it will show you you've created our pull request.
+We merged the pull request.
+We can take a look at the changes
+and we can also view the commits as well.
+And if we go back to our branches you can see
+that mybranch has now been deleted
+so we only have the master branch.
+If we click on the master branch,
+click on the file and you can see our file has been updated.
+So it's very similar to GitHub
+if you ever used that before
+and in addition to working in the console
+you can also work with CodeCommit from your local machine
+and you can interact with the repository
+using the standard Git commands
+and you don't really need to know that for the exam.
+You don't need to memorize any Git commands
+or anything like that.
+The main thing you need to know for the exam
+is that CodeCommit is a source control system.
+It enables collaboration between different teams
+and different users working on the same project
+and it's secure, allowing you to connect
+using HTTPS and SSH
+so your data is always protected in transit.
+So really just remember for the exam what CodeCommit is
+and what it is used for.
+And there's just one last thing that I want to show you
+on CodeCommit which is under settings
+and you can actually configure notifications
+using SNS and CloudWatch to send notifications
+to subscribers when certain events happen
+in your CodeCommit repository.
+So for example you can send a notification
+when somebody does a pull request or closes a pull request
+or when somebody comments on a pull request as well
+and this is where you would set it up.
+So you can set up a CloudWatch event rule
+and also an SNS topic
+for people to subscribe to the notifications.
+For people to subscribe to the notifications.
+So that is the end of this lecture.
+If you have any questions please let me know.
+If not, feel free to move on to the next lecture.
+Thank you.

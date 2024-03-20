@@ -1,0 +1,299 @@
+Hello, Cloud Gurus and welcome to this lecture and this lecture is going to be a
+CodeDeploy lab, and we're going to do a few things in this lab. Firstly,
+we're going to create our own EC2 instance,
+which is going to have access to an S3 bucket where our code is going to
+be stored. We're then going to install the code,
+deploy agent onto our EC2 instance and then we're going to use CodeDeploy to
+deploy a really simple web application to our EC2 instance.
+So if you've got time, please join me in the AWS console.
+So here I am in the console and the first thing that we're going to do is, well,
+we need to create our EC2 instance, but before we do that,
+we're going to configure a service role with S3 access.
+So our EC2 instance can access an S3 bucket containing our source code.
+So first of all,
+we're going to find security identity and compliance on the console,
+and we're going to click on IAM and we're going to go to roles and create
+role, and it's going to be a service role for the EC2 instance,
+make sure that EC2 is selected.
+Click on next and we're going to search for the S3 full access policy click
+on next? And we need to give our role a name.
+I'm just going to call it my S3 role and then click create role.
+We also have to create a service role for CodeDeploy as well.
+So this is going to be an identity access management role,
+which allows CodeDeployed to make API calls on your behalf and it's going to
+give code,
+deploy permission to install applications on your EC2 instances.
+If we go into service roles, find code, deploy,
+and select our use case at the bottom.
+So this is to allow our CodeDeploy to call AWS services such as auto scaling on
+your behalf and we want it for EC2 not for Lambda.
+So select CodeDeploy next,
+and it's already selected the correct policy.
+So we can take a look at this policy.
+I'm going to open it in a new tab so we can just have a look at the policy.
+So this policy allows CodeDeployed to do all these different actions for auto
+scaling,
+describe instances and terminate instances for EC2 read the tags.
+It gives access to CloudWatch and also registering and deregistering
+instances with your load balancer.
+So those are all the permissions that will get applied to CodeDeploy.
+So if we come back to our management console, click on next,
+we're just going to give it a name and I'm going to call it CD service
+role and click on create role. So now we are ready to launch our EC2 instance.
+So come back to services and find EC2 under
+compute click on launch instance,
+and we're going to stick with the Linux to AMI.
+So select that one T2.micro click on next,
+and we can keep most of the default. So it's going to log into the default VPC.
+We don't need to specify the subnet.
+You want to make sure that it's going to auto assign a public IP because we're
+going to be installing a web application on this instance.
+So we want to make sure that we can reach it over the internet.
+So just make sure that setting enable is selected,
+scroll down to identity access management role,
+and we're going to select the S3 role that we've just created and click next
+next at the tags section,
+we're going to add a tag and we're going to add a tag called app name,
+and I'm going to call my application, my web app.
+So CodeDeploy is going to use these tags to identify the instances that you are
+going to deploy the application to.
+So that is why we need to apply tags to our EC2 instance.
+So then click on next and for the security group,
+we can just stick with the launch wizard security group and by default,
+it's going to give us SSH and we're also going to add the rule for HTTP.
+So just select HTTP and keep to the rest of the defaults and then
+hit review and launch and before it launches the instance,
+it's going to ask you to select an existing key pair or to create a new one.
+Now, if you already have a key pair for this region,
+then you can go ahead and use that. If you don't have one, don't worry,
+you can just select,
+create a new key pair and it will go ahead and create one for you and you can
+save the .PEM file that it produces locally.
+So I'm just going to acknowledge I have access and hit launch instances.
+So now my instance has been created,
+and I'm just going to copy that IP address,
+and I'm going to go and log into my instance. So first of all,
+I'm just going to make sure that I'm in the correct directory for my key pair.
+Yep. So that's my key pair. So now I'm going to run SSH -i,
+and then the name of my key pair and then EC2 dash user at,
+and then the IP address of my instance.
+So now that we've logged into our instance,
+the next thing we need to do is install the CodeDeploy agent on our
+instance and if you take a look at the resources section of this lecture,
+I've included a text file with all the commands that you need to run.
+So let's go ahead and have a look at that in the text editor.
+So these are all the different commands that you need to do in order to install
+the code, deploy agent on your EC2 instance. So firstly,
+we're going to do a yum update we're then going to install Ruby.
+We're going to install wget, and then we're going to use wget to get the code,
+deploy agent files,
+and they're actually stored in an S3 bucket and it's specific to your region.
+And actually you're going to need to change this region,
+according to where you are working from, where you've deployed your instance,
+where you're going to deploy your S3 bucket, et cetera.
+So it says EU central one, and that's not correct for me.
+I'm actually using EC2 today.
+So go ahead and change that to the correct region. If you don't change it,
+it doesn't really matter. You're still going to be able to download it.
+It's going to be quicker if you use a region local to you and then the next
+thing we're going to do is we're going to add execute permission to the install
+files that we download,
+and then we're going to install the CodeDeploy agent and then finally this
+last command is to just check that the CodeDeploy agent has been successfully
+deployed.
+So let's go ahead and cut and paste those commands into our EC2
+instance. I'm just going to add -Y so that as well. Okay.
+Then install Ruby
+install wget.
+We're then going to CD into the user's home directory.
+We're then going to use this wget command to install the latest code,
+deploy agent files on our system,
+which is going to change the permissions,
+add execute permissions to the install file,
+then run the installation and then finally,
+we're going to check the status of our CodeDeploy agent.
+So the CodeDeploy agent is running that's its process ID.
+So that has successfully been installed. Now,
+the next thing we need to do is actually on our local machine.
+So we need to configure our local machine as the developer machine,
+which is going to connect into CodeDeploy,
+and it's going to package up our code and upload it to S3 for CodeDeploy to use.
+So in order to do that,
+we need to create a new identity access management user with all the permissions
+required to do that and then we're going to run AWS configure on our local
+machine with the relevant user credentials. So, first of all,
+I'm going to go back to identity access management in the console,
+click on users, add user,
+and I'm going to call my user CD user.
+I'm going to give them a programmatic access as well
+because I want to be able to run AWS configure and supply the access key and
+secret access key. So then hit permissions and we're going to
+directly attach existing policies.
+So the first one we're going to add is for CodeDeploy.
+So I'm just going to add CodeDeploy, full access,
+and I'm also going to add S3 full access as well,
+so they can click on next and create user.
+So our use has been created and we've got our access key and secret access key
+and this is what we're going to use it when we run AWS configure on our local
+machine. So, first of all, I'm just going to copy the access key,
+come to a terminal window and make sure this time you're on your local machine.
+So for me, that's my Mac, and I'm going to run AWS
+configure, and it's going to ask for the access key that I want to use.
+So I'm just going to hit control V and use the access key,
+come back to the console and grab the secret access key.
+I'm going to keep to my default region name of EU West 2,
+you need to make sure that it's the same region that you're going to be working
+in. So the same one where you've created your EC2 instance,
+and I'm going to keep my default output format as text.
+So hit enter. In preparation for this lab,
+I've created a set of deployment files on my local machine.
+So I'm going to show you the files that I've created now.
+So I've got a directory called my
+web app and inside that directory,
+I've got a file called app spec .yaml and that is the configuration file used by
+CodeDeploy. I've also got index.HTML,
+which is a simple webpage that we're going to be installing on the EC2 instance
+and then finally,
+I've got this scripts directory and this just includes pre and post installation
+scripts, which are going to be run at different stages of the deployment.
+So I'm going to show you these files in the text editor,
+because it's just going to be a lot easier for you to read them.
+So let's just take a look at these in the text editor now.
+So the first file we're going to look at is appspec.yaml and the purpose of
+appspec.yaml is to define all the parameters needed for the
+CodeDeploy deployment. So, first of all, we have a version number,
+then the operating system that they have,
+this applies to then any files that we want to copy to the instance.
+So in this case, it's going to be our index.HTML,
+the destination on our instance that they are going to be copied to.
+So within our EC2 instance, this is going to be copied into var www HTML,
+and then this hook section defines the commands that we want to run during the
+deployment and when we want to run them. So before the installation,
+there's a script which installs any dependencies,
+and there's also a couple of scripts to stop the application and also to start
+the application. So let's take a look at some of these files.
+So first of all,
+is the index.HTML and it's just really a simple webpage that just says,
+hello, cloud gurus. This is version one of my application.
+The dependencies file all that does is if it's not already installed,
+it will install httpd and then the start service script simply
+just starts httpd and the stop server just stops
+httpd. So these are all the files that we need to build our deployment and the
+appspec.yaml is the most important one and at the moment,
+these files are just installed on my local machine,
+but we need to get them into an S3 bucket in order for CodeDeploy to
+access them.
+So we're going to come back to the console to configure our S3 buckets.
+So I'm going to go into services and find S3 under storage,
+click on create buckets and I'm going to call my bucket CD
+bucket dash Faye, click on next, next, next,
+and create bucket.
+So now we're ready to bundle up our application files,
+create our application in CodeDeploy, and then upload our application code,
+bundle into this S3 bucket and we have a few different commands that we're going
+to run from the command line in order to do this.
+So I'm just going to come back to my terminal and the first command we're
+going to run is going to create the application within CodeDeploy and it's
+going to name the application, my web app, and don't worry,
+these commands are going to be included in the resources section of the course.
+So you'll just be able to copy and paste them into your terminal and then once
+that's done the second command that we need to run,
+it just pushes the application file into our S3 bucket and you're going to need
+to go in and add the correct bucket name for the bucket that you've just
+created. So I need to change that name
+and then hit enter. So that has created our application within CodeDeploy,
+and it's also pushed the application zip file into our S3 bucket and
+of course the zip file,
+it just contains our appspec.yaml or index.HTML and our scripts
+directory as well. So once again,
+you can just download that webapp.zip from the resources section of the course.
+So let's go back now to our console and we'll have a look in our S3 bucket and
+just make sure that has been copied across correctly.
+So if we go into a bucket that we should see webapp.zip,
+and it's just been copied over there just a second ago.
+So now we're ready to deploy this application using CodeDeploy.
+So let's come back to services and come down to CodeDeploy,
+and it's under developer tools. So just click on CodeDeploy,
+and the application we've just created using that command should already appear
+in your CodeDeploy dashboard. So there is,
+so we're just going to click on the app,
+and now we're going to define a deployment group,
+and this is going to define the host or the group of hosts that we're going to
+be deploying our code to such as click on create deployment group and we need
+to give it a name I'm just going to call it my DG.
+We need to select a service role which CodeDeploy is going to use to access our
+target instances and it's just going to beat the CD service role that we created
+at the beginning of the lab.
+So just select that one then for deployment type,
+there's two choices. So we have the in place and the blue-green,
+and of course the in place is when each instance is briefly taken offline during
+the deployment.
+So that means the instance is not available during the time of the deployment.
+And then we have the blue-green,
+and this is the one where you spin up new instances and you deploy to those new
+instances and then once your new instances are healthy,
+you can then terminate your original instances as soon as you already,
+but because we only have one host to deploy to,
+and it's the very first time we're deploying this application,
+we can just go ahead and use the in place upgrade.
+It doesn't make sense to use blue-green in this case
+then for environment configuration.
+So you can select any combination of either auto scaling groups,
+EC2 instances,
+or on premises instances to run this deployment on and in this case,
+we're going to be using EC2 instances and then it's asking us to
+define which instances we want to deploy to using the instance tags.
+So if you remember, we created our tag attached to our instance,
+and the tag was called app name and the value was my web app.
+So moving down to deployment settings,
+we can choose to either deploy to all of our instances at once.
+We can do one at a time.
+We can do half at a time because it's the first time we're deploying an
+application it makes sense to use all at once,
+but if you're in a production environment and you only wanted to deploy to half
+of your instances at a time,
+you have the opportunity to select that using this dropdown list.
+So we're just going to stick to all at once. If you're using a load balancer,
+you can use the load balancer to manage the incoming traffic and manage the load
+across new and the original deployment, but we don't have a load balancer.
+So I'm going to deselect that and then click on create a deployment group.
+So that is our deployment group created and then finally,
+the last step in the process is to just go ahead and click create deployment,
+make sure our deployment group is selected.
+It knows the name of our application. It's going to EC2 systems.
+It's going to be an in place deployment.
+The revision is stored in Amazon S3 and if we click on this
+search box,
+it should select our web app.zip file located in the S3 buckets.
+So moving down,
+you have some settings around rollback configuration and how you want
+CodeDeployed to behave if some part of the deployment fails. So for example,
+if you try to run a deployment, but you,
+then you find a file on the target instance has the same name as the file in
+your application. What are you going to do?
+Are you going to fail or are you going to overwrite or are you going to try to
+retain it both?
+So you can select your settings as you wish there and there's also a
+rollback configuration as well.
+So you can override the default rollback settings.
+So what happens when a deployment fails?
+What happens when certain CloudWatch alarm thresholds are met as well?
+So you can choose to disciple rollbacks, or you can enable rollbacks.
+So I'm just going to keep to the defaults for all of those,
+and then go ahead and create a deployment.
+So now all deployment is in progress and you should see the status indicator
+here and sometimes it does take a few minutes, but there we go,
+that has succeeded.
+So hopefully that's worked for you and you have the same at succeeded message as
+well and we can actually check our deployment check.
+What's actually been provisioned for us. If we go back into services
+EC2. and just grab the public IP of our instance,
+open a new tab in your browser,
+and hopefully you should see the same webpage.
+So it's basically installed the HTTP web server.
+The index.HTML has been copied over onto our EC2 instance,
+and it's been installed involved ww HTML,
+and our EC2 instance is now serving this website and that has all been
+deployed using a CodeDeploy. So that is the end of this lecture.
+If you have any questions, please let me know if not,
+feel free to move on to the next lecture. Thank you.

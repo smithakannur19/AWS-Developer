@@ -1,0 +1,155 @@
+Hello Cloud Gurus, and welcome to this lecture
+where we're going to discuss CodeDeploy lifecycle event
+Hooks and as you know, the lifecycle event hooks define
+scripts that we want to run and the order that we want to
+run them in during our deployment.
+And for the exam they really focus on understanding
+lifecycle event hooks for an in-place deployment.
+So here's our example again,
+and in the hooks section of the file
+we've got a few different scripts running at
+different stages during the deployment,
+and of course, the lifecycle event hooks,
+they're run in a specific order and
+that is know as the run order.
+So if you see anything in the exam referring to
+the run order of lifecycle event hooks,
+then this is what they're talking about.
+And we only have a few included here in this example,
+but there are actually lots of lifecycle event hooks
+that you can include and you just include the ones
+that you need for your own specific deployment.
+So whatever makes sense for your own application.
+So these are just a few examples,
+but I'm going to show you an exhaustive list
+of all the lifecycle event hooks
+which apply to an in-place deployment.
+And it's actually quite a lot to take in and remember,
+so when I think about lifecycle event hooks,
+I try and think of them as three distinct phases,
+and that's just a way that I try and remember it all.
+So hopefully that will make sense to you as well.
+And first of all, in my phase one,
+this is all to do with de-registering
+our instances from a Load Balancer.
+We then have phase two which is the
+real nuts and bolts of the application deployment,
+so all the activities that need to happen
+in order to deploy the application itself.
+And then my third phase is re-registering
+our instances with the Load Balancer,
+so once everything has been installed
+and it's all up and running again,
+then we re-register the instances with the Load Balancer.
+So let's go in and look at these
+in a little bit more detail.
+So the first lifecycle event hook
+is called BeforeBlockTraffic,
+and this covers all the tasks that you want to run
+on instances before they are de-registered
+from the Load Balancer.
+So if you have any scripts that you want to run
+before your instances are de-registered
+from the Load Balancer,
+then this is the lifecycle event hook
+that you're going to use.
+Then next one is called BlockTraffic,
+and this is where we actually de-register
+the instances from a Load Balancer,
+so any scripts relating to that,
+you can include in BlockTraffic.
+After BlockTraffic is any tasks that you want
+to run on instances after they've
+been de-registered from a Load Balancer,
+and remember, this is all quite flexible,
+again you just use the lifecycle event hooks
+that make sense for your own application.
+So now the next few stages are all about
+the nuts and bolts of actually deploying
+the application to your instances.
+So the next lifecycle event hook that
+we're going to look at is ApplicationStop,
+and this is all about gracefully stopping the application,
+so what scripts would you need to run in order to
+make sure your application shuts down gracefully?
+And of course with an in-place deployment
+you may well be deploying a new version
+of an application which is already installed in production,
+so it makes sense that you're going to need to
+shut down the application before you do anything else.
+So the next step is DownloadBundle,
+and this is where the CodeDeploy agent
+copies the application revision files
+or the new version of your application.
+So it copies all the files to a temporary location.
+The next event is BeforeInstall,
+so this is any pre-installation scripts
+that you want to run, for example,
+you might want to back up the current version
+of your application, you might want to back up
+some configuration files, et cetera,
+you might want to decrypt files from
+the DownloadBundle that need decrypting.
+The next step is to actually install the application itself.
+And this often involves copying the
+application files to their final location.
+The next step is AfterInstall,
+and this is any post installation scripts
+that you might want to run, so for example,
+you might want to update a configuration file,
+or you might want to change file permissions as well.
+So any scripts that you would want to run
+after the installation has been done.
+We then have ApplicationStart,
+so at this point we start up any services
+which was stopped during ApplicationStop,
+and you might have a script or set of commands
+that you want to run for Application Start,
+and we then have ValidateService,
+and this covers off any test that we want to run
+to validate that the application is working as expected.
+So those are all the lifecycle event hooks
+which we're later actually installing your application,
+and then the last bit is going to be all about
+re-registering with the LoadBalancer.
+So we have BeforeAllowTraffic,
+which is any tasks that you want to run on your instances
+before they get registered with the Load Balancer.
+AllowTraffic, so this is when we actually go ahead
+and register our instances with the Load Balancer,
+and then AfterAllowTraffic,
+which is any tasks that you want to run on instances
+after they've been registered with the Load Balancer.
+So that is all of the lifecycle event hooks
+for an in-place deployment.
+Now in terms of our exam tips,
+for the exam you'll need to understand
+the logical flow at a high level.
+Just remember, if you see run order
+in relation to lifecycle event hooks,
+then this is what they're talking about,
+they're talking about the specific order
+that everything runs in.
+And for an in-place deployment,
+in my mind it's broadly three phases,
+so you've got a de-registering phase,
+so you're de-registering with the Load Balancer,
+then the installation itself and
+everything involved in that,
+and then we've got the re-registering with a Load Balancer.
+And finally, for the exam, I'd say the most important thing
+is to try and get straight in your mind
+the order that all of these things happen.
+And if you think about it, it's all pretty logical,
+and it's only the same steps that you would do
+if you were installing a new version
+of an application manually.
+So if you do see a question in the exam
+and you're not sure about how to answer it,
+just have a think about the steps that you might take
+if you were performing a manual application update.
+What would you do, you know,
+what would the sequence of steps look like?
+So that is the end of this lecture.
+If you have any questions, please let me know.
+If not, feel free to move on to the next lecture, thank you.

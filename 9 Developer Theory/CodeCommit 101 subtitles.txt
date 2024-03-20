@@ -1,0 +1,83 @@
+Hello cloud gurus,
+and welcome to this lecture,
+where we going to take a closer look at CodeCommit.
+So as you know, CodeCommit is a central code repository.
+So it's a place to store everything you need
+to build your application.
+So think source code, binaries, images,
+and any libraries needed as well.
+And it manages updates from multiple sources.
+So allows multiple developers to work
+on the code at the same time.
+It enables collaboration and tracks
+and manages changes to your code base
+and maintains a version history.
+But how do we actually use CodeCommit?
+Well, if you've used a source control
+or version control system, like git before,
+this will all be pretty familiar to you.
+But let's take a look at how we might use
+CodeCommit in the real world.
+So here is our repository with all our files in.
+So we've got our source code, our libraries and binaries,
+and any images needed for our application.
+And here's our developer, Sally.
+And Sally starts off by creating a new branch,
+which is a copy of the master branch.
+And she clones a local copy of the dev branch
+to her local machine.
+And this is where she's going to work on her code updates.
+So she makes the changes and tests them locally.
+So she's updated the source code,
+and she's also changed the image
+from Ryan holding his deep racer
+to an image of one of our
+other awesome instructors, Tim Berry,
+and then she goes ahead and merges her changes
+to the development branch.
+And then finally, if there's no merge conflicts,
+then Sally's code can be merged with the master branch.
+But what happens if another developer in Sally's team
+is also working on the same files?
+So here is Sam, and Sam is also working
+on updates to the source code.
+And what do you think happens
+if Sam merges his own change before Sally?
+Well, if that happens,
+then when Sally tries to merge her own changes,
+there's likely to be a merge conflict.
+And conflicts generally happen if two people
+are working on the same file,
+and they change the same line of code.
+And it's then the developers' responsibility
+to work out which is going to be the correct version.
+Is it going to be Sally's version?
+Or Sam's or is it going to be something else?
+And then once that's resolved,
+once they've come to an agreement,
+Sally will update her code to incorporate Sam's changes,
+or vice versa.
+And then once that's done,
+Sally's merge will be good to go.
+So that is just one example of how
+we can use CodeCommit to manage our source code
+and enable multiple developers
+to work on the same project.
+So let's take a look at some
+of our exam tips for CodeCommit.
+First of all, just remember,
+it's a centralized code repository.
+So it's a place to store source code, binaries,
+libraries, images, HTML files, et cetera,
+and it's based on git.
+Code commit enables collaboration,
+and manages updates from multiple users,
+and it's a version control system.
+So it tracks and manages code changes,
+and maintains a version history of your files.
+So that is CodeCommit at a high level.
+And in the next lecture,
+we going to be getting our hands dirty with CodeCommit.
+So if you have any questions,
+please let me know.
+If not, please join me in the next lecture, thank you.

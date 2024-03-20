@@ -1,0 +1,128 @@
+Hello, Cloud Gurus,
+and welcome to this lecture,
+where we're going to take a closer look at the AppSpec file.
+And this is a really important file used by CodeDeploy,
+and it's basically a configuration file
+which defines the parameters which are going to be used
+during a CodeDeploy deployment.
+And with deployments to EC2 and on-premises systems,
+the AppSpec file can be written in YAML only.
+However, with a Lambda-based deployment,
+either YAML or JSON are supported.
+And actually, the file structure depends on
+whether you're deploying to Lambda or EC2.
+There are some subtle differences.
+But we're going to concentrate on an appspec.yml
+for an EC2 basic deployment.
+So let's take a look at the appspec.yml file structure.
+And there are four significant sections of the file.
+So first of all, we have version,
+which is actually reserved for future use,
+and currently, the only allowed value is 0.0.
+So that's pretty simple.
+The next one is OS,
+and that relates to the operating system,
+the type of operating system that you are deploying to.
+So it's going to be either Linux or Windows.
+Then we have files,
+which relates to configuration files or packages,
+which are going to be used during the deployment.
+So we use this section to define the location
+of any application files which need to be copied
+and where they should be copied to during the deployment.
+And then finally, we have hooks,
+and hooks are often called lifecycle event hooks.
+So what does that mean?
+Well, it's basically, it's scripts which need to run
+at set points during the deployment lifecycle.
+And hooks actually have a very specific run order,
+which we're going to learn a little bit more about later,
+'cause they're actually really important for the exam.
+And I've got some examples of different scripts
+that might be used during an EC2 deployment.
+So you might want to provide a script
+which unzips your application files prior to the deployment,
+you might want to run some functional tests
+on a newly deployed application,
+and you might also want to use scripts
+for dealing with any registration
+or deregistration of instances with your load balancer.
+And for all of these scripts,
+you're going to want to be in control
+of exactly when CodeDeploy runs them.
+So you're going to want to run them
+at specific points in your deployment lifecycle,
+and it's the lifecycle event hooks
+which enable you to do that.
+So let's take a look at an example appspec.yml file.
+So first of all, we've got the version, which is 0.0.
+We've then got the operating system,
+and in this case, we're deploying to a Linux system.
+We then have the file section,
+which specifies any files that you want to copy
+during the deployment.
+So it specifies the source and the destination.
+And then lastly, we've got our hooks section.
+So this is the lifecycle hooks.
+And this is where we specify the scripts
+that we want to run during the deployment.
+And when I mentioned to you that the hooks run
+in a very specific order,
+so this is defined using these parameters here.
+And this is not an exhaustive list
+of all the hooks that are available.
+We actually have a lecture coming up
+dedicated to the lifecycle hooks
+and the order that they run in,
+so we'll go through each of those in turn later on.
+So moving on, where does this appspec.yml live?
+Well, a typical setup is that you create a folder
+or directory containing all the files needed
+for the revision or the new version of your application,
+so everything that you're going to need
+during the deployment.
+And in the root of the folder is the appspec.yml file,
+and then everything else is organized into its own folder.
+So we have our scripts folder,
+which contains all the scripts that you want to run,
+the config folder, which has any configuration files,
+and then the source folder,
+which contains any application source code.
+But the most important thing to remember
+is that the appspec.yml must be placed
+in the root directory of your revision.
+Otherwise, the deployment is going to fail.
+And if we take another look
+at our example appspec.yml file,
+we can see that we need to reference the correct folders
+in our files and hooks section.
+So we're referencing the relative path
+to our scripts and files
+so that CodeDeploy knows exactly where to find everything.
+So let's take a look at some of our exam tips
+for the CodeDeploy AppSpec file.
+Just remember, it's a configuration file,
+and it's used to define the parameters
+which are going to be used
+by CodeDeploy during your deployment.
+So for example, operating system version,
+any files that are going to be used
+or copied during the deployment,
+and the lifecycle hooks,
+which define scripts that you want to run
+during the deployment and when to run them.
+Your appspec.yml always lives
+in the root of your revision directory,
+and then everything else is organized into folders,
+usually a folder containing scripts, config files,
+and source code.
+And then finally,
+the lifecycle event hooks have a very specific run order,
+and they're used to define when certain scripts will run
+during the lifecycle of your deployment.
+And we're going to take a look at lifecycle event hooks
+in the next lecture.
+So that is the end of this lecture.
+And if you have any questions, please let me know.
+If not, feel free to move on to the next lecture.
+Thank you.
