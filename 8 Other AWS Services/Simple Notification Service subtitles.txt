@@ -1,0 +1,117 @@
+Okay, hello Cloud Gurus and welcome to this lecture.
+In this lecture we're going to look at SNS,
+or Simple Notification Service.
+Now we have used this before.
+We used this in the X-Ray lecture
+that was part of our service application that was broken.
+But we're just going to go into the theory behind SNS.
+So, what is SNS?
+Basically, its a web service that makes it easy to set
+up, operate, and send notifications from the cloud.
+And it provides developers a highly scalable, flexible,
+and cost effective capability to publish messages
+from an application and immediately deliver
+them to subscribers or to other applications.
+So you can have push notifications to all of your
+different devices, So it could go to Apple devices
+Google devices, Fire OS devices,
+Windows devices, as well as Android devices,
+and devices in China with Baidu Cloud Push.
+So besides pushing cloud notifications
+directly to mobile devices, you can use SNS to
+deliver a notification by SMS text messages,
+or to email, or to SQS or to http endpoint.
+And SMS notifications can also trigger Lambda functions.
+And when a message is published to an SNS topic that
+has a Lambda function subscribed to it,
+the Lambda function is invoked with
+the pay load of the published message.
+And we saw this one when we created
+our serverless website using Polly.
+We're actually using SNS to pass the actual text
+to another Lambda function, which then basically
+went in and used the polly service and then
+took that and stored it in S3.
+So your Lambda function receives the pay
+load as an import parameter and can
+manipulate the information in the message,
+and publish the message to another SNS topic or send a
+message to other AWS services such as Polly or S3
+which is what we did in the Polly section of the course.
+So, SNS allows you to group multiple recipients using topics
+and a topic is an access point for allowing
+recipients to dynamically subscribe
+for identical copies of the same notification.
+So one topic can support deliveries to multiple end types.
+So for example, you can group together iOS,
+Android, and SMS recipients.
+And when you publish once to a topic,
+SNS is going to deliver the appropriately
+formatted copies of your message to each subscriber.
+So you can have multiple subscribers to a topic
+using different technologies.
+Now, to prevent messages from being lost,
+all messages published to SNS are stored redundantly
+across multiple availability zones.
+And some of the benefits you get from SNS
+is that you get instantaneous push-based deliveries,
+there's no polling required.
+As soon as you send that out it will go out to all devices.
+You get simple APIs and easy integration with applications,
+flexible message delivery over multiple transport protocols,
+so like I said before we could send it to SQS,
+https, we could send it via text,
+and then using push notifications
+to multiple mobile devices.
+We get inexpensive pay as you go model
+with no upfront cost and you get a web based AWS
+management console and it offers the simplicity
+of a point and click interface.
+So what is the difference between SNS and SQS?
+Well both are messaging services in AWS,
+SNS is push whereas SQS polls or pulls.
+So just bear that in mind if you see
+some scenario questions asking if you
+wanted to implement a push based one
+you want SNS, if you want a poll based one you want SQS.
+In terms of the pricing, the user pays 50 cents
+per one million Amazon SNS requests,
+so it's incredibly cheap.
+You also charge 6 cents per 100,000 notification
+deliveries over http, and 75 cents per 100 notification
+deliveries over SMS and then $2 per 100,000
+notification deliveries over email.
+Amazon SNS follows the published subscribe
+or pub/sub messaging paradigm with notifications
+being delivered to clients using a push
+mechanism that eliminates the need to
+periodically check or poll for new information.
+So that's the difference, like I said, between SNS and SQS.
+With simple APIs require minimal up front
+development effort, no maintenance or management,
+overheads and pay as you go pricing,
+SNS gives you as a developer, easy mechanisms
+to incorporate powerful notification
+systems within your application.
+So, onto my exam tips.
+Just remember what an SNS is, it's a scalable
+and highly available notification service
+which allows you to send push based
+notifications from the cloud.
+You have a variety of message formats.
+So you've got SMS, text messages,
+you've got emails, you've got SQS, and any http endpoint.
+It's a pub/sub model where users subscribe to topics
+and it's a push based mechanism
+rather than poll based mechanism.
+So we have used SNS twice in this course so far.
+We've used it when we were creating Polly,
+our Polly website, and we used it when we were doing X-Ray.
+So it is in the serverless section.
+If you want to go and create an SNS topic you can.
+But really, you just need to know
+what it is at a high level and how it's different from SQS.
+SNS is push based, SQS is poll based.
+So that is it for this lecture guys.
+If you have any questions, please let me know.
+If not, feel free to move onto the next lecture, thank you.

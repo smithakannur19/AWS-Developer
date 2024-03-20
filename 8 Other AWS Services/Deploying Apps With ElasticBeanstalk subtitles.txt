@@ -1,0 +1,112 @@
+Okay, hello Cloud Gurus
+and welcome to this lecture.
+This lecture we're going to look at how we can
+deploy applications with Elastic Beanstalk.
+So I've created two very, very simple websites.
+We've got version one and version two.
+You'll be able to download version one in this lab.
+And in the next lab you'll be able to download version two.
+It's in the resources section.
+So do go ahead and download that.
+Basically, it's an index.php file
+and photo of a show that we have called AWS This Week.
+Which is a show we run every single week
+to keep you updated with AWS.
+It's on our YouTube channel.
+So what we're gonna do is gonna deploy this app
+in a PHP Apache stack using Elastic Beanstalk.
+So once you've downloaded it,
+just keep it as a .zip file.
+You don't need to unzip it unless
+you want to have a look at the files.
+And then you'll need to log into the AWS console.
+Okay, so here I am in the AWS console.
+I'm gonna go over to services.
+Elastic Beanstalk sits under compute.
+You can see it here.
+And CloudFormation actually sits under Management Tools.
+CloudFormation is a way of scripting your infrastructure.
+Whereas Elastic Beanstalk is a way of provisioning
+your environments using a GUI effectively.
+So gonna click on Elastic Beanstalk,
+and you'll see this splash screen
+if you haven't used it before.
+I'm currently in the Northern Virginia region.
+I'm gonna go ahead and get started.
+And I'm gonna call this application name,
+let's call it Hello Cloud Gurus.
+Now the platform, I'm going to choose PHP.
+And then I'm going to,
+instead of using a sample application,
+I'm going to upload my code.
+So I'm just going to click upload.
+And then it says source code origin local file.
+Choose file.
+And you can see my two files in here.
+We've got version one and version two.
+I'm going to use version one for this,
+gonna go ahead and hit open.
+Then I'm just gonna go over here and hit upload.
+Though it is now uploading,
+it's actually uploading it to an S3 bucket,
+which it's going to create.
+And then I'm gonna go ahead and hit create application.
+So this can take a little bit of time.
+Can take about, basically five or six minutes.
+So I'm just gonna pause the video and wait
+for my Elastic Beanstalk environment to come online.
+Okay, so that took about four minutes.
+You can see here it says
+successfully launched environment, Hello Cloud Gurus ENV.
+So if I could go and click on applications,
+I'll be able to see it in here,
+Hello Cloud Gurus ENV.
+And then if I click in here,
+I'll be able to see that it's up and running.
+And hopefully if I click this link
+we should get a live website.
+And where we go.
+Hello Cloud Gurus, this is version one.
+And there's Faye doing AWS this week.
+So DeepLens is now in General Availability.
+We actually just ordered one in to the office.
+So expect some courses on that soon.
+And if you actually click on the link,
+you'll be able to see our YouTube channel.
+And you'll be able to subscribe.
+I would recommend subscribing 'cause it's the easiest way
+to keep up to date with AWS every week.
+You can see that the videos are
+between two to three minutes long.
+So very easy to watch on your way to work.
+So back in the AWS console
+and back in my Elastic Beanstalk environment.
+In here, we've got our configurations.
+So this is how we go and configure our environment.
+Right now were just using a T1 micro.
+It's a very basic instance.
+We could go in here and add additional instances.
+We can go in here and configure our load balancers.
+In here, we've got our deployment policies.
+So how do we do updates to our website.
+And we're gonna cover that off in a lot of detail
+in the next lecture 'cause that is basically
+the main thing you're gonna be tested on,
+going into your Developers Associate exam
+on Elastic Beanstalk.
+Note over here we have our logs,
+health, monitoring, alarms, managed updates.
+Managed updates are basically where
+you can configure updates to your operating system.
+Updates to, let's say PHP
+or to Apache or something like that.
+And you do this during a pre-defined configuration window.
+So it might be at 3AM every Sunday.
+And down here, we've got events and tags as well.
+So let's go back to our dashboard.
+I am going to end the lecture here.
+We are going to go ahead and learn all about updates.
+Like I said, that is pretty much the most important thing
+to know going into the Developer Associate exam.
+So if you've got the time,
+please join me in the next lecture, thank you.

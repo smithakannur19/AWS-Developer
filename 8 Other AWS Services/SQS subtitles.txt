@@ -1,0 +1,323 @@
+Okay, hello Cloud Gurus,
+and welcome to this lecture.
+This lecture is on Simple Queue Service or SQS.
+And if you remember from the history lecture
+where we were talking about the history of AWS,
+this was the first ever AWS service
+that was publicly available.
+So this is the oldest AWS service.
+Now where this comes up in the exam is,
+you need to understand what SQS is at a very high level.
+And then you need to understand
+various different components of it.
+And it makes sense that this is in the exam
+because it is the oldest AWS service.
+So what is SQS?
+Well, it's a web service that gives you access
+to a message queue that can be used to store messages
+while waiting for a computer to process them.
+SQS is a distributed queue system
+that enables web service applications
+to quickly and reliably queue messages
+that one component in the application generates
+to be consumed by another component.
+A queue as a temporary repository
+for messages that are waiting processing.
+So if all that sounds a bit complicated,
+don't worry.
+The easiest way to learn what SQS is,
+is by looking at an example.
+So let's say you've got a website that generates memes.
+So here, you've got your user,
+and they wanna upload a photo.
+So let's say we wanna turn this into a meme.
+So we're gonna upload this to a website,
+and that website might store this photo in S3.
+Now, as soon as that's finished uploading,
+that might trigger a Lambda function.
+And what Lambda does, is basically,
+it sends all the data about this particular image to SQS.
+So what kind of data?
+Well, it's going to send the data
+as to what the top of the meme should say,
+what the bottom of the meme should say,
+it might give data about the S3 bucket location.
+So which S3 bucket has it been uploaded to,
+it might pass data around the user, etc.
+And this sits in SQS as a message
+while it's waiting to be processed.
+Then you might have a fleet of EC2 instances.
+And what they do,
+is they poll the SQS queue looking for messages,
+looking for jobs to do essentially.
+Think of SQS as yeah, basically a way of assigning jobs.
+It's like you put a job into the SQS queue,
+then your EC2 instances when they're ready,
+constantly poll that queue looking for work.
+And so they find this message,
+and then they're like, "Okay, great."
+I'm gonna create the meme, so I'm going to encode it.
+So here it is, it says, "Hello, Cloud Gurus."
+And it then stores the EC2 instance,
+then writes that to the same S3 bucket,
+or it can write it to a different S3 bucket.
+And then once it's finished that job,
+it goes back to the SQS queue again,
+and looks for work, looks for jobs to do.
+And you can actually have Auto Scaling groups
+that sit behind SQS,
+so that it automatically scales based off the SQS queue.
+So how many messages are in the queue
+could trigger you provisioning more and more EC2 instances?
+Now the great thing about this is that,
+if you lose an easy to instance,
+you're not going to lose that job.
+It's still going to sit in the SQS queue
+and another EC2 instance can go in and pick that up.
+And we'll talk about that in a couple of slides from now.
+So to give you another example, think of a travel website.
+It might be something like Skyscanner
+or Google Flights or something.
+And basically, it will go out and scan a whole bunch
+of different airlines and get you the best deal.
+And if you actually work at Skyscanner,
+big shout out to you guys, I use you all the time.
+So here we are, we've got our user,
+and they're looking for holidays.
+So they want a package holiday,
+and they wanna get the best possible flights.
+So they type a query into their browser,
+this then hits an EC2 instance.
+So these are EC2 web servers.
+And essentially what they do is,
+they take what the user is looking for,
+and they package that up as a message in an SQS queue.
+The queue then gets polled by an EC2 instance.
+And so by polling, it's pulling the messages down.
+And that is really key because some exam questions
+will say that you need a pull-based system
+rather than a push-based system.
+SQS is always a pull-based system.
+If you wanna use a push-based system,
+you use something like simple notification services,
+which we're going to cover off in a couple of lectures.
+So you've got your EC2 instances here,
+they constantly polling the SQS queue looking for messages,
+looking for a job to do.
+They can then get that job and they process it,
+and they say, "Okay, this user wants to fly from London
+to LAX or to LA, for example.
+Let's go and interrogate all the airline servers
+as to what the best flights are."
+Once it's got this information,
+it then sends that back to the web server,
+who sends it back to the user,
+and then the user chooses the best flights
+for his or her budget or his or her needs.
+I hate flying out really, really early in the morning,
+I like to fly out at 9:30 or something like that.
+So I want you to think about this if we didn't have SQS.
+And let's say the web server pass the information off
+to an application server,
+the application server then queried the airline servers,
+and let's say that application server crashes.
+What's gonna happen?
+Well, your user is going to lose their query.
+Great thing about SQS is that,
+if that application server crashed,
+the message will still be in the queue,
+it'll be marked as invisible.
+And this is called the visibility timeout window.
+But as soon as that timeout runs out,
+that message will appear in the queue again,
+and essentially another application server
+will pick that message up and process the job.
+So that's the great thing about SQS,
+is you're removing dependencies.
+It's a great way of decoupling your infrastructure.
+So using SQS,
+you can decouple the components of an application
+so that they run independently
+and with SQS easing message management between components.
+Any component of a distributed application
+can store messages in a fail-safe queue.
+Messages contain up to 256 kilobytes of text in any format.
+So you can have JSON, you can have XML,
+you can have plain text, whatever.
+Any component can then later retrieve
+the messages programmatically using the SQS API.
+The queue acts as a buffer between the components producing
+and saving the data,
+and the component receiving the data for processing.
+This means the queue resolves issues that arise
+if the producer is producing work faster
+than the consumer can process it.
+So you think about that.
+The great thing about this is,
+let's say you've only got two EC2 instances
+that are polling the SQS queue,
+and suddenly, you're getting a ton of messages.
+What you can do, is you can configure Auto Scaling groups
+to monitor the SQS queue.
+And if it goes over a certain number of messages,
+let's say it goes over 10 messages in the queue,
+you then can start provisioning additional EC2 instances
+to process the messages in that queue.
+Likewise, you can have cooldowns.
+So say the number of messages
+in the queue drops down to one.
+Maybe you only wanna have one EC2 instance.
+So you can build Auto Scaling in with this.
+So this basically brings elasticity to your application.
+And so let's move on.
+So there are two different types of queues.
+There's the standard queues, and now there's FIFO queues.
+And FIFO queues actually only just came out last year.
+So let's start with standard queues.
+SQS offers standard as the default queue type.
+So by default, all queues would be a standard queue.
+And a standard queue lets you have nearly unlimited number
+of transactions per second.
+They guarantee that the messages
+are delivered at least once.
+However, occasionally,
+because of the highly distributed architecture
+that allows high throughput, more than one copy
+of the message might be delivered out of order.
+So standard queues don't have any kind of order to them.
+They provide best effort ordering,
+which ensures that messages are generally delivered
+in the same order as they are sent,
+but they can't be guaranteed, okay?
+FIFO queues however, do guarantee exactly that.
+So first-in-first-out, the messages will be delivered,
+be sent and received in the order in which they arrive.
+So the order in which the messages are sent and received,
+strictly preserved and a message is delivered once
+and remains available until consumer processes
+and deletes it.
+Duplicates are not introduced to the queue.
+So FIFO queues also support message groups
+that allow multiple ordered message groups
+within a single queue.
+Another thing to note about FIFO queues
+is that they're limited to 300 transactions per second.
+They have all the same capabilities of standard queues.
+Typically, you're gonna be asked around standard queues.
+And really where you're gonna be quizzed on,
+is just understanding what SQS is at a high level
+and then these key facts.
+So, always remember that SQS is a pull-based,
+not a push based system.
+Messages are 256 kilobytes in size.
+Messages can be kept in the queue from one minute,
+all the way up to 14 days and the default is four days.
+And then, visibility timeout is the amount of time
+that the message is invisible in the SQS queue
+after a reader picks it up.
+So if you a message in the queue,
+and then the EC2 instance pulls that message down
+and has a job.
+So it might be to create a meme,
+it might be to go and query the airline,
+and so that message is still in the SQS queue,
+but it's invisible.
+Now provided the job is processed
+before the visibility timeout expires,
+the message will then be deleted from the queue.
+If the job is not processed within that time,
+the message will become visible again
+and another reader will process it.
+This could result in the message being delivered twice.
+So if you have your visibility timeout
+to let's say, one minute,
+but the job that it's doing is something let's say,
+it's doing some big data analytics or something like that.
+What's gonna happen is,
+the message is gonna come back into the queue.
+Because it's gonna take over a minute,
+let's say it takes five minutes
+to actually process that big data.
+The message is gonna become visible in the queue.
+I should say not come back to the queue,
+but it's gonna come visible on the queue.
+And then another EC2 instance will pick that up.
+So you could be delivering your messages multiple times,
+because your visibility timeout is too low.
+So you got to think about that
+when architecting your applications.
+And then finally,
+the visibility timeout maximum is 12 hours.
+The 12 hours is the configuration maximum.
+So if something's gonna take over 12 hours,
+then SQS is probably not a good choice for you
+because you're going to be delivering messages
+multiple times.
+SQS guarantees that your messages
+will be processed at least once.
+However, you have to bear this in mind,
+when architecting, it could be processed a couple of times
+especially if your visibility timeout is lower
+than the amount of time that it takes for that EC2 instance
+to do the job.
+And then finally, there's a thing called SQS long polling.
+And this is a way to retrieve messages from your SQS queues.
+So normally, you've got regular short polling,
+and it returns it immediately.
+So you've got your EC2 instance, sitting there and going,
+"Is there a job? Is there a job? Is there a job?"
+And it'll keep doing that
+even if the message queue is empty.
+Now, long polling doesn't return a response
+until a message arrives in the message queue,
+or the long poll times out.
+So the great thing about long polling is,
+it's going to save you money
+because you're not constantly polling an empty queue.
+You're gonna poll it?
+It's gonna wait, it's gonna wait for the timeout.
+And then it times out,
+it's gonna return a response saying,
+"Look, there's no messages in the queue."
+If you don't have long polling enabled,
+EC2 will just consistently poll the queue going,
+"Is there a message? Is there a message?
+Is there a message?"
+And that can increase your cost.
+Okay, so what are my exam tips?
+We'll just remember what SQS is,
+it's a distributed message queuing system.
+It allows you to decouple the components
+of your application so that they are independent.
+So let's say an EC2 instance fails,
+and while it's trying to process a message,
+another EC2 instance will pick that up
+and the message will stay in the queue.
+Remember that SQS is pull-based, not push-based.
+You have two types of queues, you have standard queues,
+which are your default queues.
+And that offers best-effort ordering
+and the messages delivered at least once.
+And then you have your FIFO queues.
+And this is where order is strictly preserved,
+and your messages are only delivered once,
+there's no duplicates.
+And this could be good for banking transactions
+where things need to happen in a strict order.
+We don't have our visibility timeout,
+the default is 30 seconds.
+You need to increase this if your task is gonna take longer
+than 30 seconds to complete.
+Also remember that the maximum is 12 hours.
+And then we have two types of polling,
+we have short polling which is default
+and basically returned immediately
+even if there are no messages in the queue.
+We then have long polling,
+and this will only poll the queue periodically
+and only return a response when a message is in the queue
+or the timeout is reached.
+So that is it for this lecture guys.
+If you have any questions, please let me know.
+If not, feel free to move on to the next lecture.
+Thank you.

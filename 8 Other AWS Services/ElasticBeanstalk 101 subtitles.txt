@@ -1,0 +1,89 @@
+Okay, hello Cloud Gurus
+and welcome to this lecture.
+This lecture is on Elastic Beanstalk 101.
+And we have already used Elastic Beanstalk in this course,
+but over the next few lectures we'll use it
+in a lot more detail.
+We'll go into advanced Elastic Beanstalk
+and we'll look at how you can use Elastic Beanstalk
+with RDS.
+So, before we get started, what is Elastic Beanstalk?
+Well it's a service for deploying and scaling
+web applications developed in many popular languages,
+so Java, .NET, PHP, Node.js, Python, Ruby, Go and Docker
+onto widely used application server platforms,
+like Apache, Tomcat or Nginx or Passenger or IIS.
+And so this means that developers
+can focus on writing code and don't need to worry about
+any of the underlying infrastructure needed
+to run to application.
+So essentially, what Elastic Beanstalk is,
+is you just throw it some code in a zip file
+and it will go it and detect, or go in and configure
+an environment for you, or go and configure the web servers,
+might put them behind an auto scaling group.
+It could go in and configure RDS
+or you could manage your own RDS environment.
+We'll cover that off in the RDS section.
+So that's all it is, its basically a provisioning service.
+Sort of similar to the CloudFormation
+in that you use it to provision environments,
+except CloudFormation is all JSON based
+and CloudFormation you upload CloudFormation templates
+whereas with Elastic Beanstalk it's very much
+using the GUIs you go through and click
+the different buttons and then you'll go in
+and provision your environment.
+So we will do that in the next lab.
+So basically what you do, like I just said,
+you upload the code and Elastic Beanstalk
+will handle deployment, capacity provision,
+load balancing, auto-scaling and the applications health.
+And you still contain full control
+of the underlying AWS resources powering your application,
+and you only pay for the AWS resources
+required to store and run your applications,
+so this could be EC2 or S3.
+And essentially when you create
+a new Elastic Beanstalk deployment
+it will create a new S3 bucket
+and it will save every version of your code
+in that S3 bucket.
+And again we gonna have a look at that in the lab.
+So Elastic Beanstalk is the fastest
+and simplest way to deploy your applications in AWS.
+It automatically scales your application up and down.
+You can select the EC2 instance type
+that is optimal for your application.
+You can retain full administrative control
+over the resources powering your application,
+or you could just have Elastic Beanstalk
+do it for you.
+You can actually go through and do
+managed platform updates and this will automatically update
+things like your operating system, Java, PHP, Node.js
+even Apache etc.
+You can monitor and manage application health
+via a dashboard.
+And its integrated with CloudWatch and X-Ray
+so you can have good performance data as well as metrics.
+So what are some exam tips for Elastic Beanstalk?
+Well just remember that it's basically
+a way of deploying your web application
+and it will provision all the resources behind it.
+So that includes the servers, it could include RDS etc.
+It supports widely used programming technologies
+like Java, PHP, Python, Ruby, GO, Docker, .Net and Node.JS
+and it also supports application server platforms
+like Tomcat, Passenger, Puma IIS etc.
+It provisions the underlying resources for you.
+You yourself can fully manage the EC2 instances
+or Elastic Beanstalk can do that for you.
+And then you can do updates, you can do monitoring
+and metrics and health checks, and this is all included.
+So the best way to learn Elastic Beanstalk
+is to go ahead and get our hands dirty.
+So that's what we'll do in the next lecture.
+So if you've got the time, please join me
+in the next lecture.
+Thank you.

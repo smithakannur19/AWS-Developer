@@ -1,0 +1,148 @@
+Okay, hello Cloud Gurus
+and welcome to this lecture.
+This lecture is on Kinesis,
+and we're gonna go ahead and set up
+our own Kinesis stream.
+So, it is a lab and you're going to need
+to log into the AWS console,
+and the CloudFormation template that we'll be using
+is available in the resources section of the course.
+Okay, so I'm in the AWS console
+and I just want you to go up and change your region
+to Northern Virginia, so US East one
+because we're basically we're going to be using
+a CloudFormation template,
+and we wanna make sure all the resources
+within that CloudFormation template
+are available if you're using it in a new region
+like London, for example, it might break the lab.
+So once you've done that,
+we need to go over to CloudFormation,
+and CloudFormation is under our Management Tools,
+and we click on CloudFormation.
+And now what we're gonna do is we're going
+to go ahead and we're going to create a new stack.
+And we're going to instead of using a template,
+we're going to Specify an Amazon S3 template URL.
+Now, I will paste this into the resources section
+of the course, so just copy and paste that link
+and then paste it into here,
+and we'll go ahead and hit Next.
+That stack, we'll give it a Stack Name
+of MyKinesisStack,
+and we will leave everything else as default.
+If you wanna use an EC2 Key Pair
+in order to be able to SSH
+into your EC2 instance
+that's doing both the data consumption
+and production, you can.
+I'm just going to leave it.
+I'm gonna leave it as the t2 micro,
+and we're going to use the ApplicationArchive,
+this GitHub link in here.
+That's contained within the CloudFormation stacks,
+so you don't need to worry about getting that.
+We'll go ahead and hit Next.
+Optionally, you can put in Tags,
+so I'm just gonna leave everything else as default
+and go ahead and hit Next.
+And we'll go ahead and create our stack.
+Now, don't worry about this error message up here.
+Just scroll all the way down,
+acknowledge that that CloudFormation is going
+to create IAM resources and go ahead and hit Create,
+and now what will happen is your CloudFormation template
+will start creating your KinesisStack.
+And this can take anywhere for up
+to between 10 to 15 minutes.
+So I'm just gonna pause the video
+and wait for this stack to be created.
+Okay, so it says my Status is CREATE_COMPLETE.
+If I just hit Refresh and click on Events,
+I can see all the different Events
+that has happened within that stack,
+and now what we wanna do is we wanna click
+on Outputs and it's giving us a URL here,
+and is URL is essentially both our data producer
+and our data consumer,
+so it's both artificially creating the data,
+feeding it into Kinesis streams,
+and then it is essentially connecting back up
+and taking that data and consuming it.
+And if we actually click on the link,
+it will create this nice little graph.
+And so this is essentially just simulating
+the number of hits on different websites.
+It's not real data at all.
+It's just a simulation, and it's just using random numbers,
+but you can leave this running you know
+for a couple of minutes,
+and see the visualizations
+but, essentially, all you're gonna see is
+these different lines moving up and down randomly
+across a timestamped map.
+So back in the console, in the CloudFormation stack,
+let's go ahead and have a look at what's been created.
+So we can go into EC2,
+and we'll be able to see our EC2 instance that is running.
+This EC2 instance, like I said,
+is both the data producer and the data consumer.
+If we go back over to here,
+and if we actually go down into Kinesis,
+so Kinesis is down the bottom
+and it's under the Analytics section
+and we click into Kinesis,
+we can see in here, if we go over to Kinesis Streams,
+we'll be able to see our Kinesis Stream,
+and it says MyKinesisStack-KinesisStream.
+And we actually click in here.
+This gives us all the details,
+so we've got two open shards right now.
+Our data retention period is 24 hours,
+and we can increase this up to seven days
+or 168 hours, and then our shard level metrics
+are, basically, instead of it being every five minutes,
+we're producing our metrics at every one minute
+if we were going to enable it.
+So very similar to detailed monitoring.
+If we click up into the Monitoring section,
+we can actually monitor our shards now,
+so we can see what is going on
+inside our Kinesis stream,
+and you can have a look at all the different data there,
+and what it's actually doing is
+it's storing this data in DynamoDB.
+So if we come back here
+and go over to our DynamoDB database,
+you'll be able to see in Tables.
+If you click in Tables,
+you can see our different tables have been created.
+So let's just click in this one,
+and you can go over to Items,
+and you can see in here the large amounts of items
+that is being stored every second inside our DynamoDB table.
+So this really is just a high-level overview
+of Kinesis to give you a little bit of hands-on experience.
+Really going into the exam,
+you're expected to know the difference
+between Kinesis Streams and Kinesis Firehose.
+You also need to know what Kinesis Analytics is
+at a high-level, and that's about it.
+So now if you just click back over here,
+we're gonna go and delete everything,
+so we just need to go back into CloudFormation,
+click on here and just go Actions
+and then Delete Stack,
+and we're gonna go ahead and delete this stack
+and all the resources that exist
+within that stack are now going to be deleted as well.
+So that's it for this lecture, guys.
+If you have any questions, please let me know.
+If you see anything in your exam on Kinesis
+that you felt that the course hasn't covered,
+please also let me know,
+and I'll create additional contact,
+but like I said, or content,
+but like I said, the two things you really need
+to understand is the difference between Kinesis Firehose,
+Kinesis Streams and Kinesis Analytics.

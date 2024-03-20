@@ -1,0 +1,126 @@
+Okay, hello Cloud Gurus
+and welcome to this lecture.
+In this lecture we're going to look at
+the AWS Systems Manager Parameter Store,
+so I want you to imagine the following scenario.
+So you work for a bank, you're a systems administrator
+and you need to store confidential information,
+such as users, passwords, license keys, et cetera,
+and you need to basically pass this information
+to EC2 as either a bootstrap script,
+or it could be using CloudFormation,
+or it could be using Lambda or whatever.
+So how would you do this?
+Well the answer is with AWS Systems Manager Parameter Store,
+so let's go and jump over to the AWS console
+and have a look at this in action.
+Okay, so here I am in the AWS console,
+so where is AWS Systems Manager?
+Well, it's actually under EC2, so just like EBS
+or load balancers, it's a function that
+sits under EC2, it doesn't have it's own section.
+You'll be able to find it by scrolling
+all the way down here and you can see we've got
+Systems Manager Services, so we've got things
+like the run command, the state manager,
+configuration compliance, et cetera, et cetera.
+And then if we scroll down under the shared resources,
+we've got our Parameter Store so let's
+go ahead and click on that.
+Now if you've never used it before,
+you're gonna get this splash screen.
+We'll go ahead and get started.
+Essentially we create a parameter,
+we're gonna store our sensitive data in there
+and then we're going to be able
+to access this parameter across a whole bunch
+of different services and you see the services
+in here so EC2 Run Command, EC2 Estate Manager,
+CloudFormation, you can do it using Lambda,
+et cetera, et cetera, so let's go ahead and get started.
+So in here we've got our name, so this might be
+our license key, let's call it Adobe License Key.
+So let's assume we've got some form
+of Adobe software on here and we need to pass at
+this license key when we're installing,
+so My License Key For Adobe.
+Now in here we've got different types,
+so we've got string, we've got string list,
+and we've got secure string.
+With string we can just enter any data in here,
+within string list we can basically enter
+multiple values and we separate them using a comma.
+If you want this information, you could just
+click up here.
+And then secure string actually encrypts
+the data using KMS and this is where we would store
+our sensitive information.
+And even if you type it in here, you can see
+it's not revealed to me.
+So if you have other system administrators,
+you can store all your keys and stuff in here
+and they can go and use this and reference this,
+but they won't actually be able to see the keys themselves,
+so it is very, very secure.
+So I'm gonna go ahead and just enter in a random one,
+hit create parameter, you see the parameter
+was created successfully.
+If you do get some weird error messages,
+it's probably 'cause you put a space in the name,
+just go back and take the spaces out.
+And then you'll be able to see here
+we've got my parameters.
+So it's called Adobe License Key,
+it's a secure string as string type.
+Notice that I can't go in and actually view
+the value, actually I can here, look, there you go.
+Show value, so you can see the value inside the console,
+but it depends on your levels of permission.
+So if people didn't have access to EC2, for example,
+they wouldn't be able to go in and see these keys.
+And then we can pass this attribute over
+to CloudFormation, we can pass it to Lambda, et cetera.
+If you wanna find out how to do that,
+just head over to the documentation.
+We've added it as a resource in the course.
+You can go down and see about Systems Manager
+working with Systems Manager Parameters.
+In here you can see how you can actually
+organize them into hierarchies, how you can create them,
+which we've just done, tag them, and then working
+with different versions.
+They give you lots of practical examples
+and you'll be able to see how to set things up
+using Lambda, how to reference them in CloudFormation,
+et cetera.
+To be honest, you're not gonna be quizzed on that
+in the exam, so it is beyond the scope of this course,
+but you definitely need to understand at a high level
+that you can use AWS Systems Manager
+as a way of storing sensitive information.
+So what are my exam tips?
+Well, if you've got confidential information
+such as passwords, database connection strings,
+license codes, et cetera, et cetera, it could be user names,
+whatever it is that's confidential,
+you can store this inside SSM Parameter Store.
+You can store values as plain text
+or you can actually go in and encrypt the data using KMS
+and then you can use this data by referencing the values
+using their names, so the names do need to be unique.
+And you can use this service with EC2,
+with CloudFormation, with Lambda, with EC2 Run Command,
+et cetera, et cetera.
+So be aware of that, you might get some scenario questions
+where you've got exactly that kind of scenario
+where you're working at a bank or something like that
+and you need to store sensitive information,
+keep in mind that AWS Systems Manager is probably
+gonna be a better place to store it
+than putting it in a plain text file in S3
+and giving it public read permissions.
+So if you do see that, just be aware
+of what it is at a high level.
+So that's it for this lecture, guys.
+If you have any questions, please let me know.
+If not, feel free to move onto the next lecture, thank you.

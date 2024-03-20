@@ -1,0 +1,248 @@
+Okay hello Cloud Gurus,
+and welcome to this lecture.
+In this lecture,
+we're going to look at updating Elastic Beanstalk.
+And this is really critical to understand
+going into the exam,
+because you are gonna get questions on the different types
+of updates and you will be expected to know
+the differences between them.
+So what is an Elastic Beanstalk or EBS deployment policy?
+Not to be confused with, you know, Elastic Block Storage.
+So Elastic Beanstalk supports several options
+for processing deployments,
+you have four options essentially.
+So this is how we update our code.
+We can do All at Once, we can do Rolling,
+we can do Rolling with Additional Batch
+and we can do Immutable and we'll see how to configure this,
+a little bit on, later on in this lecture.
+So let's look at the differences between them.
+All at Once is pretty easy.
+Basically All at Once deployment updates,
+and deploys the new version to all instances simultaneously.
+All of your instances are going to be out of service
+while the deployment takes place.
+So you will have downtime with an All at Once deployment.
+You will experience an outage
+while the deployment is taking place, and this is not ideal
+for mission-critical production systems.
+And if the update fails,
+you'll need to roll-back the changes
+by redeploying the original version to all your instances.
+So that's an All at Once deployment.
+You probably wanna do this in your test and dev environment,
+you definitely do not want to do this in your production
+environment unless your business is prepared
+to have some downtime.
+We then have Rolling deployment policies,
+and this basically deploys the new version in batches.
+So each batch of instances is taken out of service
+while the deployment takes place.
+And your environmental capacity will be reduced
+by the number of instances in a batch,
+while the deployment takes place.
+So let's say that you've got 10 instances
+in your environment and you've got,
+you're going to have batches of two.
+Essentially those two batches will go down
+and you still have eight instances in service.
+Once those two instances have been patched and are back up,
+another two will go back out.
+So you will have some instances
+that are taken out of service.
+So this isn't really ideal
+for performance-sensitive systems,
+and if the update does fail,
+you're going to need to perform an additional rolling update
+to roll-back the changes.
+We then have Rolling with Additional Batch policy.
+And this is basically,
+it launches and additional batch of instances.
+And it deploys the new version in batches.
+And this maintains full capacity during deployment process,
+and if the update fails,
+you're going to need to perform an additional rolling update
+to roll-back the changes.
+Now if you get an exam question where it's saying look,
+you know it's really performance-sensitive,
+you basically cannot have any downtime,
+and you need to maintain full capacity,
+then you want Rolling with Additional Batch policies.
+If you can afford downtime,
+then you either want All at Once,
+or you could have rolling updates
+where your system can have some instances out of service
+while you do the updates.
+We then have Immutable deployment policies.
+And this deploys a new version to a fresh group of instances
+in their own new auto scaling group.
+And when the new instances pass their health checks
+then moved to the existing auto scaling group.
+And then finally, the old instances are terminated.
+And this maintains full capacity
+during the deployment process,
+and the impact of failed update is far less
+and the rollback process requires only terminating
+the new auto scaling group.
+So this is the preferred option
+for mission-critical production systems.
+So do know that for differences going into your exams,
+it is extremely important
+'cause you are going to get multiple scenario questions
+and it'll ask you which of the four updates you should use.
+Okay, so here I am in the AWS console.
+I'm just gonna go over to Services
+and click on Elastic Beanstalk which is under Compute.
+And here's my hellocloudgurus environment,
+that we created in the last one.
+If I click on it,
+it's going to load the actual environment itself.
+If you click here though,
+these are our different environments,
+so we could go in and provision additional environments.
+What I'm gonna do is,
+I'm gonna go in and click on Application versions.
+And you can see here, hellocloudgurus-source.
+And here's the source zip file.
+This is actually saved in an S3 bucket,
+which we'll have a look at a little bit later.
+And what I'm gonna do is I'm gonna go ahead
+and I'm going to upload a new application,
+we're gonna to call this Version 2.
+So make sure you download Version 2
+in the Resources section,
+and the description again, Version 2,
+and I'm gonna go ahead and upload this application.
+So Version 2, and hit Upload.
+So that will now upload it, and it's going to save it
+to an S3 bucket that is used by Elastic Beanstalk.
+And if you actually click on Services and go over to S3,
+you'll be able to find your Elastic Beanstalk buckets,
+and they are on a per-region basis.
+So my one is this one here, us-east-1,
+because I've been doing this out of Northern Virginia.
+If I click in here, I can actually see the uploaded files.
+So here is Version1, here's Version2.
+This is the configuration for Elastic Beanstalk
+.elasticbeanstalk, we can go ahead and leave that,
+we will come back on to something similar to that,
+in the Advanced Elastic Beanstalk lecture
+which is coming up.
+So let's go back over to Services
+and go back over to Elastic Beanstalk.
+And what I'm gonna do is I'm gonna click
+into my application.
+So hellocloudgurus, and click on my application versions.
+And you can see Version 2 is here, it's all ready to go,
+but it hasn't been deployed to any environment.
+So what I could do, before I do this,
+I just wanna show you how to change the deployments.
+So if we click on All Applications,
+click inside our environment and go to Configuration.
+If we wanna change our updates or our deployments,
+we click into Rolling updates and deployments in here.
+And this is where we can change our deployment policy.
+Now at the moment, I've only got two options,
+All at Once or Immutable.
+The reason for that is because I've only got one
+EC2 instance, if I had a fleet of EC2 instances,
+behind Elastic Load Balancer, I'd get more of those options.
+I'm just gonna keep this lab simple,
+I don't really wanna go into it,
+'cause it's going to take an awful lot of time,
+and to be honest, it's only worth a few marks on the exam.
+The most important thing that you need to remember
+for your exam, is the four different deployment policies
+and what scenarios you'd use them in.
+So let's go back over to hellocloudgurus,
+go over to our application version.
+Let's click on Version 2,
+and I'm gonna go ahead and deploy this.
+Now this is going to cause me to have some downtime,
+because it's All at Once deployment.
+And I'm gonna go ahead and hit Deploy.
+And that is now deploying my new version.
+And I'm just going to pause the video here or in fact,
+I'll click on the Events page so we can watch it happen.
+I'm gonna pause the video
+and wait for this new environment to go live.
+Okay, it's been a few minutes,
+I'm gonna go ahead and just hit Refresh.
+And here we go environment health has transitioned
+from info to, "Okay application update completed,
+"78 seconds ago and took 19 seconds."
+So we should be able to click on this and hopefully,
+yes you get a new version.
+It says, "Hello Cloud Gurus!
+"This is Version 2.0."
+And here's my lovely face.
+If we go back to the Elastic Beanstalk environment
+and click on here, we've got our environments in here,
+we click on Application versions,
+we can now see that Version 2
+has been deployed to this environment.
+What we could do is click on a Version 1,
+go ahead and click Deploy,
+and we could then deploy that back
+to our hellocloudgurus environment.
+If you see an error message, just saying,
+"Environment not ready,"
+it's just 'cause you're doing it a little bit too quickly.
+Just give it a couple of minutes,
+so that we could just roll-back to Version 1
+if we decided to do that.
+All we can also do is we can also go in here,
+and create new environment.
+So we could go Action, Create environment,
+and then Deploy Version 1 to that environment
+and have Version 2 in another environment,
+it's entirely up to you.
+But that's how we do versioning inside the console,
+how we do versioning inside Elastic Beanstalk.
+And like I said, it's really important for your exam
+to understand the four different types of updates.
+So, before we move on to the exam tips,
+all we need to do now is go in and delete this environment.
+All you have to do is just clicking on Actions,
+and go Delete Application, and go ahead and hit Delete.
+And that will go through and delete basically
+your EC2 instance, as well as what other assets
+Elastic Beanstalk has provisioned.
+So what are exam tips?
+Okay, so that brings us on to our exam tips.
+So just remember the four different deployment approaches
+and where you would use them.
+So we've got All at Once.
+This has a service interruption
+while you update the entire environment at once.
+It's the one we just did.
+To roll-back you have to perform
+a further All at Once upgrade, so bear that in mind.
+We've got Rolling,
+this basically will reduce your capacity during deployment,
+but you're not gonna have downtime.
+And to roll-back, you need to perform
+a further Rolling update.
+Rolling with Additional Batch maintains full capacity.
+So if the question is asking you
+how you can do this while maintaining full capacity,
+you need additional batch.
+And then to roll-back, you need to perform
+a further rolling update.
+And then we have Immutable and this is the preferred option
+for mission-critical production systems,
+it's going to create an entire new fleet of EC2 instances
+and apply those updates to it.
+And it will only delete and switch over to those instances
+once they've passed all the health checks.
+So it allows you to maintain full capacity.
+And then to rollback you just deleted the new instances
+and auto scaling groups.
+So with Immutable,
+it's behind a completely different auto scaling group.
+So just remember those four different ones
+going into the exam and you will do well.
+So that's it for this lecture guys,
+if you have any questions, please let me know,
+if not feel free to move on to the next lecture, thank you.

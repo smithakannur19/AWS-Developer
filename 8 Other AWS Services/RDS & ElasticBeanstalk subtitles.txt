@@ -1,0 +1,83 @@
+Okay hello Cloud Gurus
+and welcome to this lecture.
+This lecture we're going
+to look at RDS and Elastic Beanstalk.
+So Elastic Beanstalk supports two ways
+of integrating an RDS database
+with your Beanstalk environment.
+And you can launch the RDS instance
+from within the Elastic Beanstalk console,
+which means the RDS instance is created
+within your Elastic Beanstalk environment,
+and this is a typical use case with this
+would be for Dev and Test deployments.
+However, this might not be ideal for production environments
+because it means that the lifecycle of your database
+is tied to the lifecycle of your application environment.
+So if you go in and terminate the environment,
+the database instance is going to be terminated too.
+So just remember if you couple RDS
+and Elastic Beanstalk together it means that when you go in
+and delete your Elastic Beanstalk environment,
+it is going to go in and delete your RDS instance as well,
+and that could not be ideal for production systems.
+So, for production environments,
+the preferred option is to decouple the RDS instance
+from your Elastic Beanstalk environment.
+So you should launch it outside of Elastic Beanstalk
+directly from the RDS section of the AWS console.
+And this gives you a lot more flexibility,
+allows you to connect multiple environments
+to the same database.
+You could have multiple Elastic Beanstalk environments
+connecting into your RDS instance,
+and it provides a wider choice of database types
+because you can choose any database
+that is supported by RDS and also allows you
+to tear down your application environments
+without affecting your database instance.
+So how do you do this?
+Well you need to do two things essentially.
+Two additional configuration steps required.
+The first is that an additional security group
+must be added to your environment's Auto Scaling group.
+And then you'll also need to provide
+the connection string configuration
+to your application servers.
+So this is gonna be your database, or your RDS endpoint,
+the password and the username,
+and then just the connection parameters
+in order to connect into that database.
+So that is it.
+You just need to remember that going into your exam,
+that there's two different options
+for launching your RDS instance.
+You can launch it from within Elastic Beanstalk
+but do remember that when you terminate
+the Elastic Beanstalk environment,
+the database is also gonna be terminated.
+It's quick and easy to add your database
+to Elastic Beanstalk and get started,
+but this would typically just be suitable
+for Dev and Test environments only.
+The other option is you can launch
+outside of Elastic Beanstalk.
+So you do this by going into the RDS console
+and provisioning your instance.
+Additional configuration steps are required.
+You're going to need to create a security group
+and you're going to need to pass
+a connection string to your application.
+This is definitely suitable for production environments
+'cause it gives you more flexibility,
+and it also allows you to have connections
+from multiple environments and you can tear down
+the application stacks without it impacting the database.
+So you have done really well.
+You are at the end of this section of the course.
+In the next one, we're just going
+to rehash everything that we've learnt
+in this section of the course,
+and then we'll be able to move on to the next section.
+So if you've got the time please join me
+in the next lecture, thank you.

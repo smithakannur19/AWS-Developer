@@ -1,0 +1,66 @@
+Okay, hello Cloud Gurus
+and welcome to this lecture.
+This lecture is on Advanced Elastic Beanstalk.
+Now this is just going to be a theory lecture,
+because we're just going to keep it simple.
+But it's really important to understand
+going into your exam that you can come customize
+your Elastic Beanstalk environment
+using Elastic Beanstalk configuration file.
+And this means you can define packages to install,
+you can create Linux users and groups,
+you can run shell commands,
+you can specify services to enable
+or you can even go in and configure your load balancer.
+So there's so much you can do.
+These files are written in either in YAML or in JSON format.
+And they can have a file name of your choice
+but they must have a .config extension,
+and they will all be saved inside a folder
+called .ebextensions.
+so you can have any file name that you want,
+but it's got to have a .config
+and these files all have to be saved
+inside the folder .ebextensions.
+So where is the .ebextensions folder?
+Well, it must be included in the top level directory
+of your application source code bundle.
+So this means that the configuration files
+can be placed under the source control
+along with the rest of your application code.
+So you probably will get a question
+going into your exams
+about how to configure Elastic Beanstalk deployments.
+And you just use the .config files
+and they all must be saved
+in the .ebextensions folder,
+which must be in the top level directory
+of your application.
+Remember that.
+Here's an example of myhealthcheckurl.config.
+So in this example, we're using JSON
+and in this example,
+we're telling our Elastic Load Balancer,
+the application health check URL,
+and we're just saving this in a config file
+with code of up myhealthcheckurl.config,
+and this would be saved in the .ebextensions folder
+in our root directory.
+So that's really it.
+That's my Advanced Elastic Beanstalk tips.
+So just remember that you can customize
+your Elastic Beanstalk environment
+by adding configuration files.
+The files are going to be
+either written in YAML or in JSON.
+The files can have any name that they want
+but they've got to have the .config extension
+and these .config files are all saved to
+the .ebextensions folder.
+And this must be located in the top level directory
+of your application source code bundle.
+So if you have any questions,
+please let me know.
+If not, feel free to move on to the very last
+Elastic Beanstalk lecture
+where we talk about Elastic Beanstalk with RDS

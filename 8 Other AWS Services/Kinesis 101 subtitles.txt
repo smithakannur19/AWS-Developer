@@ -1,0 +1,200 @@
+Okay, hello Cloud Gurus and welcome to this lecture.
+This lecture is on Kinesis and this
+is a high level overview of Kinesis.
+Kinesis has started appearing in the
+Certified Solutions Architect Associate Exam.
+So we have created this section
+to give you a high level overview
+and then some practical, hands on experience with Kinesis.
+So, what is streaming data?
+Let's start with streaming data
+because in order to understand Kinesis,
+you have to understand streaming data.
+So streaming data is data that is generated continuously
+by thousands of data sources,
+which typically send the data records
+simultaneously, and in small sizes.
+In which we are talking Kilobytes.
+So this could be purchases from online stores for example,
+so think of Amazon.com,
+people are buying stuff on there every single second
+and that generates streaming data.
+So that would be the transaction, you know,
+it would be the product that they have bought, et cetera.
+Stock prices could be an example of streaming data.
+Game data, so this could be like Angry Birds
+as the player is playing Angry Birds,
+that device or that application could be streaming data back
+to the central servers about what the user is doing and
+what their scores are, et cetera.
+Social network data is another example of streaming data.
+So every time you go onto Facebook,
+and you update your status, or you post something
+to your friends' walls. That data could then be streamed.
+And then a really good example of streaming data
+is Geospatial data so just think of uber.com
+I am actually recording this right out the front
+of Uber's offices in San Francisco right now.
+I am in town for a tech conference
+and I am staying right nextdoor to them.
+I am actually looking at their building right now.
+So, Geospatial data, if you think about when you are using
+Uber, you know your device is connected to the internet
+and it is constantly saying where your Uber driver is
+and where you are and then it is interrogating the maps
+to give you the fastest route possible
+to where it is you want to go.
+So that is another good example of streaming data.
+Another final example,
+the IoT and the sensor data that IoT collects.
+So this could be sensors all around the world
+monitoring temperatures for example.
+So, what is Kinesis?
+Well, Kinesis is a platform on AWS
+that you send your streaming data to.
+It makes it easy to load and analyze streaming data
+and also provides you the ability to build your own
+custom applications for your business needs.
+So there is three core Kinesis services.
+There is Kinesis Streams.
+There is Kinesis Firehose,
+and then there is Kinesis Analytics.
+And in the exam, you are going to be given a whole bunch of
+different scenario questions and you have to identify
+which service you should use
+in order to best fit the scenario.
+So, you need to have a key understanding of the different
+aspects of the Kinesis service.
+So why don't we start with Kinesis Streams because it is
+the easiest place to start.
+So, down off to the left we have got an EC2 Instance,
+we have got mobile phones, we have got laptops,
+we could have physical computers, we have got IoT.
+And these are data producers, these are the ones that
+are producing the data for us.
+They are then sending this data over to Kinesis Streams.
+Now, Kinesis Streams basically stores this data, by default
+it is stored for 24 hours,
+but you can increase this for seven days.
+Now this data is actually stored in these things
+called shards and I will explain what they are
+in the next slide but basically
+your data is sent to Kinesis, it is stored in shards
+and by default it is stored in those shards for 24 hours
+but you can increase that to seven day retention.
+Once the data is stored in the shard, you then have a fleet
+of EC2 Instances which record your data consumers.
+And they basically take the data from the shard
+and turn it into something useful.
+So, it might be aggregating the data or it might be
+running sentiment analysis on social media feeds,
+it might be some kind of algorithm you have got
+to predict the, you know, the stock market
+or to predict the cost of commodities, et cetera.
+And once your data consumers have done their calculations
+they can then send that data to be stored
+in a variety of AWS services.
+So things like DynamoDB, S3,
+Elastic MapReduce, Redshift, et cetera.
+So quickly just on Streams,
+so Kinesis Streams consist of shards and a shard basically
+gives you five transactions per second for reads,
+and up to a maximum total data read rate of 2 MB per second,
+and up to one thousand records per second for writes and
+up to a total data write rate of 1 MB per second and that
+includes your partition keys.
+Now don't worry, you do not need to remember those figures
+going into the exams, but just understand,
+you know, what a shard is.
+And you can have multiple shards in a stream.
+So the data capacity of your stream is basically a function
+of the number of shards that you specify for the stream.
+The total capacity of the stream is the sum of all of the
+shards that you have within that stream.
+So that is the architecture of Kinesis Streams.
+So, what is Kinesis Firehose?
+Well, Kinesis Firehose is very similar in that we have our
+data producers. So we have got EC2 Instances, that could be
+a web fleet of EC2 Instances, like amazon.com for example.
+Could be mobile devices, when you are using Uber.
+It could be your laptop, it could be IoT
+and they are sending the data into Kinesis Firehose.
+So the cool thing about Kinesis Firehose is that you do not
+have to worry about shards.
+You do not have to worry about streams.
+You do not have to worry about manually adding in shards
+to keep up with your data, et cetera.
+It is completely automated,
+and you do not even have to worry about data consumers
+going in and mining that data.
+You can analyze that data using Lambda in real time and once
+that data has been analyzed,
+you can then send it over directly to S3.
+Now, the actual analytics of that data
+is completely optional.
+The other thing about Kinesis Firehose is that
+there is no like, automatic data retention window.
+So, in Kinesis Streams you can retain data by default for
+24 hours but you can extend that up to seven days.
+Firehose does not work like that, essentially as soon as the
+data comes in to Firehose,
+it is either analyzed using Lambda or it is sent directly
+on to S3 or other locations.
+So, what other locations? Well, it could be things
+like Redshift. If you are sending data to Redshift via the
+Firehose, you have to write to S3 first and then that data
+is then copied into Redshift from S3.
+You can also use Kinesis Firehose to send things over to
+Elasticsearch Cluster, so you can also write your data
+directly into Elasticsearch Cluster.
+So Firehose is a very automated way of doing Kinesis.
+So we will just compare, this is Kinesis Streams again.
+So you have got your data producers, they are sending the
+data in to the streams, the streams consists of shards.
+The data itself is contained for between 24 hours or
+up to seven days but by default it is 24 hours.
+Your consumers then go in and consume that data, analyze it,
+do whatever it is you need to do to transform that data
+and then your consumers can send that data onto things
+like DynamoDB, S3, Elastic MapReduce or Redshift.
+If when we are using Firehouse for example,
+it is completely automated so you do not need to worry about
+your data consumers, you just send it to Firehose,
+Firehose then sends it to S3.
+You can optionally go ahead and analyze that data
+using Lambda but it is a lot more automated.
+You do not have to worry about the management of shards,
+and data retention within Kinesis itself.
+So let's move on Kinesis Analytics.
+This can come up just as a high level concept
+as to what it is.
+So down here, we have got our Kinesis Firehose and we have
+got our Kinesis Streams.
+Kinesis Analytics allows you to run SQL queries
+of that data as it exists within Firehose or Streams, and
+then you can use that SQL query to store that data inside
+S3, Redshift or Elasticsearch Cluster.
+So, it is essentially way of analyzing the data that is
+inside Kinesis using SQL-type querying languages
+and you can use it across both Kinesis Streams
+as well as Kinesis Firehose.
+So what are my exam tips going into the exam about Kinesis?
+Well you need to know the difference between
+Kinesis Streams and Kinesis Firehose.
+You are going to be given scenario questions
+and you must choose the most relevant service.
+So, just remember the core architectural differences.
+If you see a question talking about shards,
+you know straight away that is going to be Kinesis Streams
+because Firehose does not have shards, whereas if it is
+talking about analyzing data automatically using Lambda,
+and not having to worry about data consumers, then that is
+going to be Kinesis Firehose.
+Also understand at a high level
+just what Kinesis Analytics is.
+So now we are just going to quickly do a hands-on lab
+so you can see Kinesis in action.
+We are going to use CloudFormation template
+to build this out.
+So, if you have got the time, join me in the next lecture.
+Thank you.
