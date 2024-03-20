@@ -1,0 +1,394 @@
+Hello Cloud Gurus,
+and welcome to this lecture.
+And this lecture is going to be
+an Identity Access Management lab.
+So we're gonna configure our user account,
+we're gonna set up multi-factor authentication
+and we're gonna create our first user group
+and set up a role as well.
+So you're going to need to log into the AWS Console.
+So, if you got time, please join me in the AWS Console now.
+Here I am in the Console,
+and this is a brand new AWS account that I've set up
+specifically for this lab.
+So it has not been used before.
+When you first log into the console, you'll notice
+that there's a few different wizards here.
+There's also some tutorials, labs and videos here,
+some of which are free.
+And then if you come to the top of the screen,
+on the right hand side, you'll notice that we have
+a list of different regions here.
+And normally the best thing to do
+is select the region that is closest to you.
+So I'm located in London, so London is my closest region,
+and that's the one I generally try to use.
+Either that or Ireland, or Frankfurt,
+and they're all very fast for London.
+However, when they launch a brand new service in AWS
+they don't launch it to every single region
+at the same time.
+So you may find that, if you're looking at my screen,
+that there's certain services that appear on my screen
+that don't appear in your screen.
+And the reason for that could be
+that if you're in a different region,
+it may be that that service is not yet available
+in your region.
+And generally when they launch a new service
+it normally gets launched US East,
+which is the North Virginia region.
+Generally that's the place
+where they launch the new services.
+They get launched there first.
+And then over time it later on gets made available
+throughout the other regions.
+So, if you can't see something on your screen
+that you're expecting to see,
+or that you can see on my screen,
+the best thing to do is simply change regions
+and see if you can find it in another region.
+So let's get started with Identity Access Management.
+And the first thing I'm gonna do
+is come to the top left of the screen and click on Services.
+And you'll see there are loads of different services
+provided within AWS.
+And Identity Access Management comes under
+Security, Identity and Compliance.
+So go ahead and click on IAM.
+And the first thing that you should see
+is a splash screen similar to this,
+Welcome to Identity Access Management.
+It also shows you a sign in link
+and this number here is your customer account number,
+and it's a personalized link that you can use
+to log into the Console.
+And if you want to you can actually customize it
+to make it a much more friendly URL.
+So I'm gonna go ahead and see if I can customize this
+and I'm just gonna call mine acloudguru-faye
+and see if I can use that name.
+Yep.
+So there, it's changed my sign in link,
+so next time I want to log into the Console
+I can just simply use that link instead
+and it will take me straight to my console.
+And we can see here under IAM Resources
+that we don't have any users, groups, or policies, or roles,
+or identity providers created.
+And in this Security Status section
+they give you this checklist of the minimum
+kind of security baseline that they recommend you apply
+to every single account.
+And the first one is delete your root access keys.
+Well, they've already done that for you.
+The second one is to activate multi-factor authentication
+on your root account.
+So that means to enable another level of authentication
+beyond the username and password that you use
+to log into your account with.
+The next step would be to create
+individual Identity Access Management users,
+because we don't want everyone within our organization
+to be logging into AWS using the root account.
+It's best practice to only use that root account
+when you really, really need to,
+when there's no other way to do the task
+that you're trying to do.
+Instead you'll want to restrict access to your users
+and only give them the access they need to do their job.
+So we would create
+individual Identity Access Management users,
+add them to a relevant group, and assign permissions
+on a group by group basis, according to the job function
+that your users are doing.
+For example, your database administrators
+might only need access to the databases running in AWS,
+and your HR teams might only need access
+to certain S3 buckets within AWS,
+whereas your systems administrators would again
+need a completely different level of access
+and would need access to administer various resources
+within AWS.
+So it's best practice to create individual user accounts
+for your users, then group them into logical groups,
+for example HR, database administration,
+systems administration et cetera,
+and then assign the relevant permissions
+to each of those groups, on a group by group basis.
+And then the final thing it advises you to do
+is to apply a password policy.
+So that's all about password complexity
+and lifecycle management as well.
+So let's go ahead and activate multi-factor authentication
+on our root account.
+So if you click on the arrow here,
+then click on Manage MFA,
+and there's two different types of MFA device,
+but we're gonna use the virtual MFA device.
+Make sure that one is selected and click on Next.
+And now to activate the MFA device
+you first need to install an MFA compatible application,
+and we normally install that on a smartphone, PC
+or other device, and you can find a list
+of the MFA compatible applications
+if you click this link here.
+So let's just click on that.
+Scroll down,
+and the supported Virtual MFA Applications,
+there's a few different ones supported for Android,
+iPhone, Windows Phone and Blackberry.
+But I have an iPhone so I'm going to be using
+Google Authenticator.
+So, depending on which device you're using,
+download the relevant MFA application
+and then come back to the Console.
+So once you've downloaded the relevant MFA application
+just click on Next Step,
+and then it will show you this QR code,
+which you need to scan
+using the MFA application on your device.
+So on my phone here I'm going to select Scan barcode,
+and it gives me this six digit authentication code,
+which I need to type into my web page.
+And then I need to wait until that code expires
+and it's gonna give me another code
+and there it is, and I'm just going to type it in here,
+and click Activate, and you should get this message,
+that the MFA device is successfully associated.
+So now, if that was successful
+you should have a green tick
+next to your Activate MFA on root account.
+And if it was successful and you don't see the green tick
+just refresh the browser and that green tick
+should show up.
+So the next thing we're gonna do is create some
+Identity Access Management users.
+So click on Users on the left hand side,
+click on Add user,
+and I'm going to create a user called Faye.
+And there's two different ways to access AWS.
+The first access type is Programmatic
+and this enables access using the AWS API,
+command line interface and developer toolkit as well.
+And we call that programmatic access.
+This is how applications will access AWS
+and it's also how you can access via the command line
+on your local machine.
+So now I'm going to select Programmatic access,
+and then the second method of accessing AWS
+is via the Console, and that's what we're doing right now.
+So I'm going to select Console access as well.
+And I'm gonna keep the default
+to an auto-generated password for the Console
+and also require password reset when the user logs in.
+So just keep those last two to the default
+and click on Next.
+And now it's asking us to set permissions for our new user.
+So we've got a choice
+of how we can actually set these permissions.
+Firstly we can add user to a group.
+So if we had groups already existing
+we could add them to an existing group
+or we can create a new group.
+We can copy permissions from an existing user
+and also we can attach permissions directly to the user.
+But for now we're just gonna go ahead and create a group,
+so click on Create group.
+And we need to give our group a name.
+And I'm gonna call the group sysadmin.
+And the next thing it's asking us to do is to add a policy.
+And it's these policies which define the permissions
+that are going to be granted to the group.
+So, as this is going to be our sysadmin group
+I'm just gonna search for admin,
+and there's a whole load of default policies
+that you can choose from.
+So let's have a look at the Administrator Access policy.
+And if you click on this arrow
+and click on JSON,
+and you can actually look at the JSON code
+which makes up the policy.
+So we've got a version,
+and then underneath that a statement,
+and then the effect of the policy,
+which is to allow
+and then action is everything
+so that means you can run any action on any resource.
+So basically this is giving the user full access to AWS.
+And you can take a look at all of these policies
+and look at the permissions that they give you.
+So, if you click on the arrow,
+make sure JSON is selected,
+and you can look at the JSON code,
+and it's really just a key value pair.
+So you can see for example, in this policy it allows you
+for CloudTrail to list the tags, look up events,
+for CodeCommit it allows you to do a git pull
+and a git push, et cetera.
+So, I'm just gonna go back into our administrator access,
+make sure that that is selected
+and click on Create group.
+So that's our group created.
+We've attached our policy.
+I'm gonna hit Review,
+and this just shows us all of the choices
+that we've selected.
+So we've got my user, with programmatic and console access,
+with an auto-generated password
+requiring a reset on first log in,
+and our user is gonna be a member
+of this sysadmin group, and by default
+they're also going to be giving this permission
+to change their password.
+So let's go ahead and create that user.
+So our user has been created.
+We can also see that they've been given this access key
+and secret access key.
+And if we click on Show,
+it will show us that secret access key.
+And this access key and secret access key
+are needed when we log in using the command line interface.
+So when we want to interact programmatically with AWS,
+we can only do that using the access key
+and secret access key,
+whereas if we want to log into the Console,
+that's when we would use our username and password.
+And it's really important to remember
+that the only time you get to see this secret access key
+is when you first create the user.
+When we move away from this page
+we won't be able to see the secret access key again.
+And you can download it as a CSV,
+so you can download it and keep it on your machine,
+keep it somewhere safe.
+Because if we lose this secret access key
+we're gonna have to regenerate it.
+So that's really important to know.
+And it's also important to remember the difference between
+access key and secret access key
+and username and password.
+So let's go ahead and hit Close.
+So now I'm gonna go in and create anther user
+and this user I'm gonna call John.
+Again give him programmatic and console access,
+and click on Next.
+I'm gonna add him to the same sysadmin group.
+Click on Review,
+and Create user.
+And Close.
+And now, as John, he actually is gonna work for the HR team,
+I'm gonna create a new group called HR,
+so click on Create Group, and I'm gonna call that HR.
+Click on Next.
+And for Policy Type, now the HR team,
+we're gonna give them access to S3, to read files in S3,
+so for Policy Type I'm just gonna search for
+a policy containing S3.
+And we've got one here, S3, Read Only Access.
+So I'm gonna select that, click on Next Step,
+and Create Group.
+So now we've got two groups,
+we've got one for our sysadmins,
+giving them full access within AWS,
+and there's two users who are members of that group.
+And we've also got our second group, called HR,
+with read only access to S3.
+And then the next thing I'm gonna do
+is I'm gonna add John into my HR group.
+So I'm gonna go back to John, and click on his name.
+Click on Groups.
+Add user to groups,
+and then select our HR group, and click Add to Groups.
+And I can also here, if I want I can delete him
+from the sysadmin group, and I'm gonna do that
+because he's not a systems administrator.
+He works for HR, so we're gonna take that permission away.
+Click on Remove from group.
+And if we go back to Permissions
+and click on Add permissions for John
+we can also add permissions directly to John
+without it being on a per group basis.
+So for example, let's say
+he needs to specifically access Glacier
+because he's in charge of archiving as well,
+in our company, so let's click on
+add existing policies directly,
+and search for Glacier,
+and we're gonna give him Glacier full access.
+Click on Next,
+and Add permissions.
+And then, in the summary for John we can see that he has
+Amazon Glacier full access, which we've attached directly,
+and then he also has this S3 read only access,
+which is attached by the group.
+So if we go back to our dashboard
+we can see we've got four out of five ticks here,
+and then the last thing we need to do
+is apply an Identity Access Management password policy.
+So if we click on there, click on Manage Password Policy,
+and here is where we can set up our password policy.
+And this is simply a set of rules
+defining the type of password an IAM user can set.
+So we can define the minimum password length,
+so I'm gonna change that to 12.
+We can set it to require at least one uppercase letter,
+one lowercase letter, one number.
+We can set password expiration in a period of days,
+so we can set it to expire after 90 days.
+So, whatever password policy you have
+within your organization
+you should be able to reflect that here, within AWS as well.
+So then just click on Apply password policy,
+and then if we go back to our dashboard
+we've got five green ticks.
+Now the last thing we're going to do here
+is we're gonna create a role.
+So click on Roles.
+And IAM roles are a secure way to grant permissions
+to entities that you trust.
+And the examples they give are
+an IAM user in another account,
+application code running on an EC2 instance
+that needs to perform actions on AWS resources,
+an AWS service that needs to act on resources
+in your account to provide it's features,
+and users from a corporate directory
+who are using identity federation with SAML.
+So we don't need to worry about that last one.
+That's something that we're going to revisit
+in a little bit more detail later on in the course.
+But right now we're gonna create a role
+allowing an EC2 instance to write files to S3.
+So let's click on Create role.
+And we need to select the AWS service
+that we want to create the role for,
+so make sure AWS service is selected.
+Choose the service that the role will use
+and we're gonna select EC2.
+Click on Next.
+And now from the default policies
+we need to search for a policy relating to S3,
+so just type S3 in the search box.
+And I'm gonna select S3 Full Access
+and this will give any EC2 instance
+which has this role attached,
+will have full access to S3.
+So I'm gonna go ahead and click on Next,
+give our role a name,
+and click on Create role.
+So now we've created that role
+and we're going to be able to apply that role
+to any new EC2 instance that we create.
+And if we go back to the dashboard
+we can see we've got two users, two groups
+and we've got one role.
+So that's all we're gonna do with IAM at the moment.
+But you're gonna be using it
+quite a bit throughout the course
+so you're going to become very familiar with IAM
+as you progress throughout the course.
+And that's the end of this lecture,
+so if you have any questions please let me know.
+If not please feel free to move onto the next lecture.
+Thank you.

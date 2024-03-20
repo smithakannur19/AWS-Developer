@@ -1,0 +1,9 @@
+Create and Activate AWS Account
+https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/
+
+Creating Billing Alarm to monitor your estimated aws charges
+https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/monitor_estimated_charges_with_cloudwatch.html
+
+AWS Free Tier usage alerts automatically notify you when you are forecasted to exceed your AWS service usage limits
+https://aws.amazon.com/about-aws/whats-new/2017/12/aws-free-tier-usage-alerts-automatically-notify-you-when-you-are-forecasted-to-exceed-your-aws-service-usage-limits/
+
