@@ -1,0 +1,70 @@
+Hello Cloud Gurus,
+and welcome to this lecture and this lecture
+is all about the DynamoDB On-Demand capacity pricing option.
+So let's get started.
+At re:Invent 2018,
+they introduced a new pricing option for DynamoDB,
+so in addition to the provisioned through-put model
+which we've already talked about,
+where you specify your read and write capacity units,
+they have also introduced
+this On-Demand capacity pricing model as well.
+So with On-Demand capacity, charges will apply for
+reading, writing and storing your data
+but the difference is, with On-Demand
+you don't need to specify your capacity requirements.
+So you don't need to specify your read and write
+capacity unit requirements.
+DynamoDB will instantly scale up and down
+based on the activity of your application.
+So based on the number of reads and writes
+that your application is making to the database
+and this is gonna be really great
+for unpredictable workloads.
+So for example, if you don't know
+the capacity requirements of your application,
+if your application traffic is difficult to predict,
+or your workload has large spikes which are short lived,
+or if it's a brand new application
+where the workload is not really very well understood
+and it's also really good if you only want to pay
+for what you use, when you use it,
+so a pay per request model.
+And this is going to be great for server-less stacks
+which have that pay per use pricing model.
+So I know what you're thinking,
+"Which pricing model should I use?"
+Well for workloads where you have
+unpredictable application traffic,
+you don't know what the workload's going to look like,
+if you want a per per use model, so for example,
+if the rest of your stack is server-less
+and you're paying per use for everything else,
+or if you have spikey and short lived peaks,
+then under those circumstances,
+you should go for the On-Demand capacity.
+However, if you have predictable application traffic,
+you can easily forecast your
+read and write capacity requirements
+or if your application traffic is consistent
+or it's increasing gradually,
+then under those circumstances
+it's more cost effective to use the provision to capacity.
+And you can actually change your DynamoDB table
+from provision to capacity, to On-Demand once per day.
+So they actually let you switch between
+the two pricing models.
+Now this new On-Demand option,
+it was only introduced right at the end of November
+so it was announced at re:Invent 2018
+and they do wait at least six months
+before introducing a new feature into the exams.
+And in practice, it can be much longer than six months
+before they actually update the exams.
+So right now, we don't think
+this is going to feature in the exam in any detail
+but it's just good to be aware of
+when you are designing your DynamoDB tables.
+So that's the end of this lecture,
+if you have any questions, please let me know,
+if not, feel free to move onto the next lecture, thank you.

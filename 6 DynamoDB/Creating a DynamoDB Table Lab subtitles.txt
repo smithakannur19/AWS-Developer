@@ -1,0 +1,347 @@
+Hello, Cloud Gurus, and welcome to this lecture.
+And this lecture is gonna be a lab all about DynamoDB.
+In this lab, we're gonna create some DynamoDB tables
+using some PHP scripts
+which we're gonna run on an EC2 instance
+and this instance is going to have a role assigned to it
+to enable it to interact with DynamoDB.
+So, if you're ready to get started,
+please join me in the Console.
+And the first thing that I'm going to do is
+create an Identity Access Management role
+for our EC2 instance.
+So go ahead and find 'Identity Access Management'
+under 'Security, Identity and Compliance'.
+And we're gonna go and click on 'Roles'
+and 'Create role'
+and it's going to be a service role for EC2
+so click on EC2
+then hit 'Next'
+and we're going to select a Policy type
+so click in the Search box
+and we're going to just search for DynamoDB
+and I'm gonna select DynamoDB Full Access
+click on 'Next'.
+We need to give our role a name
+so I'm just gonna call it Dynamodb
+and click on 'Create role'.
+So that's our role, down here, created
+and the next thing we need to do
+is go back to the Dashboard,
+go back to 'Services'
+and click on EC2
+and click on 'Launch Instance'
+and select the Linux AMI
+and we're just gonna stay with the t2.micro,
+click on 'Next'.
+Most of these defaults we can just keep as the defaults
+but there's a couple of things that we need to change.
+So, first of all, we need to select our IAM role
+that we just created, so select Dynamodb
+and then, under 'Advanced Details',
+we've got a bash script or a bootstrap script
+to add in here, which is a script that's gonna be run
+when the instance starts for the very first time.
+So that is in the 'Resources' section,
+but I've just got it copied
+so I'm just going to paste it in now.
+And all this script does is it just, first of all,
+it tells us it's using the bash Interpreter,
+it then does a yum update minus y,
+it then installs Apache, PHP and Git as well,
+it starts Apache
+and it makes sure that Apache will continue
+to start on boot-up.
+And then it changes directory to 'var/www/html'
+and then it creates just a really simple test website
+and then, finally, it clones some code
+that we already have located in this github location
+so under github.com/acloudguru/dynamodb.
+So once you have cut and paste that,
+and you'll just find this
+in the 'Resources' section of the course,
+you could just copy and paste it in there,
+then just hit on 'Add Storage',
+'Next: Add Tags',
+and we're going to add a tag
+and the tag we're gonna add is 'Name'
+and then we're gonna just call this one dynamodb-ec2,
+click on 'Next'.
+And you want to select a security group
+which has both HTTP and SSH.
+So I've got this one here that I created for a different lab
+and it allows HTTP access via port 80 and also SSH access,
+so I'm gonna select that one.
+However, if you don't have one,
+you can go ahead and create a new security group,
+you could just click that button here
+but we don't need to do that,
+I'm just going to select the one that I already have here.
+And then click on 'Review and Launch'.
+And then click on 'Launch'
+and select an existing key pair for your region
+so I'm in the London region
+and I already have a key pair for London
+so I'm gonna select that one.
+Again, if you don't have one, you can just click on
+'Create new key pair' and it will create one for you
+that you can download.
+I'm just gonna use the one that I already have
+and then click on 'Launch Instances'.
+And that might take a while
+so I'm just gonna pause the video now
+and come back when that has completed.
+And now here we are on the EC2 Dashboard
+and my instance has been launched
+so I just select the instance,
+scroll down and find the Public IP,
+copy that to Clipboard,
+and now I'm gonna go to my Terminal window
+and I'm gonna type ssh -i and then the name of my key pair
+ec2-user@
+and then paste in the IP address of your EC2 instance
+and hit 'Enter'
+and there we are inside the EC2 instance.
+So the first thing that I'm gonna do is sudo su
+then cd /var/www/html
+and hit ls
+and we can see that a new directory has been created,
+the DynamoDB directory has been cloned
+from our Git repository
+and there's also this test.php file, which is a webpage.
+So the next thing that we need to do
+is we need to install the SDK for PHP
+and when we do that there's a couple of commands
+that we need to run.
+First of all, we need to get Composer
+and then we need to use Composer to install
+the latest version of the SDK.
+So I'm just gonna show you a webpage
+which has those commands in it.
+So this is the webpage with the documentation
+for installing the AWS SDK for PHP.
+And the recommended way for installing the SDK
+is to use Composer, which is a tool that manages
+and installs the dependencies for installing PHP.
+So, if we scroll down, there is a link to
+the Command-line installation for Composer for Linux.
+So we're installing this on our EC2 instance
+so it's going to be the Linux installation.
+So I'm just gonna open that in a new tab.
+And it gives us these four different commands
+that we need to run to download the Composer installer,
+verify it then run the installer
+and then, finally, remove it.
+And, don't worry, I'm gonna add a text file
+with all of the commands that you need to run
+in order to install Composer and install PHP,
+so that's going to be in the resources of the lecture.
+So I'm just gonna start off by copying that first command
+and the first thing I'm going to do is type sudo su
+and then I'm gonna paste that command
+into my Terminal window.
+And a few students have reported issues
+with their t2.micro sever running out of memory
+when going through these steps to install Composer and PHP.
+And, unfortunately, we haven't been able
+to replicate the problem on our side
+so we can't really explain why that might be happening.
+However, if you do experience memory issues
+when trying to run this set of commands,
+I've added a workaround that one of our students
+who experienced the issue has kindly provided,
+which just creates a swap file
+and should, hopefully, fix any memory issues
+that you are experiencing.
+Just go ahead and run these three commands,
+and they are in the 'Resources' section of the course,
+and then you should be able to continue.
+So now I'm gonna come back to my webpage
+and grab the second command
+and paste that
+copy our third command
+and paste
+then copy the fourth command
+and paste
+Just gonna clear the screen.
+Come back to our webpage,
+so we've downloaded and installed Composer
+so the next thing that we need to do
+is run this command as well
+and this is just going to install PHP.
+So, grab that
+and paste that into our window.
+And it does just take a few seconds
+but if it's successful you should see
+a similar response to this.
+So, now that has completed, let's just run ls
+and we're going to change directory
+into the dynamodb directory
+and you can see there's two different files in here,
+two different .php files.
+So there's one called 'createtables'
+and that file, that script is going to
+create a bunch of tables in our DynamoDB
+and the second one is called 'uploaddata'
+and that's going to upload some data into those tables.
+Now the first thing that we need to do is
+we just need to make an update into this createtables.php
+to make sure that we're installing our tables
+in the correct region.
+So I'm just gonna open that up now.
+And you'll want to come down where you see this section here
+where it specifies the region
+and at the moment mine is set to 'eu-west-1'
+so what you need to do is replace that
+with whatever region you're working from
+so whichever region you're running the EC2 instance in
+that's the region that you want to specify here.
+So if I come back to my Console, I'm in London
+so that means I'm going to have to change my region
+because London is eu-west-2.
+Actually, you can see it down here as well
+eu-west-2a, so that's for the Availability zone
+but the region is eu-west-2
+so that means I need to go back and change that
+in my .php file.
+So I'm gonna come across here and replace that with 2
+and then save
+and then we are done with that file.
+And now we also need to make the same update
+in the uploaddata.php
+And again, scroll down until you find 'region'
+and come across and just replace that
+with your desired region.
+And save.
+And now we are done with those two files.
+So it's really important to make sure you change the region
+and you change it in both files
+otherwise the Lab will not work.
+And the next thing we're gonna do
+is come back to our Console window.
+And I'm gonna go into DynamoDB now and just show you
+this is the splash screen that you should see
+if you don't have any DynamoDB tables created already.
+So at the moment we've got nothing here
+so I'm gonna go back into my EC2 instance
+go and find the Public IP for that instance,
+select our instance and just copy that to Clipboard.
+Now I'm gonna open a new tab on my browser
+paste the IP in our new browser tab
+and then just hit /dynamodb/
+and then the name of our createtables.php
+and then hit 'Enter'.
+So this is just gonna run that PHP script
+to create some tables within DynamoDB for us.
+It just takes a few moments to complete.
+Okay, we just got the response now,
+just saying it's created a table for 'ProductCatalog',
+'Forum', 'Thread' and 'Reply'
+so it's created four tables for us.
+And now the next thing we need to do
+is we need to run that PHP script
+to upload data into our tables.
+So just come back to your browser window
+and we can just modify, gonna delete the 'createtables'
+and just replace that with 'uploaddata'
+and then just hit 'Enter'.
+So it's adding data into the 'ProductCatalog',
+'Forum' and 'Reply' table now.
+So it says that's finished so let's go back into the Console
+and let's see what it's put in the tables for us.
+So come back to 'Services'
+and 'DynamoDB',
+click on 'Tables'
+and you can see it's created
+these four different tables for us.
+So let's take a look
+at the 'ProductCatalog' table, for example.
+Click on 'Items'
+and we can see the uploaddata.php
+has populated our table with a load of different items
+and we've got here a product Id, a Price, Category,
+Title, Type, Brand, Color, etc.
+I just noticed that not all items have
+every single attribute
+and that's one of the great things about DynamoDB
+is that you don't have to have everything,
+it's very flexible,
+not every item has to have
+the same type or number of attributes.
+And just notice here that you can either Query
+and you can Query based on a product id, for example,
+and we can enter a value here
+so, for example, if I enter a value, if I enter 102 here
+click on 'Start search'
+it will search for an item in our table
+with the Product Catalog Id of 102.
+And then you can also run a scan as well
+which will just show us everything in the table
+if we click on 'Start search' for that
+it will just show us absolutely everything in the table.
+And there's just one more thing that I want to show you,
+which is how to interact with our database
+using the Command Line.
+So I'm gonna come back to my Terminal window now.
+So I'm back in my Terminal session on my EC2 instance
+and I can actually use the AWS Command Line Interface
+to query the database programmatically.
+And, remember, we created the
+Identity Access Management role
+to give this instance, DynamoDB, full access
+so it should be able to connect to our database
+and make queries.
+Now, I already have the command in my Cclipboard
+so I'm just going to paste it now.
+And this command simply uses the AWS CLI to talk to DynamoDB
+and to run a get-item operation on the table-name called
+'ProductCatalog' and the region is gonna be eu-west-2,
+'cause that's where my DynamoDB table is located
+and the key is specified here
+so that's the partition key
+and the partition key is an id
+and the value is a numerical value
+and the value is 205.
+So I'm searching the DynamoDB table for a product
+with the product id of 205.
+So I'm gonna hit 'Enter'
+and that has queried the table
+and it's brought up that product item.
+And this is all enabled
+by the Identity Access Management role
+which has given us full access to DynamoDB.
+So if I go back to the console
+and go into 'Services'
+and then back into 'Identity Access Management'
+and I'm gonna go into that role,
+the DynamoDB role,
+and I'm gonna delete that permission.
+And I'm actually gonna delete the role.
+So now that role doesn't exist for our EC2 instance anymore,
+so let's go back to the instance
+and see if we can still run that database command.
+So I'm just gonna hit 'Up' arrow
+and try and run the command again.
+There you go.
+So the security token included in the request is invalid
+and it's not letting us access our table.
+So, just remember, if you want your EC2 instances
+to be able to access your DynamoDB tables,
+to be able to query them and insert items into them,
+they need to have that Identity Access Management
+service role to allow them access to the database.
+So that is DynamoDB
+and we've just created some tables
+and populated them with some data
+so that you're able to now manipulate that data,
+run queries and searches, etc.
+and this will really help you
+as you progress through this section of the course
+and it will really help you
+to get a little bit more familiar
+with DynamoDB and how it all works.
+So that is the end of this lecture.
+Hopefully, that all worked for you.
+If you have any questions, please let me know.
+If not, please feel free to move on to the next lecture.
+Thank you.

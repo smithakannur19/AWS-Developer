@@ -1,0 +1,87 @@
+https://getcomposer.org/doc/articles/troubleshooting.md#proc-open-fork-failed-errors
+https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/getting-started_installation.html
+https://getcomposer.org/download/
+
+# If you are experiencing memory issues with your t2.micro when trying to install the AWS SDK, please run the following commands and try again:
+
+/bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+/sbin/mkswap /var/swap.1
+/sbin/swapon /var/swap.1
+
+Commands to install Composer and AWS SDK for PHP:
+
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+
+php -r "if (hash_file('sha384', 'composer-setup.php') === 'e0012edf3e80b6978849f5eff0d4b4e4c79ff1609dd1e613307e16318854d24ae64f26d17af3ef0bf7cfb710ca74755a') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+
+php composer-setup.php
+
+php -r "unlink('composer-setup.php');"
+
+php -d memory_limit=-1 composer.phar require aws/aws-sdk-php
+
+Bootstapped Script
+
+#!/bin/bash
+yum update -y
+yum install httpd php git -y
+service httpd start
+chkconfig httpd on
+cd /var/www/html
+echo "<?php phpinfo();?>" > test.php
+git clone https://github.com/acloudguru/dynamodb
+
+items.json
+
+{
+    "SessionData": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "UserID": {"N": "5346747"},
+       				"CreationTime": {"N": "1544016418"},
+    				"ExpirationTime": {"N": "1544140800"},
+   					"SessionId": {"N": "6734678235789"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "UserID": {"N": "6478533"},
+       				"CreationTime": {"N": "1544013196"},
+    				"ExpirationTime": {"N": "1544140800"},
+   					"SessionId": {"N": "6732672579220"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "UserID": {"N": "7579645"},
+       				"CreationTime": {"N": "1544030827"},
+    				"ExpirationTime": {"N": "1544140800"},
+   					"SessionId": {"N": "7657687845893"}
+                }
+            }
+        }
+    ]
+}
+
+DynamoDB Commands
+
+1) Check your IAM user permissions:
+
+aws iam get-user
+
+2) Create SessionData table:
+
+aws dynamodb create-table --table-name SessionData --attribute-definitions \
+AttributeName=UserID,AttributeType=N --key-schema \
+AttributeName=UserID,KeyType=HASH \
+--provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
+
+
+3) Populate SessionData Table:
+
+aws dynamodb batch-write-item --request-items file://items.json

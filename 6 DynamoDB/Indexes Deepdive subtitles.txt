@@ -1,0 +1,80 @@
+Hello, Cloud Gurus,
+and welcome to this lecture.
+And this lecture is gonna be all about
+DynamoDB indexes, so let's get started.
+So what is an index?
+Well, in SQL databases, an index is a data structure
+which allows you to perform really fast queries
+on specific columns within a table.
+And you can select the columns that you're interested in
+that you want to include in the index
+and then, you run your searches against the index
+rather than on the entire dataset,
+so it really makes your queries much more efficient.
+And in DynamoDB, there are two types of index supported
+to help speed up your DynamoDB queries.
+Now DynamoDB, of course it's not a SQL database,
+but it does still have this index feature,
+and in DynamoDB, there are two types of index
+that are supported, which will both help
+speed up your DynamoDB queries.
+So firstly, we have the local secondary index
+and also, the global secondary index,
+so let's take a look at these in a little bit more detail.
+Now, a local secondary index
+is an index that can only be created
+when you are creating your table,
+so you cannot add, remove, or modify it later.
+And it has the same partition key as your original table,
+but it does have a different sort key
+and that's what gives you the different view on your data
+because your data is gonna be organized
+according to an alternative sort key.
+Any queries that are based on this sort key
+that you run against the local secondary index
+are then much faster than they would be
+if you were using the main table.
+So for example, in a customer table
+where you're storing all information about your customers,
+their email address, all the purchases they've made,
+all their contact details, et cetera,
+you might have a local secondary index,
+which uses the main partition key of user ID,
+and then, uses a different sort key to your main table.
+And so, you might use a sort key like account creation date.
+Now, for global secondary indexes,
+these are much, much more flexible,
+so you can create the global secondary index
+whenever you like.
+So you can either create it when you create your table
+or you can add it later on
+and it allows you to choose a different partition key,
+as well as a different sort key to your main table,
+so that gives you a completely different view of the data.
+And of course, it speeds up any queries
+that are relating to this alternative
+partition key and sort key.
+So for example, in our customer table,
+we might want to create a global secondary index
+using a different partition key of email address
+and then, use a sort key of last login date.
+So what are our exam tips for the DynamoDB indexes?
+Well, firstly, indexes overall enable much faster queries,
+but only on very specific data columns
+that give you a different view of your data
+based on an alternative partition key
+or an alternative partition key and an alternative sort key.
+And it's really important to understand the differences
+between these two types of index,
+so just remember, for the local secondary index,
+it must be created when you create your table
+and it uses the same partition key but a different sort key.
+And for the global secondary index,
+you can create it at anytime,
+either at table creation or afterwards,
+and it can have a different partition key,
+as well as a different sort key.
+So that's the end of this lecture.
+If you have any questions, please let me know.
+If not, please feel free to move on to the next section.
+Thank you.

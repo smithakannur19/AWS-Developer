@@ -1,0 +1,178 @@
+Hello, Cloud Gurus,
+and welcome to this lecture,
+and this lecture is the DynimoDB summary,
+so it's everything that we've learned
+in the DynamoDB section.
+So, let's get started.
+So, DynamoDB is the low-latency NoSQL database
+consisting of tables, items, and attributes.
+It supports both document and key-value data models,
+and the supported document formats are JSON, HTML, and XML.
+And there's two types of primary key,
+firstly, the partition key,
+so that can be something like a user ID,
+and a combination of a partition key and a sort key,
+which is called a composite key
+that might consist of a user ID
+plus also the date the account was created.
+There are two consistency models.
+So, we have strongly consistent, and eventually consistent,
+and of course, if you need the most up to date data
+for your application,
+configure it to use strongly consistent reads,
+but by default, it's eventually consistent,
+and this means that when you read data from the table,
+it may not reflect the status
+of a recently completed write operation,
+but if you use strongly consistent,
+then this will reflect all previous writes
+that were successfully completed.
+Access control is controlled
+using identity access management policies,
+and remember, in the lab, we used an IAM service role
+with the DynamoDB full access policy
+to allow our EC2 instance to interact with DynamoDB,
+and when we deleted that role,
+the EC2 instance could no longer query the database.
+Remember, we can use bind grade access control
+using the identity at this management condition parameter,
+and that is called DynamoDB Leading Keys,
+and we can use that to allow users to access only the items
+where the partition key value matches their own user ID.
+Indexes enable fast queries on specific data columns,
+and give you a different view
+of your data based on an alternative partition key
+or partition key and sort key combination,
+but it's important to understand the differences
+between a local secondary index
+and a global secondary index.
+So, just remember, for the local secondary index,
+this must be created when you create your table.
+It has the same partition key as your table,
+but a different sort of key,
+whereas the global secondary index,
+you can create that at any time,
+either at table creation time or any time afterwards,
+and it can have a different partition key
+as well as a different sort key.
+You can use a query operation to find items in a table
+using only the primary key attribute.
+So, you provide the primary key name
+and a distinct value to search for,
+for example, the primary key name of user ID
+and the value of the user ID, for example, 201.
+Alternatively, a scan operation examines every item
+in the table.
+By default, it returns all data attributes,
+but you can use the projection expression parameter
+to refine your results,
+and from the console, you can use the filter function.
+Query results are always sorted by the sort key,
+if there is one,
+and they're sorted in ascending order.
+So, one, two, three, four, etc cetera,
+and you could set the scan index forward parameter
+to false if you want to reverse the order.
+And remember, this is for queries only, it's not for scans,
+even though it's very misleading
+that they've called it scan index forward.
+Just remember, it's only for queries.
+And in general, the query operation
+tends to be more efficient than a scan.
+If you want to improve the performance of queries and scans,
+you can do that by setting a smaller page size,
+which uses up fewer read operations,
+because it returns a smaller set of results.
+You can also isolate your scan operations to specific tables
+and segregate them from your mission-critical traffic.
+Alternatively, you can try parallel scans
+rather than the default sequential scan.
+However, in general, you should avoid using scan operations
+if you can.
+In stead, design your table so that you can use the Query,
+Get, BatchGetItem APIs.
+DynamoDB throughput is measured in capacity units,
+and remember one write capacity unit
+is equal to one one kilobyte write per second.
+One read capacity unit is equal to one four kilobyte
+strongly consistent read per second
+or two four kilobyte eventually consistent reads per second.
+In order to calculate your write capacity requirements,
+first calculate how many capacity units
+needed for each write.
+So, you would take the size of each item,
+and in this case, it's 512 bytes,
+divide it by one kilobyte for write capacity units
+equals 0.5.
+Round that up to the nearest whole number,
+and each write will need one write capacity unit
+per write operation.
+Then, multiply that by the number
+of writes you need per second.
+So, one times 100 equals one write capacity units
+required for this example.
+In order to calculate your read capacity requirements,
+first calculate how many capacity units needed
+for each read.
+So, in order to read 83 kilobyte items per second,
+you take the size of each item, so three kilobytes,
+divide it by four kilobytes for the read capacity units.
+So, that equals 0.75,
+round up to the nearest whole number.
+So, each read will need one read capacity unit
+per operation,
+multiply that by the number of reads per second,
+so times 80, equals 80 read capacity units
+for strongly consistent reads.
+However, if eventual consistency is acceptable,
+then your application's gonna use eventual consistency,
+just divide that 80 by two, which is 40.
+So, 40 read capacity units required
+for eventual consistency.
+DynamoDB accelerator or DAX provides in memory caching
+for DynamoDB tables,
+improves the response times
+for eventually consistent reads only,
+you point your API calls to the DAX cluster
+instead of your table,
+and if the item you're querying is in the cache,
+DAX will return it.
+Otherwise, it will perform
+an eventually consistent GetItem operation
+to your DynamoDB table,
+and it's most suitable for read intensive applications.
+It's not suitable for write intensive
+or applications that require strongly consistent reads.
+Moving on to Elasticache.
+Remember, Elasticache is an in memory cache
+which sits between your application and database,
+and that can be either your DynamoDB database
+or any odious database.
+There are two different caching strategies,
+Lazy Loading and Write Through.
+Remember, Lazy Loading only caches the data
+when it's requested,
+and it means Elasticache node failures are not fatal.
+It just means you'll get lots of cache misses
+until the cache is built up again,
+and you do get a cache miss penalty.
+So, there's an overhead to the initial request,
+query database, and writing to the cache as well
+if the data is not in the cache already,
+and you can avoid stale data by implementing a time to live.
+The other caching strategy is called Write Through,
+and it writes data into the cache
+whenever there is a change in the database.
+This means the data is never stale,
+but there is a write penalty,
+it's because each write involves a write to the database
+and a write to the cache,
+and an Elasticache node failure means the data is missing
+in the cache until it's added or updated in the database,
+and you do have the disadvantage of wasted resources
+if most of the data in your database is never accessed.
+So, that is the end of this section.
+Well done for completing this section,
+and if you have any questions, please let me know.
+Otherwise, please feel free to move on to the next lecture.
+Thank you.

@@ -1,0 +1,102 @@
+Hello, Cloud Gurus,
+and welcome to this lecture,
+and this lecture is all about
+the Provisioned Throughput Exceeded Exception
+and Exponential Backoff.
+So let's get started.
+Now the Provisioned Throughput Exceeded Exception
+is one that you might see on your DynamoDB table
+if your request rate is too high
+for the read and write capacity
+provisioned on the DynamoDB table.
+So, for example, if your application
+is making too many requests into the DynamoDB table,
+so too many read and write requests
+for the table to handle
+based on its read and write capacity provision.
+Now if you're using the AWS SDK, it's going to automatically
+retry the requests until they are successful.
+However, if you're not using the SDK,
+you're going to have to configure your application
+to do one or both of the following things.
+So firstly you can reduce the request frequency,
+so reduce the number of concurrent requests
+that are being sent to the DynamoDB table.
+Reduce the frequency of the requests
+that are being sent to the table.
+And the second thing you can do
+is to implement Exponential Backoff.
+Now what is Exponential Backoff?
+Well, many components in a network or in a given system
+can generate errors due to being overloaded
+by too many requests all coming in at the same time.
+And that could be any component that you can think of,
+so maybe network switches,
+DNS servers, load balancers, et cetera,
+pretty much any part of the network
+can experience overloading
+due to too many concurrent requests.
+And the usual way of dealing with this
+is to implement retries from the client application.
+So for example, for the client to keep on trying
+to send a request until it gets a response,
+and all of the AWS SDKs,
+they all implement automatic retries,
+which simply send the request again until it is successful,
+but in addition to these simple retries,
+all AWS SDKs also use Exponential Backoff.
+And with Exponential Backoff,
+this means that the requester will implement
+progressively longer waits between consecutive retries
+of a failed request.
+After the first failed request, it might wait for example
+50 milliseconds before trying again,
+and then if that retry fails,
+it then might wait 100 milliseconds until trying again,
+and then if that retry fails,
+it might wait 200 milliseconds before trying again.
+So it will continue like that
+until the request is successful,
+and this gives significantly improved flow control
+in the hope that at some point
+the traffic is going to start flowing freely again
+and requests will start to be fulfilled again.
+But if after about one minute this doesn't work,
+it might be instead that your request size
+is actually exceeding the throughput
+for your read and write capacity on the DynamoDB table,
+so in this case, it may be worth investigating
+your provisioned throughput,
+and if your work mode is mainly get requests,
+you might be able to improve performance
+using either DynamoDB Accelerator or DAX
+or using ElastiCache.
+However if it's mainly write requests
+that are causing the issue, then maybe take a look
+at increasing your write capacity for the DynamoDB table.
+So what are our exam tips?
+Well, if you see the Provisioned Throughput Exceeded Error,
+this means that the number of requests
+into you DynamoDB table is too high.
+Exponential Backoff could be used
+to improve the flow control by retrying the requests
+using progressively longer waits.
+However if your wait is getting up to around one minute,
+it's definitely worth checking
+your read and write capacity units settings
+and seeing if they need to be adjusted,
+and just remember that Exponential Backoff,
+it doesn't only apply to DynamoDB.
+It's actually a feature of every single AWS SDK,
+and it applies to many services within AWS,
+for example, S3 buckets,
+if you're using CloudFormation heavily, and SES, et cetera.
+And if you're not using the AWS SDK,
+then you're going to need to handle this yourself
+in your application settings or in your application code.
+So the way to do that is just to reduce the frequency
+of your requests and implement Exponential Backoff yourself.
+So that is the end of this lecture.
+If you have any questions, please let me know.
+If not, feel free to move on to the next lecture.
+Thank you.

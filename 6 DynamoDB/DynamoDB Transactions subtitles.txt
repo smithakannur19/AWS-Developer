@@ -1,0 +1,108 @@
+Hello Cloud Gurus,
+and welcome to this lecture,
+and this lecture is just going to be
+a really quick lecture introducing DynamoDB Transactions.
+So what are DynamoDB Transactions?
+Well, this was something that was introduced
+at Reinvent 2018 so in late November 2018,
+and DynamoDB Transactions are to support
+mission-critical applications, which need
+an all-or-nothing approach to their database transactions.
+And you may have heard the term ACID before
+in relation to database transactions,
+and ACID is really just an acronym,
+it's used to describe the ideal properties
+of a database transaction.
+And those properties are that each transaction should be
+atomic so that guarantees that the transaction
+is treated as a single unit,
+so basically, it's all-or-nothing
+and it cannot be partially completed,
+the transaction must also be consistent,
+and that just means that it must be a valid transaction,
+it must leave the database in a valid state,
+and that just simply prevents any database corruption
+or data integrity issues,
+transactions must be isolated,
+and that just means that there's no dependency
+between different transactions,
+they could either be completed in parallel or sequentially,
+the effect of the transaction is going to be the same,
+and finally, the transactions must be durable,
+and this just means that when a transaction
+has been committed,
+it's going to remain committed even after a system failrue
+or a power loss,
+so once it has been committed,
+that means it's gonna be written to disk
+rather than being held in memory.
+So the main idea is that transactions
+which possess these qualities
+can be treated as a single operation on the data
+and the durability of the operation is guaranteed
+in the event of a system or power failure.
+And this is really great for mission-critical systems,
+so for example,
+if you think about a financial transaction,
+if you are transferring money between
+one account and another,
+that kind of transaction, it might involve multiple steps,
+so for example, checking there are sufficient funds
+in the sending account,
+then debiting the account,
+and then finally crediting the receiving account
+and doing that all as one single transaction,
+and for that kinda transaction
+you really want it as an all-or-nothing transaction,
+you wouldn't want that kind of transaction
+to be partially completed,
+and of course, you want it to be durable
+across system failures,
+so if the system reboots or the application restarts,
+you want that transaction to still be in the system
+after a reboot or a restart.
+So let's see how that could really work
+in practice in DynamoDB.
+Imagine you are developing a game,
+where each player can purchase items using virtual coins,
+you might have two different tables,
+so for example, we've got a players table here,
+including the player ID,
+any inventory they have,
+so any items they've already purchased,
+and how many coins they have,
+we then have an items table,
+with all the items available to purchase,
+a price, whether they are available, true or false,
+and who they are owned by,
+so you could use DynamoDB Transactions to run
+a single atomic transaction,
+so if my player fayeE wants to purchase,
+for example, one of the items in the table,
+you can actually create a DynamoDB transaction
+which would check that an item is available,
+if I wanted to purchase the berry,
+I could have DynamoDB check
+whether the item is available, so yes it is,
+the availability is true,
+it can then check whether I have enough coins
+to purchase the item,
+and then if those two conditions are satisfied,
+the item can then be marked as owned by me,
+and then it can appear in my inventory, as well.
+And that can all be accomplished using a single
+DynamoDB transaction.
+So you can see that this is a really powerful new feature
+which allows you to implement complex business logic
+into a single atomic transaction,
+and as I said, this was only announced
+at Reinvent 2018 so the end of November 2018,
+and we don't expect it's going to appear in the exam
+for at least another six months or so after the announcement
+it's just really good to be aware of
+when you're designing your own DynamoDB tables
+but we don't expect it to appear in the exam
+straight away.
+So that is the end of this lecture,
+if you have any questions, please let me know,
+if not, feel free to move on to the next lecture, thank you!

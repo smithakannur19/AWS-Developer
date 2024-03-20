@@ -1,0 +1,172 @@
+Hello Cloud Gurus and welcome to this lecture.
+And this lecture is all about ElastiCache.
+And ElastiCache is in-memory caching
+and it can sit in front of any kind of RDS database.
+And also it can be used in front of DynamoDB as well.
+So let's get started.
+So what is ElastiCache?
+Well it's in-memory cache in the cloud,
+and it's used to improve performance of web applications
+allowing you to retrieve information from fast in-memory
+cache rather than slower disk based databases.
+It sits between your application and the database.
+For example, an application frequently requesting
+product specific information for your best selling products.
+So for the best selling products the application
+is frequently requesting the same information.
+And by caching that it just makes the subsequent
+request for that information much, much faster
+because they don't have to go to the database
+and retrieve it from the disk.
+When we get data out of the cache, it's much, much faster.
+And it also takes the load off your databases.
+And it's really good if your database
+is particularly read-heavy
+and also if the data is not changing very frequently.
+So some of the benefits are that it improves performance
+for the read-heavy workloads,
+for example social networking, gaming,
+media sharing and Q&amp;A portals.
+Frequently-accessed data is stored in-memory
+for low-latency access, which improves the overall
+performance of your application.
+And it's also really good for compute heavy workloads
+so for example recommendation engines,
+because it can be used to store results
+of your I/O intensive database queries
+and also the output of compute-intensive calculations.
+And there are two types of ElastiCache,
+there's Memcached and Redis.
+And Memcached is really widely adopted,
+it's multi-threaded as well so it's really good
+if your applications are multi-threaded.
+However there's no Multi-AZ capability
+so it's not clustered, it's only stand-alone,
+if AWS loses that ElastiCache service, you're going
+to loose everything that's stored in your cache.
+And there's also Redis, which is it's open-source
+and it's an in-memory key-value store,
+so when we say key-value, the key is normally the name
+and the value is the actual data stored.
+It's supports more complex data structures like
+sorted sets and lists.
+And crucially it also supports Master/Slave replication
+and Multi-AZ for cross AZ redundancy.
+So this is a better choice if it's really important
+not to lose the data that's been cached.
+If so if ElastiCache went down, if the ElastiCache node
+went down and you lose the data, your application
+loses the data that's stored in the cache,
+if that's going to be a problem then Redis
+would be preferable because you've got the
+Multi-AZ cross site redundancy.
+Now there are two caching strategies available.
+Lazy Loading and Write-Through.
+Now Lazy Loading, it loads the data into the cache
+only when necessary, so when a request is made
+if the data is in the cache, ElastiCache will return
+the data to the application.
+But if it's not in the cache or it has expired,
+ElastiCache then returns a null.
+And then your application fetches the data from the database
+and it writes the data received into the cache
+so that it is going to be available next time.
+Now the advantages of this are that only the requested
+data is cached so that means it avoids filling up the cache
+with useless data that never gets requested.
+It also means that a node failure is not going to be fatal.
+So if your ElastiCache node fails and you bring up a new one
+it just means that new node is going to have an empty cache
+and it's going to have a lot of cache misses initially.
+Some of the disadvantages of Lazy Loading
+are that these is a cache miss penalty,
+so if you want to retrieve some data from ElastiCache
+and it's not in the cache, you have a cache miss,
+so you've made the initial request, you then have to query
+to the database anyway and then finally you need to write
+the data into the cache for next time.
+So there is that additional overhead of the initial request,
+query to database and writing the data to the cache.
+Additionally with Lazy Loading the data can become stale.
+So if data is only updated when there's a cache miss,
+it can therefore become out of date and it doesn't
+automatically update if data in the database changes.
+So how do we deal with this stale data?
+Well within ElastiCache we can add a Time To Live
+or a TTL to our data.
+And this specifies the number of seconds until the key
+or the data expires
+to avoid keeping stale data in the cache.
+Lazy Loading will then treat an expired key as a cache miss
+and this will cause the application to go and retrieve
+the data from the database and then subsequently
+write that data into the cache with a new TTL.
+And depending on how frequently your data changes,
+this doesn't eliminate stale data
+but it does help to avoid it.
+Now another caching strategy is called Write Through caching
+and this adds or updates data to the cache whenever
+data is written to the database.
+And the advantage of this
+is that the data in the cache is never stale.
+However it does involve a write penalty because
+every write involves a write to the cache
+as well as a write to the database.
+However users are generally more tolerant of additional
+latency when updating data than they are of when
+retrieving it, so maybe we could say that write penalty
+is not such a big disadvantage.
+If a node fails and a new one is spun up,
+data is missing until added or updated in the database.
+Although we can mitigate that by implementing
+Lazy Loading as well in conjunction with Write Through.
+However one of the main disadvantages of the Write Through
+strategy is that you end up with wasted resources
+if most of your data is never read.
+So if you have a database where a few records or a few
+items in your database are very frequently accessed,
+and then most of the vast majority of the data
+in your database is hardly ever read,
+it wouldn't make sense to use
+the Write Through caching strategy.
+And you might be wondering what is the difference
+between DAX and ElastiCache?
+Because they both provide in-memory caching
+and both are supported for DynamoDB,
+but just remember that DAX is the one that is optimized
+only for use with DynamoDB, it was specifically
+developed just for DynamoDB and DAX only supports
+the Write Through caching strategy.
+It doesn't let you use any other caching strategy
+like Lazy Loading for example,
+so if your application is using DynamoDB
+and it needs to use an in-memory cache
+and you need to use Lazy Loading, you can't use DAX
+and in that instance you would select ElastiCache.
+But generally speaking for DynamoDB, DAX is the one to use
+and ElastiCache is the one to use for RDS.
+So what are the ElastiCache exam tips?
+Well just remember it's an in-memory cache,
+it sits between your application and database,
+it uses two different caching strategies,
+we have Lazy Loading and Write Through.
+Lazy Loading only caches the data when it's requested
+and in ElastiCache node failure is not fatal,
+you just get lots of cache misses with Lazy Loading.
+There is a cache miss penalty, so your initial request,
+query database and writing to the cache with Lazy Loading
+and you can avoid it's stale data by implementing
+a Time To Live on your data.
+The Write Through strategy writes data into the cache
+whenever there's a change to the database.
+The data is never stale.
+However there's a write penalty because each write
+involves a write to the cache.
+And an ElastiCache node failure means that the data
+is going to be missing until added
+or updated in the database.
+And you've got wasted resources unfortunately
+if most of your data is never used.
+So that is the end of this lecture,
+if you have any questions, please let me know.
+If not, feel free to move onto the next lecture, thank you.

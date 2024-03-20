@@ -1,0 +1,109 @@
+Hello cloud gurus and welcome
+to this lecture and this lecture
+is all about DynamoDB provisioned throughput.
+And provisioned throughput is the mechanism
+that we use to define the capacity
+and performance requirements in DynamoDB.
+So let's get started, so DynamoDB provisioned throughput
+is measured in capacity units.
+And when you create your table assuming
+you're not using auto scaling,
+you need to specify your requirements
+in terms of read capacity units and write capacity units
+and one write capacity unit is equal
+to one one kilobyte write per second.
+And one read capacity unit is equal
+to one strongly consistent read
+of four kilobytes per second
+or two eventually consistent reads
+of four kilobytes per second
+and eventually consistent reads all the default.
+So let's have a look at an example configuration.
+So think of a table with five read capacity units
+and five write capacity units configured.
+And this configuration will be able
+to perform five four kilobytes strongly consistent reads,
+which equals 20 kilobytes per second,
+it will be able to perform twice
+as many eventually consistent reads per second.
+So that would be 40 kilobytes per second.
+And it will be able to perform five one kilobyte writes
+per second which equals five kilobytes per second.
+Now, if your application reads or writes larger items,
+it's going to consume more capacity units,
+and it will cost you more as well
+because the price goes up the more read
+and write capacity units you are provisioning.
+So let's have a look at how we calculate
+the requirements, how we work out how many read
+or write capacity units you gonna need for your application.
+So imagine you have an application,
+and it needs to read 80 items or table rows per second.
+And each item is three kilobytes in size.
+And you need strongly consistent reads.
+First of all, you need to calculate
+how many read capacity units are needed for each read.
+So the way we do that is we take the size
+of each item and divide it by four kilobytes.
+So three divided by four is 0.75,
+round that up to the nearest whole number.
+So each read is going to need
+one read capacity unit per read operation.
+And then we simply multiply
+that by the number of reads per second.
+So in this case, 80 reads per second.
+So that's gonna be 80 read capacity units required
+the strongly consistent reads.
+But what about eventually consistent reads?
+Well, you do exactly the same calculation.
+However, as this is for eventually consistent reads
+and you get two four kilobyte rates per second
+with eventually consistent, which is double the throughput
+of strongly consistent, just take your calculation
+for the strongly consistent reads,
+and you can just divide it by two.
+So we take the size of each item divided
+by four kilobytes, three divided by four
+is point seven five, rounded up
+to the nearest whole number is one,
+then multiply that by the number of reads per second
+is 80 divide it by two because you get double
+the throughput for eventually consistent.
+So that means you only need 40 read capacity units for
+eventually consistent reads for this example,
+but what about write capacity units?
+Well, just imagine you want to write 100 items per second
+into your table and each item is 512 bytes in size.
+So firstly, you would calculate
+how many capacity units are needed for each write.
+So the size of each item divided
+by one kilobyte for write capacity units.
+So that's 512 bytes divided by one kilobyte equals 0.5,
+round that up to the nearest whole number.
+So each write will need one write capacity unit
+per write operation, and then multiply
+that by the number of rights per second.
+So that's 100 write capacity units required in this example.
+So let's have a look at some of our exam tips.
+So it's really important to understand read
+and write capacity units and it's important
+to know how to do those calculations as well
+because if you do get asked in the exam,
+it will be really easy marks
+if you know how to do the calculation.
+So just remember provisioned throughput
+is measured in capacity units.
+One write capacity unit
+is one one kilobyte write per second.
+One read capacity unit is one four kilobyte
+strongly consistent rate or two four kilobyte
+eventually consistent reads per second.
+So that is the end of this lecture.
+As I said, it's really important to understand
+how to do those calculations.
+So it's definitely worth doing our quizzes
+and doing our tests and making sure
+that you fully understand how to do those calculations.
+But if you have any questions, please let me know.
+If not please feel free
+to move on to the next lecture, thank you.

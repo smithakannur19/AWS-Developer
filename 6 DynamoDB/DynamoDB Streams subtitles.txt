@@ -1,0 +1,91 @@
+Hello Cloud Gurus and welcome to this lecture.
+This lecture is all about DynamoDB Streams.
+And we've had some student feedback recently
+that DynamoDB streams are coming up in the exam
+so this lecture is just to tell you everything that you need
+to know about DynamoDB streams so let's get started.
+So what are DynamoDB Streams?
+Well a DynamoDB Stream is a time-ordered sequence or stream
+and it records any modifications made
+to the items in your DynamoDB table.
+So any time there's an insert, update, or delete operation
+it's going to record that in your DynamoDB Stream.
+So it records all of these actions as a log
+and the logs are encrypted at rest
+and they're stored for 24 hours only.
+So that means, after 24 hours it's going
+to start deleting those entries.
+And typically, DynamoDB Streams, they can be used
+for auditing or archiving of transactions,
+replaying any transactions to a different table,
+but they're mainly used to trigger events
+based on a particular change within the DynamoDB table.
+So they're really really good for serverless architectures.
+You can use a DynamoDB stream to trigger a Lambda function.
+For example, autotrigger your application
+to do something based on a change in the DynamoDB table.
+And the streams are accessed
+using their own dedicated endpoint.
+So there's one endpoint to access the DynamoDB table itself
+and then there's a second, separate endpoint
+for the DynamoDB Stream.
+And by default, the minimum amount of data you can record
+is the Primary Key of the item
+that is being modified, updated, or deleted,
+but you can also store Before and After images
+so you can capture the state of the item before the change
+and the state of the item after the change as well.
+So let's take a look
+at a simple architecture for DynamoDB Streams.
+So we've got our Application at the top
+and it uses DynamoDB API to speak to its DynamoDB tables.
+So it's got one endpoint for the DynamoDB table
+and then there's a completely different DynamoDB Streams API
+and a different endpoint for its DynamoDB Stream as well.
+And just remember, the event data is only held for 24 hours
+before they start deleting it.
+Now the events are recorded in near real-time
+so once again that makes it really really good
+for serverless architectures and to build applications
+which respond to changes in your DynamoDB table.
+Applications can take actions based on
+the contents of your stream so based on
+what's going on within your DynamoDB table.
+It makes a really good event source for Lambda.
+So Lambda will poll the DynamoDB Stream
+and then can execute code, launch functions based on
+events happening within your DynamoDB Stream.
+So let's take a look at an example scenario
+using DynamoDB streams to trigger a workflow.
+And in this example we have an invoicing and payments system
+which is recording invoice data into a DynamoDB table.
+And each time new invoice entry is made
+into the DynamoDB table there's a Lambda function
+which reads the DynamoDB stream
+to check for new transactions
+and then when it sees a new event,
+sends a notification using SNS
+which in turn creates a message in an SQS queue.
+And you can then have your payments application
+polling that SQS queue, processing the message,
+and then maybe it performs various tasks
+like generating a payment request,
+adding an item to a customer's bill, et cetera.
+So you can see, this is a really powerful way
+to generate triggers to Lambda
+to trigger your application to take actions based on
+the changing content of your DynamoDB table.
+So let's take a look at the exam tips for DynamoDB Streams.
+Well just remember, it's a time-ordered sequence
+of item level modifications in your DynamoDB tables.
+So every time an item gets changed in your DynamoDB table
+it's going to record that in the DynamoDB stream.
+The data is only stored for 24 hours
+and after that it's going to start getting deleted.
+And it's a really good event source for Lambda,
+allowing you to create applications which can take actions
+based on events happening within your DynamoDB table.
+So that's the end of this lecture.
+If you have any questions, please let me know.
+If not, feel free to move on to the next lecture.
+Thank you.
